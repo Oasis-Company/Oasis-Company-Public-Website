@@ -1,0 +1,140 @@
+# Oasis Org Member Automation
+# ============================
+# Handles auto-invite to GitHub org and Org README updates.
+#
+# Prerequisites:
+#   - ORG_ADMIN_TOKEN: A GitHub PAT with org:admin and repo:all scopes
+#     stored as a repository secret. This token must belong to an owner
+#     or admin of the Oasis-Company organization.
+#
+# Usage:
+#   This workflow processes application records stored in the repository
+#   or triggered via the Oasis Apply API (Cloudflare Worker). Once an
+#   application is approved, it:
+#     1. Invites the applicant to the Oasis-Company GitHub org
+#     2. Adds the member to the org profile README
+#
+name: Org Member Automation
+
+on:
+  # Manual trigger for testing / one-off approvals
+  workflow_dispatch:
+    inputs:
+      github_username:
+        description: 'GitHub username to invite'
+        required: true
+        type: string
+      block_id:
+        description: 'Block ID (e.g. oasis-company, amar-engine)'
+        required: true
+        type: string
+      applicant_name:
+        description: 'Applicant display name'
+        required: true
+        type: string
+
+  # Triggered by the Oasis Apply API (Cloudflare Worker)
+  repository_dispatch:
+    types: [application-approved]
+
+permissions:
+  contents: write
+
+jobs:
+  invite-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Parse input
+        id: parse
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "github_user=${{ github.event.inputs.github_username }}" >> $GITHUB_OUTPUT
+            echo "block_id=${{ github.event.inputs.block_id }}" >> $GITHUB_OUTPUT
+            echo "applicant_name=${{ github.event.inputs.applicant_name }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            echo "github_user=${{ github.event.client_payload.github_username }}" >> $GITHUB_OUTPUT
+            echo "block_id=${{ github.event.client_payload.block_id }}" >> $GITHUB_OUTPUT
+            echo "applicant_name=${{ github.event.client_payload.applicant_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Invite member to Oasis-Company org
+        env:
+          GH_TOKEN: ${{ secrets.ORG_ADMIN_TOKEN }}
+        run: |
+          echo "Inviting ${{ steps.parse.outputs.github_user }} to Oasis-Company..."
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /orgs/Oasis-Company/invitations \
+            -f "invitee_id=$(gh api users/${{ steps.parse.outputs.github_user }} --jq .id)" \
+            -f "role=member"
+          echo "✓ Invitation sent to ${{ steps.parse.outputs.github_user }}"
+
+      - name: Update Org README
+        id: update_readme
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          MEMBER="${{ steps.parse.outputs.applicant_name }}"
+          USERNAME="${{ steps.parse.outputs.github_user }}"
+          BLOCK="${{ steps.parse.outputs.block_id }}"
+          DATE=$(date +"%Y-%m-%d")
+
+          # Define block display names
+          declare -A BLOCK_NAMES
+          BLOCK_NAMES["oasis-company"]="Oasis Company"
+          BLOCK_NAMES["oasis-event"]="Oasis Event Commitee"
+          BLOCK_NAMES["oits"]="OITS"
+          BLOCK_NAMES["oasis-standard"]="OasisStandardCommitee"
+          BLOCK_NAMES["statuz"]="Statuz"
+          BLOCK_NAMES["edilon"]="Edilon.org"
+          BLOCK_NAMES["amar-engine"]="Amar-Engine.org"
+          BLOCK_NAMES["front-fireman"]="FrontFireman"
+          BLOCK_NAMES["p2p-keeper"]="Oasis P2P Keeper"
+          BLOCK_NAMES["insane-dream"]="InsaneDreamBuilder"
+          BLOCK_NAMES["sandboxer"]="SandBoxer"
+          BLOCK_NAMES["singularity-lab"]="OasisSingularityLab"
+          BLOCK_NAMES["ai-lab"]="OasisAIlab"
+          BLOCK_NAMES["cell-lab"]="OasisCell Lab"
+          BLOCK_NAMES["game-lab"]="Oasis Game Lab"
+          BLOCK_NAMES["mens-lab"]="Oasis Mens Lab"
+
+          BLOCK_NAME="${BLOCK_NAMES[$BLOCK]:-$BLOCK}"
+
+          # Fetch current README from the .github repo (org profile)
+          ORG_REPO="Oasis-Company/.github"
+          README_PATH="profile/README.md"
+
+          gh repo clone "$ORG_REPO" org-readme-tmp 2>/dev/null || {
+            echo "Creating org README for the first time..."
+            mkdir -p org-readme-tmp/profile
+            echo "# Oasis Company" > org-readme-tmp/profile/README.md
+            echo "" >> org-readme-tmp/profile/README.md
+            echo "Let's build the Oasisverse from here." >> org-readme-tmp/profile/README.md
+            echo "" >> org-readme-tmp/profile/README.md
+            echo "## Members" >> org-readme-tmp/profile/README.md
+          }
+
+          cd org-readme-tmp
+
+          # Add new member entry
+          cat >> profile/README.md << EOF
+
+- **${MEMBER}** (@${USERNAME}) — ${BLOCK_NAME} — joined ${DATE}
+EOF
+
+          # Commit and push
+          git config user.name "Oasis Bot"
+          git config user.email "bot@oasiscompany.org"
+          git add profile/README.md
+          git commit -m "chore: add new member ${USERNAME} to org README [skip ci]"
+          git push origin main 2>/dev/null || {
+            # If main doesn't exist, try default branch
+            DEFAULT_BRANCH=$(gh repo view "$ORG_REPO" --json defaultBranch --jq .defaultBranch)
+            git push origin "HEAD:${DEFAULT_BRANCH}"
+          }
+
+          echo "✓ Org README updated"

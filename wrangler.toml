@@ -1,0 +1,8 @@
+name = "oasis-apply-api"
+main = "apply-api/index.js"
+compatibility_date = "2026-07-01"
+
+# Environment variables
+[vars]
+SITE_URL = "https://oasiscompany.org"
+ORG_NAME = "Oasis-Company"

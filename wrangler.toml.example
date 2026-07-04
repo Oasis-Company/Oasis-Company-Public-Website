@@ -1,0 +1,39 @@
+# ============================================
+# Oasis Apply API — Wrangler Configuration
+# ============================================
+# Copy this file to wrangler.toml and fill in
+# your KV namespace IDs.
+#
+# To create KV namespaces:
+#   npx wrangler kv:namespace create "APPLICATIONS_KV"
+#   npx wrangler kv:namespace create "APPLICATIONS_KV" --preview
+#
+# To set secrets:
+#   npx wrangler secret put ORG_ADMIN_TOKEN
+# ============================================
+
+name = "oasis-apply-api"
+main = "apply-api/index.js"
+compatibility_date = "2026-07-01"
+
+kv_namespaces = [
+  { binding = "APPLICATIONS_KV", id = "YOUR_KV_ID_HERE", preview_id = "YOUR_PREVIEW_KV_ID_HERE" }
+]
+
+routes = [
+  { pattern = "oasiscompany.org/apply/api/*", zone_id = "YOUR_ZONE_ID_HERE" }
+]
+
+[vars]
+SITE_URL = "https://oasiscompany.org"
+ORG_NAME = "Oasis-Company"
+
+[env.production]
+kv_namespaces = [
+  { binding = "APPLICATIONS_KV", id = "YOUR_KV_ID_HERE" }
+]
+
+[env.preview]
+kv_namespaces = [
+  { binding = "APPLICATIONS_KV", id = "YOUR_PREVIEW_KV_ID_HERE" }
+]

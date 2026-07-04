@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply Oasis — Join the Oasisverse</title>
+<meta name="description" content="Apply to join Oasis Company and its sub-organizations. We are committed to leading all of humanity towards a virtualized future.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   SWISS DESIGN SYSTEM — Apply Oasis
+   ============================================ */
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #cccccc;
+  --gray-400: #999999;
+  --gray-500: #666666;
+  --gray-600: #333333;
+  --gray-700: #1a1a1a;
+  --red: #e60000;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --grid-gap: 1px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--white);
+  color: var(--black);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(3rem, 12vw, 10rem);
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(2rem, 6vw, 5rem);
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+h4 {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gray-500);
+  margin-bottom: 1rem;
+}
+
+/* Layout */
+.section {
+  padding: 4rem clamp(1.5rem, 5vw, 6rem);
+  border-bottom: 1px solid var(--gray-200);
+  position: relative;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+  max-width: 42rem;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: var(--gray-500);
+  margin-top: 1rem;
+  max-width: 36rem;
+}
+
+/* Grid blocks */
+.blocks-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--gray-200);
+}
+
+@media (min-width: 768px) {
+  .blocks-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .blocks-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 1400px) {
+  .blocks-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+.block-card {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+  border-right: 1px solid var(--gray-200);
+  transition: background 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.block-card:hover {
+  background: var(--gray-100);
+}
+
+.block-card:nth-child(4n) {
+  border-right: none;
+}
+
+.block-logo {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.block-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.block-logo-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.block-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.block-desc {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.block-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.block-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+}
+
+.block-tag--legal {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.block-tag--special {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem clamp(1.5rem, 5vw, 6rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4rem,
+    var(--gray-100) 4rem,
+    var(--gray-100) 4.0625rem
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hero-title {
+  font-size: clamp(4rem, 15vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title .highlight {
+  color: var(--white);
+  background: var(--black);
+  padding: 0 0.1em;
+  display: inline-block;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--gray-500);
+  max-width: 40rem;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 3rem;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: var(--white);
+  background: var(--black);
+  padding: 1rem 2rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+}
+
+.hero-cta:hover {
+  background: var(--red);
+}
+
+/* Manifesto */
+.manifesto {
+  background: var(--black);
+  color: var(--white);
+  padding: 6rem clamp(1.5rem, 5vw, 6rem);
+}
+
+.manifesto-text {
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  line-height: 1.5;
+  max-width: 56rem;
+  font-weight: 300;
+}
+
+.manifesto-text strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.manifesto-text .accent {
+  color: var(--red);
+}
+
+.manifesto-motto {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  text-transform: uppercase;
+  margin-top: 3rem;
+  letter-spacing: -0.02em;
+}
+
+/* Application Methods */
+.methods {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  background: var(--gray-200);
+}
+
+@media (min-width: 768px) {
+  .methods {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.method-card {
+  background: var(--white);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.method-number {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--gray-300);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.method-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.method-desc {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+.method-btn {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--black);
+  background: transparent;
+  color: var(--black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  width: fit-content;
+}
+
+.method-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+/* Query Section */
+.query-section {
+  background: var(--gray-100);
+}
+
+.query-box {
+  display: flex;
+  gap: 0;
+  max-width: 36rem;
+  border: 1px solid var(--black);
+}
+
+.query-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  border: none;
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.query-btn {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.875rem 1.5rem;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.query-btn:hover {
+  background: var(--red);
+}
+
+.query-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  display: none;
+}
+
+.query-result.visible {
+  display: block;
+}
+
+/* GitHub Features */
+.github-features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  background: var(--gray-200);
+}
+
+@media (min-width: 768px) {
+  .github-features {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.github-card {
+  background: var(--white);
+  padding: 3rem;
+}
+
+.github-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.github-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.github-desc {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin-bottom: 1.5rem;
+}
+
+.github-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+}
+
+.github-status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--gray-300);
+}
+
+.github-status-dot.active {
+  background: #00c853;
+}
+
+/* Vote Section */
+.vote-section {
+  background: var(--black);
+  color: var(--white);
+}
+
+.vote-section .section-label {
+  color: var(--gray-400);
+}
+
+.vote-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--gray-600);
+}
+
+@media (min-width: 768px) {
+  .vote-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.vote-card {
+  background: var(--gray-700);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.vote-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.vote-proposal {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.vote-votes {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  white-space: nowrap;
+}
+
+.vote-desc {
+  font-size: 0.85rem;
+  color: var(--gray-400);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.vote-bar {
+  height: 0.25rem;
+  background: var(--gray-600);
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+.vote-bar-fill {
+  height: 100%;
+  background: var(--white);
+  transition: width 0.5s ease;
+}
+
+.vote-btn {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--white);
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.vote-btn:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.vote-btn.active {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Form Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--white);
+  width: 100%;
+  max-width: 48rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--black);
+  background: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.modal-header {
+  padding: 3rem 3rem 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.modal-subtitle {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin-top: 0.5rem;
+}
+
+.modal-body {
+  padding: 2rem 3rem 3rem;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--gray-300);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--black);
+}
+
+.form-textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-submit {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem 2rem;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.form-submit:hover {
+  background: var(--red);
+}
+
+/* Creative form (free-form) */
+.creative-area {
+  width: 100%;
+  min-height: 12rem;
+  padding: 1rem;
+  border: 1px solid var(--gray-300);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  line-height: 1.8;
+}
+
+.creative-area:focus {
+  border-color: var(--black);
+}
+
+.creative-help {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+.footer {
+  padding: 2rem clamp(1.5rem, 5vw, 6rem);
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+}
+
+.footer-link {
+  color: var(--black);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.footer-link:hover {
+  border-color: var(--black);
+}
+
+/* Navigation */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem clamp(1.5rem, 5vw, 6rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: transparent;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.nav a {
+  pointer-events: auto;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav-link {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.6;
+}
+
+/* Divider line */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--gray-200);
+  margin: 2rem 0;
+}
+
+/* Responsive gap */
+@media (max-width: 767px) {
+  .section {
+    padding: 3rem 1.5rem;
+  }
+
+  .method-card,
+  .github-card {
+    padding: 2rem;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Success message */
+.success-message {
+  display: none;
+  padding: 2rem;
+  background: var(--black);
+  color: var(--white);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.success-message.visible {
+  display: block;
+}
+
+.success-message h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.success-message p {
+  font-size: 0.9rem;
+  color: var(--gray-400);
+}
+
+/* Loading spinner */
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--gray-300);
+  border-top-color: var(--black);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Swiss grid lines accent */
+.block-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: var(--red);
+  transition: height 0.2s ease;
+}
+
+.block-card:hover::after {
+  height: 2px;
+}
+
+/* Tagline swoosh */
+.tagline {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gray-400);
+  writing-mode: vertical-rl;
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .tagline {
+    display: block;
+  }
+}
+
+/* Smooth reveal for blocks */
+.block-card {
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s ease;
+}
+
+.block-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" role="navigation">
+  <a href="/" class="nav-logo">Oasis</a>
+  <ul class="nav-links">
+    <li><a href="#blocks" class="nav-link">Blocks</a></li>
+    <li><a href="#apply" class="nav-link">Apply</a></li>
+    <li><a href="#query" class="nav-link">Query</a></li>
+    <li><a href="#vote" class="nav-link">Vote</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <div class="hero-title">
+    Apply<br>
+    <span class="highlight">Oasis</span>
+  </div>
+  <p class="hero-sub">
+    Join the organization that is building the future of human civilization
+    across every domain, every corner of the world.
+  </p>
+  <a href="#blocks" class="hero-cta">Explore Blocks →</a>
+</section>
+
+<!-- Manifesto -->
+<section class="manifesto">
+  <div class="manifesto-text">
+    Here is <strong>Oasis Company</strong>. We are committed to leading all of humanity toward a <strong>virtualized future</strong>.<br><br>
+    We do not despise this era — we simply believe <strong>humanity deserves a better one</strong>.<br><br>
+    Our footprints will span <strong>every domain</strong>, <strong>every corner of the world</strong>. We are not mere technology evangelists —<br>
+    we are <span class="accent">omnipotent artists</span>.<br><br>
+    We must entrust the future of humanity to <strong>all of humanity</strong>. Our goal is not profit — it is <strong>choice</strong>.<br><br>
+    Here is your opportunity. You can join <strong>Oasis</strong>.<br><br>
+    We are the true <span class="accent">dream builders</span>.
+  </div>
+  <div class="manifesto-motto">Let's build the Oasisverse from here.</div>
+</section>
+
+<!-- Blocks Grid -->
+<section class="section" id="blocks">
+  <div class="section-header">
+    <div class="section-label">Oasis Company &amp; Its Sub Orgs</div>
+    <h2>Blocks</h2>
+    <p>Each block represents an organization within the Oasis ecosystem. Select one to apply. All supervisory organizations act as guardians and firefighters — not administrators — within their domains.</p>
+  </div>
+
+  <div class="blocks-grid" id="blocksGrid">
+    <!-- Blocks rendered by JS -->
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider" style="max-width:90%;margin:0 auto;"></div>
+
+<!-- Application Methods -->
+<section class="section" id="apply">
+  <div class="section-header">
+    <div class="section-label">How to Apply</div>
+    <h2>Two Ways In</h2>
+    <p>Choose the path that suits you best. Every application is reviewed by the community.</p>
+  </div>
+
+  <div class="methods">
+    <div class="method-card">
+      <div class="method-number">01</div>
+      <div class="method-title">Form Template</div>
+      <div class="method-desc">
+        Use our structured application form. Tell us who you are, what you bring,
+        and which Block you want to join. This is the recommended path for most applicants.
+      </div>
+      <button class="method-btn" onclick="openFormModal('template')">Start Template →</button>
+    </div>
+    <div class="method-card">
+      <div class="method-number">02</div>
+      <div class="method-title">Creative Free-Form</div>
+      <div class="method-desc">
+        Break the mold. Write anything — a manifesto, a poem, a letter, a design,
+        a screenshot of your vision. Creativity is the only requirement.
+        Show us who you are.
+      </div>
+      <button class="method-btn" onclick="openFormModal('creative')">Start Creative →</button>
+    </div>
+  </div>
+</section>
+
+<!-- Public Query -->
+<section class="section query-section" id="query">
+  <div class="section-header">
+    <div class="section-label">Public Status</div>
+    <h2>Query Your Application</h2>
+    <p>Enter your application ID or GitHub username to check the status of your application.</p>
+  </div>
+
+  <div class="query-box">
+    <input type="text" class="query-input" id="queryInput" placeholder="Application ID or GitHub username..." autocomplete="off">
+    <button class="query-btn" onclick="queryApplication()">Search</button>
+  </div>
+
+  <div class="query-result" id="queryResult">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <div>
+        <div style="font-family:var(--font-display);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);">Status</div>
+        <div style="font-family:var(--font-display);font-size:1.25rem;text-transform:uppercase;" id="queryStatus">—</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);">Block</div>
+        <div style="font-family:var(--font-display);font-size:1rem;text-transform:uppercase;" id="queryBlock">—</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);">Submitted</div>
+        <div style="font-size:0.9rem;" id="queryDate">—</div>
+      </div>
+    </div>
+    <div id="queryDetail" style="font-size:0.85rem;color:var(--gray-500);"></div>
+  </div>
+</section>
+
+<!-- GitHub Features -->
+<section class="section" id="github">
+  <div class="section-header">
+    <div class="section-label">GitHub Integration</div>
+    <h2>Automated Onboarding</h2>
+    <p>Seamless integration with GitHub for organization management and member onboarding.</p>
+  </div>
+
+  <div class="github-features">
+    <div class="github-card">
+      <div class="github-icon">◉</div>
+      <div class="github-title">Auto-Invite</div>
+      <div class="github-desc">
+        Once your application is approved, you will be automatically invited to the
+        Oasis Company GitHub organization and the relevant sub-organization repositories.
+      </div>
+      <div class="github-status">
+        <span class="github-status-dot active"></span>
+        Active — requires GitHub ID in application
+      </div>
+    </div>
+    <div class="github-card">
+      <div class="github-icon">◈</div>
+      <div class="github-title">Org Readme Auto-Fill</div>
+      <div class="github-desc">
+        New members are automatically added to the organization's README file,
+        with their role, Block affiliation, and join date. Your Oasis story begins here.
+      </div>
+      <div class="github-status">
+        <span class="github-status-dot active"></span>
+        Automatic on approval
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vote Section -->
+<section class="section vote-section" id="vote">
+  <div class="section-header">
+    <div class="section-label">Community Governance</div>
+    <h2 style="color:var(--white);">Propose a New Block</h2>
+    <p style="color:var(--gray-400);">
+      Every member can propose a new Block. Proposals are decided by community vote.
+      If you have a vision for a new organization within Oasis, this is the place.
+    </p>
+  </div>
+
+  <div class="vote-grid" id="voteGrid">
+    <!-- Proposals rendered by JS -->
+  </div>
+
+  <div style="margin-top:2rem;text-align:center;">
+    <button class="hero-cta" onclick="openProposalModal()" style="background:var(--white);color:var(--black);">Submit a Proposal →</button>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-text">
+    This page is made by <a href="https://ceaserzhao.com" class="footer-link" target="_blank" rel="noopener">CeaserZhao</a>
+    · <a href="https://ceo.oasiscompany.org" class="footer-link" target="_blank" rel="noopener">ceo.oasiscompany.org</a>
+  </div>
+  <div class="footer-text">
+    Oasis Company © 2026
+  </div>
+</footer>
+
+<!-- ==========================================
+     MODALS
+     ========================================== -->
+
+<!-- Template Form Modal -->
+<div class="modal-overlay" id="templateModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('templateModal')">✕</button>
+    <div class="modal-header">
+      <div class="modal-title">Application Form</div>
+      <div class="modal-subtitle">Tell us about yourself and which Block you'd like to join.</div>
+    </div>
+    <div class="modal-body">
+      <form id="templateForm" onsubmit="submitTemplateForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="tName">Full Name</label>
+            <input type="text" class="form-input" id="tName" required placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tEmail">Email</label>
+            <input type="email" class="form-input" id="tEmail" required placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="tGithub">GitHub Username</label>
+            <input type="text" class="form-input" id="tGithub" placeholder="your-github-handle">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tBlock">Target Block</label>
+            <select class="form-select" id="tBlock" required>
+              <option value="">Select a Block...</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="tSkills">Your Skills &amp; Experience</label>
+          <textarea class="form-textarea" id="tSkills" required placeholder="Tell us about your background, skills, and what you bring to Oasis..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="tWhy">Why Oasis? Why This Block?</label>
+          <textarea class="form-textarea" id="tWhy" required placeholder="What drives you? Why do you want to join this particular Block?"></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="tSubmit">Submit Application</button>
+      </form>
+      <div class="success-message" id="tSuccess">
+        <h3>Application Submitted</h3>
+        <p>Your application ID: <strong id="tAppId"></strong>. Save this ID to check your status later.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Creative Form Modal -->
+<div class="modal-overlay" id="creativeModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('creativeModal')">✕</button>
+    <div class="modal-header">
+      <div class="modal-title">Creative Application</div>
+      <div class="modal-subtitle">Anything goes. Show us your vision.</div>
+    </div>
+    <div class="modal-body">
+      <form id="creativeForm" onsubmit="submitCreativeForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cName">Your Name / Handle</label>
+            <input type="text" class="form-input" id="cName" required placeholder="Name or alias">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cContact">Contact</label>
+            <input type="text" class="form-input" id="cContact" required placeholder="Email, GitHub, Twitter, etc.">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cBlock">Target Block</label>
+          <select class="form-select" id="cBlock" required>
+            <option value="">Select a Block...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cContent">Your Creative Submission</label>
+          <textarea class="creative-area" id="cContent" required placeholder="A manifesto, a poem, a design brief, a story, a letter — anything that expresses who you are and why you belong in Oasis..."></textarea>
+          <div class="creative-help">No rules. No templates. Just your voice.</div>
+        </div>
+        <button type="submit" class="form-submit" id="cSubmit">Submit Creation</button>
+      </form>
+      <div class="success-message" id="cSuccess">
+        <h3>Creation Received</h3>
+        <p>Your application ID: <strong id="cAppId"></strong>. We'll be in touch.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Proposal Modal -->
+<div class="modal-overlay" id="proposalModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proposalModal')">✕</button>
+    <div class="modal-header">
+      <div class="modal-title">Propose a New Block</div>
+      <div class="modal-subtitle">Submit your vision for a new organization within Oasis.</div>
+    </div>
+    <div class="modal-body">
+      <form id="proposalForm" onsubmit="submitProposal(event)">
+        <div class="form-group">
+          <label class="form-label" for="pName">Proposed Block Name</label>
+          <input type="text" class="form-input" id="pName" required placeholder="e.g., Oasis AI Lab">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pDesc">Description &amp; Purpose</label>
+          <textarea class="form-textarea" id="pDesc" required placeholder="What does this Block do? Why is it needed?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pProposer">Your Name / GitHub Handle</label>
+          <input type="text" class="form-input" id="pProposer" required placeholder="Your name or GitHub handle">
+        </div>
+        <button type="submit" class="form-submit" id="pSubmit">Submit Proposal</button>
+      </form>
+      <div class="success-message" id="pSuccess">
+        <h3>Proposal Submitted</h3>
+        <p>Your proposal is now open for community voting. Share it with other members!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     JAVASCRIPT
+     ========================================== -->
+<script>
+// ==========================================
+// DATA
+// ==========================================
+const BLOCKS = [
+  {
+    id: 'oasis-company',
+    name: 'Oasis Company',
+    desc: 'The headquarters of Oasis. The parent organization of all sub-organizations. You must join Oasis Company first before joining any sub-organization.',
+    tags: [],
+    logo: 'O'
+  },
+  {
+    id: 'oasis-event',
+    name: 'Oasis Event Commitee',
+    desc: 'Organizes and coordinates global Oasis offline events and activity venues worldwide.',
+    tags: [],
+    logo: 'Ev'
+  },
+  {
+    id: 'oits',
+    name: 'OITS',
+    desc: 'Join the Oasis Institute of Technology council and plan the subsequent university establishment.',
+    tags: [],
+    logo: 'IT'
+  },
+  {
+    id: 'oasis-standard',
+    name: 'OasisStandardCommitee',
+    desc: 'Oversee and evolve the standards that define the Oasis ecosystem. [E] denotes legal responsibility. [X] denotes special capability requirements.',
+    tags: ['E', 'X'],
+    logo: 'St'
+  },
+  {
+    id: 'statuz',
+    name: 'Statuz',
+    desc: 'Join the maintenance and expansion of Statuz. Non-R&D role — focused on operations, community, and ecosystem growth.',
+    tags: [],
+    logo: 'Sz'
+  },
+  {
+    id: 'edilon',
+    name: 'Edilon.org',
+    desc: 'Explore how to make Agents feel human, and build an enchanting Agent society.',
+    tags: [],
+    logo: 'Ed'
+  },
+  {
+    id: 'amar-engine',
+    name: 'Amar-Engine.org',
+    desc: 'Join the development team of the Amar Engine, a next-generation 3D engine.',
+    tags: [],
+    logo: 'AE'
+  },
+  {
+    id: 'front-fireman',
+    name: 'FrontFireman',
+    desc: 'Oasis\'s legal team, composed of volunteers. Protects the legal rights of Oasis members worldwide. [E] denotes legal responsibility.',
+    tags: ['E'],
+    logo: 'FF'
+  },
+  {
+    id: 'p2p-keeper',
+    name: 'Oasis P2P Keeper',
+    desc: 'Maintain the global Oasis P2P network, ensuring connectivity and resilience.',
+    tags: [],
+    logo: 'P2'
+  },
+  {
+    id: 'insane-dream',
+    name: 'InsaneDreamBuilder',
+    desc: 'Join the operations team of InsaneDreamBuilder (isdb.oasiscompany.org). [E] denotes legal responsibility.',
+    tags: ['E'],
+    logo: 'ID'
+  },
+  {
+    id: 'sandboxer',
+    name: 'SandBoxer',
+    desc: 'Join the operations team of Sandboxer (sandboxer.site).',
+    tags: [],
+    logo: 'SB'
+  },
+  {
+    id: 'singularity-lab',
+    name: 'OasisSingularityLab',
+    desc: 'The Singularity Lab. Architects of the foundational layer — building the underlying infrastructure.',
+    tags: [],
+    logo: 'SL'
+  },
+  {
+    id: 'ai-lab',
+    name: 'OasisAIlab',
+    desc: 'Conduct theoretical research in artificial intelligence.',
+    tags: [],
+    logo: 'AI'
+  },
+  {
+    id: 'cell-lab',
+    name: 'OasisCell Lab',
+    desc: 'Join the R&D team of Oasis Cell — exploring the intersection of biology and technology.',
+    tags: [],
+    logo: 'Ce'
+  },
+  {
+    id: 'game-lab',
+    name: 'Oasis Game Lab',
+    desc: 'You know you have a dream game paradigm in your heart. Let\'s build it together.',
+    tags: [],
+    logo: 'Ga'
+  },
+  {
+    id: 'mens-lab',
+    name: 'Oasis Mens Lab',
+    desc: 'Conduct research in brain science and consciousness studies.',
+    tags: [],
+    logo: 'ML'
+  }
+];
+
+const PROPOSALS = [
+  {
+    id: 'prop-1',
+    name: 'Oasis Bio Lab',
+    desc: 'A dedicated lab for synthetic biology research within the Oasis ecosystem.',
+    votes: 23,
+    total: 50
+  },
+  {
+    id: 'prop-2',
+    name: 'Oasis Robotics',
+    desc: 'Physical robotics division — bridging the virtual and the physical.',
+    votes: 17,
+    total: 50
+  },
+  {
+    id: 'prop-3',
+    name: 'Oasis Education',
+    desc: 'Educational platform and curriculum for the Oasisverse.',
+    votes: 31,
+    total: 50
+  },
+  {
+    id: 'prop-4',
+    name: 'Oasis Media Lab',
+    desc: 'Content creation, storytelling, and media production for Oasis.',
+    votes: 12,
+    total: 50
+  }
+];
+
+// ==========================================
+// BLOCK LOGO SVGs (Swiss minimalist)
+// ==========================================
+function getBlockLogo(block) {
+  const logos = {
+    'oasis-company': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><path d="M30 10C38 14 42 22 42 30C34 30 26 30 18 30C18 22 22 14 30 10Z" fill="#000"/><path d="M25 18C25 18 28 16 30 16C32 16 35 18 35 18" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="30" cy="24" r="2" fill="#fff"/></svg>`,
+    'oasis-event': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><rect x="15" y="12" width="30" height="26" stroke="#000" stroke-width="2" fill="none"/><line x1="15" y1="20" x2="45" y2="20" stroke="#000" stroke-width="2"/><circle cx="30" cy="28" r="3" fill="#000"/></svg>`,
+    'oits': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><polygon points="30,10 45,37 15,37" stroke="#000" stroke-width="2" fill="none"/><line x1="30" y1="22" x2="30" y2="32" stroke="#000" stroke-width="2"/><circle cx="30" cy="18" r="2" fill="#000"/></svg>`,
+    'oasis-standard': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><rect x="14" y="14" width="32" height="22" stroke="#000" stroke-width="2" fill="none"/><line x1="14" y1="14" x2="30" y2="26" stroke="#000" stroke-width="2"/><line x1="46" y1="14" x2="30" y2="26" stroke="#000" stroke-width="2"/></svg>`,
+    'statuz': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><circle cx="30" cy="25" r="12" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="25" r="4" fill="#000"/><line x1="30" y1="13" x2="30" y2="6" stroke="#000" stroke-width="2"/><line x1="30" y1="37" x2="30" y2="44" stroke="#000" stroke-width="2"/></svg>`,
+    'edilon': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><circle cx="30" cy="28" r="10" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="18" r="6" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="12" r="3" fill="#000"/></svg>`,
+    'amar-engine': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><polygon points="30,8 48,40 12,40" stroke="#000" stroke-width="2" fill="none"/><polygon points="30,16 40,36 20,36" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="26" r="2" fill="#000"/></svg>`,
+    'front-fireman': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><rect x="18" y="14" width="24" height="22" stroke="#000" stroke-width="2" fill="none"/><line x1="30" y1="14" x2="30" y2="36" stroke="#000" stroke-width="2"/><circle cx="30" cy="25" r="3" fill="#e60000"/></svg>`,
+    'p2p-keeper': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><circle cx="18" cy="18" r="6" stroke="#000" stroke-width="2" fill="none"/><circle cx="42" cy="18" r="6" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="36" r="6" stroke="#000" stroke-width="2" fill="none"/><line x1="22" y1="22" x2="27" y2="32" stroke="#000" stroke-width="2"/><line x1="38" y1="22" x2="33" y2="32" stroke="#000" stroke-width="2"/></svg>`,
+    'insane-dream': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><path d="M30 8C36 8 42 14 42 22C42 30 36 36 30 36C24 36 18 30 18 22C18 14 24 8 30 8Z" stroke="#000" stroke-width="2" fill="none"/><path d="M30 14C33 14 36 17 36 22" stroke="#e60000" stroke-width="2" fill="none"/></svg>`,
+    'sandboxer': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><rect x="12" y="16" width="36" height="18" stroke="#000" stroke-width="2" fill="none"/><rect x="18" y="22" width="24" height="6" fill="#000"/></svg>`,
+    'singularity-lab': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><circle cx="30" cy="25" r="15" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="25" r="6" fill="#000"/><line x1="30" y1="10" x2="30" y2="6" stroke="#000" stroke-width="2"/><line x1="30" y1="40" x2="30" y2="44" stroke="#000" stroke-width="2"/><line x1="15" y1="25" x2="11" y2="25" stroke="#000" stroke-width="2"/><line x1="45" y1="25" x2="49" y2="25" stroke="#000" stroke-width="2"/></svg>`,
+    'ai-lab': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><polygon points="30,8 48,38 12,38" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="26" r="4" fill="#000"/><line x1="30" y1="30" x2="30" y2="36" stroke="#000" stroke-width="2"/></svg>`,
+    'cell-lab': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><circle cx="30" cy="25" r="14" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="25" r="6" stroke="#000" stroke-width="1.5" fill="none" stroke-dasharray="2 2"/><circle cx="30" cy="25" r="2" fill="#000"/></svg>`,
+    'game-lab': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><rect x="10" y="16" width="40" height="18" rx="4" stroke="#000" stroke-width="2" fill="none"/><circle cx="20" cy="25" r="3" fill="#000"/><circle cx="40" cy="25" r="3" fill="#000"/><rect x="26" y="23" width="8" height="4" rx="1" fill="#000"/></svg>`,
+    'mens-lab': `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><circle cx="30" cy="18" r="8" stroke="#000" stroke-width="2" fill="none"/><path d="M18 38C18 28 42 28 42 38" stroke="#000" stroke-width="2" fill="none"/><circle cx="30" cy="16" r="2" fill="#000"/></svg>`
+  };
+  return logos[block.id] || `<svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="50" fill="#f5f5f5"/><text x="30" y="34" text-anchor="middle" font-family="monospace" font-size="20" font-weight="bold" fill="#000">${block.logo}</text></svg>`;
+}
+
+// ==========================================
+// RENDER BLOCKS
+// ==========================================
+function renderBlocks() {
+  const grid = document.getElementById('blocksGrid');
+  grid.innerHTML = '';
+  BLOCKS.forEach((block, i) => {
+    const card = document.createElement('div');
+    card.className = 'block-card';
+    card.style.transitionDelay = `${i * 0.05}s`;
+
+    let tagsHtml = '';
+    block.tags.forEach(tag => {
+      if (tag === 'E') {
+        tagsHtml += `<span class="block-tag block-tag--legal">[E] Legal</span>`;
+      } else if (tag === 'X') {
+        tagsHtml += `<span class="block-tag block-tag--special">[X] Special</span>`;
+      }
+    });
+
+    card.innerHTML = `
+      <div class="block-logo">${getBlockLogo(block)}</div>
+      <div class="block-name">${block.name}</div>
+      <div class="block-desc">${block.desc}</div>
+      <div class="block-meta">${tagsHtml}</div>
+    `;
+
+    card.addEventListener('click', () => {
+      openFormModal('template', block.id);
+    });
+
+    grid.appendChild(card);
+  });
+
+  // Reveal animation
+  setTimeout(() => {
+    document.querySelectorAll('.block-card').forEach((el, i) => {
+      setTimeout(() => {
+        el.classList.add('revealed');
+      }, i * 60);
+    });
+  }, 200);
+}
+
+// ==========================================
+// RENDER VOTES
+// ==========================================
+function renderVotes() {
+  const grid = document.getElementById('voteGrid');
+  grid.innerHTML = '';
+  PROPOSALS.forEach(prop => {
+    const pct = Math.round((prop.votes / prop.total) * 100);
+    const card = document.createElement('div');
+    card.className = 'vote-card';
+    card.innerHTML = `
+      <div class="vote-card-header">
+        <div class="vote-proposal">${prop.name}</div>
+        <div class="vote-votes">${prop.votes}/${prop.total}</div>
+      </div>
+      <div class="vote-desc">${prop.desc}</div>
+      <div class="vote-bar">
+        <div class="vote-bar-fill" style="width:${pct}%"></div>
+      </div>
+      <button class="vote-btn" onclick="voteProposal('${prop.id}', this)">Vote</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ==========================================
+// VOTE
+// ==========================================
+function voteProposal(id, btn) {
+  const proposal = PROPOSALS.find(p => p.id === id);
+  if (!proposal || btn.classList.contains('active')) return;
+  proposal.votes = Math.min(proposal.votes + 1, proposal.total);
+  btn.classList.add('active');
+  btn.textContent = 'Voted';
+  renderVotes();
+}
+
+// ==========================================
+// MODALS
+// ==========================================
+function openFormModal(type, preselectedBlock) {
+  const modalId = type === 'template' ? 'templateModal' : 'creativeModal';
+  const selectId = type === 'template' ? 'tBlock' : 'cBlock';
+  document.getElementById(modalId).classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const select = document.getElementById(selectId);
+  select.innerHTML = '<option value="">Select a Block...</option>';
+  BLOCKS.forEach(b => {
+    const opt = document.createElement('option');
+    opt.value = b.id;
+    opt.textContent = b.name;
+    select.appendChild(opt);
+  });
+  if (preselectedBlock) {
+    select.value = preselectedBlock;
+  }
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', (e) => {
+    if (e.target === el) {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+// Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(el => {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+
+function openProposalModal() {
+  document.getElementById('proposalModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// ==========================================
+// FORM SUBMISSIONS
+// ==========================================
+async function submitTemplateForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('tSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+  const appId = 'OASIS-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+
+  const data = {
+    type: 'template',
+    id: appId,
+    name: document.getElementById('tName').value,
+    email: document.getElementById('tEmail').value,
+    github: document.getElementById('tGithub').value,
+    block: document.getElementById('tBlock').value,
+    skills: document.getElementById('tSkills').value,
+    why: document.getElementById('tWhy').value,
+    status: 'pending',
+    submitted: new Date().toISOString()
+  };
+
+  // Try API first
+  const result = await apiCall('/applications', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+  if (result && result.success) {
+    document.getElementById('tAppId').textContent = result.id;
+  } else {
+    // Fallback: localStorage
+    saveApplication(data);
+    document.getElementById('tAppId').textContent = appId;
+  }
+
+  document.getElementById('tSuccess').classList.add('visible');
+  document.getElementById('templateForm').style.display = 'none';
+  btn.disabled = false;
+  btn.innerHTML = 'Submit Application';
+}
+
+async function submitCreativeForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+  const appId = 'OASIS-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+
+  const data = {
+    type: 'creative',
+    id: appId,
+    name: document.getElementById('cName').value,
+    contact: document.getElementById('cContact').value,
+    block: document.getElementById('cBlock').value,
+    content: document.getElementById('cContent').value,
+    status: 'pending',
+    submitted: new Date().toISOString()
+  };
+
+  // Try API first
+  const result = await apiCall('/applications', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+  if (result && result.success) {
+    document.getElementById('cAppId').textContent = result.id;
+  } else {
+    // Fallback: localStorage
+    saveApplication(data);
+    document.getElementById('cAppId').textContent = appId;
+  }
+
+  document.getElementById('cSuccess').classList.add('visible');
+  document.getElementById('creativeForm').style.display = 'none';
+  btn.disabled = false;
+  btn.innerHTML = 'Submit Creation';
+}
+
+function submitProposal(e) {
+  e.preventDefault();
+  const btn = document.getElementById('pSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+  setTimeout(() => {
+    document.getElementById('pSuccess').classList.add('visible');
+    document.getElementById('proposalForm').style.display = 'none';
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Proposal';
+  }, 800);
+}
+
+// ==========================================
+// API CONFIGURATION
+// ==========================================
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? null  // Use localStorage fallback in dev
+  : '/apply/api';
+
+/**
+ * Call the API or fall back to localStorage
+ */
+async function apiCall(endpoint, options = {}) {
+  if (!API_BASE) {
+    // localStorage fallback mode
+    return null;
+  }
+
+  try {
+    const url = `${API_BASE}${endpoint}`;
+    const res = await fetch(url, {
+      ...options,
+      headers: { 'Content-Type': 'application/json', ...options.headers },
+    });
+    return await res.json();
+  } catch (err) {
+    console.warn('API unavailable, falling back to localStorage:', err.message);
+    return null;
+  }
+}
+
+// ==========================================
+// LOCAL STORAGE (simulated database)
+// ==========================================
+function saveApplication(data) {
+  const apps = JSON.parse(localStorage.getItem('oasis_applications') || '[]');
+  apps.push(data);
+  localStorage.setItem('oasis_applications', JSON.stringify(apps));
+}
+
+function getLocalApplication(query) {
+  const apps = JSON.parse(localStorage.getItem('oasis_applications') || '[]');
+  const q = query.toLowerCase();
+  return apps.find(a =>
+    a.id.toLowerCase() === q ||
+    (a.github && a.github.toLowerCase() === q) ||
+    (a.name && a.name.toLowerCase() === q)
+  );
+}
+
+// ==========================================
+// QUERY
+// ==========================================
+async function queryApplication() {
+  const input = document.getElementById('queryInput').value.trim();
+  const result = document.getElementById('queryResult');
+
+  if (!input) {
+    result.classList.remove('visible');
+    return;
+  }
+
+  // Try API first
+  const apiResult = await apiCall(`/applications/query?q=${encodeURIComponent(input)}`);
+
+  if (apiResult && apiResult.found) {
+    const app = apiResult.application;
+    document.getElementById('queryStatus').textContent = app.status.charAt(0).toUpperCase() + app.status.slice(1);
+    document.getElementById('queryBlock').textContent = app.block_name;
+    document.getElementById('queryDate').textContent = new Date(app.submitted).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+    document.getElementById('queryDetail').textContent =
+      app.type === 'template'
+        ? `Submitted by ${app.name}`
+        : `Submitted by ${app.name} · Creative submission`;
+    result.classList.add('visible');
+    return;
+  }
+
+  // Fallback to localStorage
+  const match = getLocalApplication(input);
+
+  if (match) {
+    document.getElementById('queryStatus').textContent = match.status.charAt(0).toUpperCase() + match.status.slice(1);
+    const block = BLOCKS.find(b => b.id === match.block);
+    document.getElementById('queryBlock').textContent = block ? block.name : match.block;
+    document.getElementById('queryDate').textContent = new Date(match.submitted).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+    document.getElementById('queryDetail').textContent =
+      match.type === 'template'
+        ? `Submitted by ${match.name} · ${match.email}`
+        : `Submitted by ${match.name} · Creative submission`;
+    result.classList.add('visible');
+  } else {
+    document.getElementById('queryStatus').textContent = 'Not Found';
+    document.getElementById('queryBlock').textContent = '—';
+    document.getElementById('queryDate').textContent = '—';
+    document.getElementById('queryDetail').textContent = 'No application matches your query. Make sure you entered the correct Application ID or GitHub username.';
+    result.classList.add('visible');
+  }
+}
+
+// Enter key for query
+document.getElementById('queryInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') queryApplication();
+});
+
+// ==========================================
+// SCROLL ANIMATION
+// ==========================================
+function observeSections() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+
+// ==========================================
+// INIT
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderBlocks();
+  renderVotes();
+  observeSections();
+});
+</script>
+
+</body>
+</html>

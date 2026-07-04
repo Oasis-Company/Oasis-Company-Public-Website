@@ -1,0 +1,7 @@
+# Cloudflare Pages Redirects
+# Rewrite /apply to serve apply.html (200 = internal rewrite, not external redirect)
+/apply /apply.html 200
+/apply/ /apply.html 200
+
+# Root redirect (optional - if you want the main site to go somewhere)
+# / /index.html 200
