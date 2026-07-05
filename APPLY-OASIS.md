@@ -11,10 +11,11 @@
 ```
 / (Cloudflare Pages root — oasiscompany.org)
 ├── apply.html                          ← Apply Oasis page (Swiss design)
-├── _redirects                          ← /apply → apply.html (internal rewrite)
+├── _redirects                          ← (no /apply rules — handled by Functions)
 ├── _headers                            ← Security & cache headers
 │
 ├── functions/
+│   ├── apply.js                        ← /apply → apply.html (Pages Function)
 │   └── apply/api/
 │       ├── _middleware.js              ← CORS middleware
 │       └── [[catchall]].js             ← API router (9 endpoints)
@@ -36,16 +37,16 @@
 
 ## Routing (`oasiscompany.org`)
 
-| Path | Source | Destination | Type |
-|------|--------|-------------|------|
-| `/` | Root | — (coming soon) | Static |
-| `/apply` | `_redirects` | `apply.html` | Internal rewrite (200) |
-| `/apply/` | `_redirects` | `apply.html` | Internal rewrite (200) |
-| `/apply/api/*` | Pages Functions | `functions/apply/api/[[catchall]].js` | Auto-routed |
+| Path | Source | Type |
+|------|--------|------|
+| `/` | Root — (coming soon) | Static |
+| `/apply` | `functions/apply.js` | Pages Function → serves `apply.html` |
+| `/apply/` | `functions/apply.js` | Pages Function → serves `apply.html` |
+| `/apply/api/*` | `functions/apply/api/[[catchall]].js` | Pages Function auto-routed |
 
-The `_redirects` file uses status code `200` — this is an **internal rewrite**, meaning the browser URL stays as `oasiscompany.org/apply` while Cloudflare serves `apply.html` behind the scenes.
+The `functions/apply.js` Pages Function handles `/apply` and `/apply/` by fetching `apply.html` from the ASSETS namespace and returning it with the correct content-type.
 
-The Pages Functions at `functions/apply/api/[[catchall]].js` are automatically invoked for `/apply/api/*` paths — no additional routing config needed.
+The Pages Functions at `functions/apply/api/[[catchall]].js` are automatically invoked for `/apply/api/*` paths — Cloudflare routes to the most specific match first, so there is no conflict with `functions/apply.js`.
 
 ---
 

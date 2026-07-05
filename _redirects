@@ -2,13 +2,8 @@
 # ==========================
 # Syntax: <source> <destination> <status>
 # 200 = internal rewrite (preserves URL)
-
-# Apply Oasis — rewrite /apply to serve apply.html
-/apply /apply.html 200
-/apply/ /apply.html 200
-
-# API routes — handled by Pages Functions, no rewrite needed
-# /apply/api/* is auto-routed to functions/apply/api/[[catchall]].js
-
-# SPA fallback (optional - uncomment if you add client-side routing)
-# /* /index.html 200
+#
+# /apply is handled by functions/apply.js Pages Function
+# /apply/api/* is handled by functions/apply/api/[[catchall]].js
+#
+# No redirect rules needed for /apply — Pages Functions handle it.

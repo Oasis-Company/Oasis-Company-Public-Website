@@ -4,7 +4,7 @@
 # Deployment via: npx wrangler pages deploy . --project-name oasis-apply --branch main
 #
 # Custom domain: oasiscompany.org
-# Route: /apply -> apply.html (via _redirects, status 200)
+# Route: /apply -> apply.html (via functions/apply.js Pages Function)
 # API:  /apply/api/* -> Pages Functions (auto-routed)
 #
 # Build settings (for GitHub auto-deploy):

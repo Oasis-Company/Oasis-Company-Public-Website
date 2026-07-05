@@ -9,8 +9,8 @@ Let's build the Oasisverse from here.
 | Path | Destination | Mechanism |
 |------|-------------|-----------|
 | `oasiscompany.org/` | Root (coming soon) | — |
-| `oasiscompany.org/apply` | `apply.html` — Apply Oasis page | `_redirects` (internal rewrite 200) |
-| `oasiscompany.org/apply/` | `apply.html` | `_redirects` (internal rewrite 200) |
+| `oasiscompany.org/apply` | `apply.html` — Apply Oasis page | `functions/apply.js` (Pages Function) |
+| `oasiscompany.org/apply/` | `apply.html` | `functions/apply.js` (Pages Function) |
 | `oasiscompany.org/apply/api/*` | Pages Functions API | Auto-routed to `functions/apply/api/` |
 
 ## Sub-projects
