@@ -51,36 +51,40 @@ The Pages Functions at `functions/apply/api/[[catchall]].js` are automatically i
 
 ## Build Configuration
 
-### wrangler.toml
+### 本项目的特殊性
+
+**这个项目不需要构建步骤。** `apply.html` 是纯静态 HTML，Pages Functions 在 Cloudflare 边缘运行时直接执行，无需编译。所以 **build command 始终留空**。
+
+### CLI 部署（`wrangler pages deploy`）
+
+`wrangler.toml` 中只需要：
 
 ```toml
 name = "oasis-apply"
-compatibility_date = "2026-07-01"
 pages_build_output_dir = "."
-
-[build]
-command = ""              # No build step — static files + Functions
-output_dir = "."
 ```
 
-**Key points:**
-- **Build command:** Empty (`""`) — the HTML/CSS/JS is pre-compiled, no framework build needed
-- **Output directory:** `.` (project root) — `apply.html`, `_redirects`, `_headers`, and `functions/` are all at the root
-- **Pages Functions** are automatically detected in the `functions/` directory — they don't need to be in the build output
-- **`_redirects`** and **`_headers`** files are uploaded alongside static assets
+Wrangler v4 的 Pages 项目不支持 `[build]` 配置块——`pages_build_output_dir` 是唯一需要的字段。
 
-### GitHub Integration Build Settings
+### GitHub 集成部署（Cloudflare Dashboard 设置）
 
-If connecting the repo to Cloudflare Pages for auto-deploy:
+如果你将 GitHub 仓库连接到 Cloudflare Pages 实现自动部署，在 **Cloudflare Dashboard → Pages → oasis-apply → Settings → Build configuration** 中设置：
 
-| Setting | Value |
+| 设置项 | 值 |
 |---------|-------|
-| Build command | *(leave empty)* |
-| Build output directory | `.` |
-| Root directory | `/` |
-| Production branch | `main` |
+| **Build command** | *(留空，不填)* |
+| **Build output directory** | `.` |
+| **Root directory** | `/` |
+| **Production branch** | `main` |
 
-These are the same settings as `wrangler.toml` — no build step, just deploy the files as-is.
+**为什么 build command 是空的？** 因为项目没有框架、没有打包工具、没有编译步骤——HTML/CSS/JS 已经是最终产物，`functions/` 目录下的 Pages Functions 也会被自动检测和部署。
+
+### 包含的文件
+
+部署时会自动上传以下内容：
+- 所有静态文件（`apply.html`、`assets/` 等）
+- `_redirects` 和 `_headers` 配置文件
+- `functions/` 目录下的 Pages Functions（编译为 Worker 运行）
 
 ---
 
