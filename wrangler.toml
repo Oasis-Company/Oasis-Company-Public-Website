@@ -1,6 +1,26 @@
-name = "oasis-apply-api"
-main = "apply-api/index.js"
+# ============================================
+# Oasis Apply — Cloudflare Pages Configuration
+# ============================================
+# Deployment via: npx wrangler pages deploy . --project-name oasis-apply --branch main
+#
+# Custom domain: oasiscompany.org
+# Route: /apply -> apply.html (via _redirects, status 200)
+# API:  /apply/api/* -> Pages Functions (auto-routed)
+#
+# Build settings (for GitHub auto-deploy):
+#   Build command:           (none - empty)
+#   Build output directory:  .
+#   Root directory:          /
+#   Production branch:       main
+
+name = "oasis-apply"
 compatibility_date = "2026-07-01"
+pages_build_output_dir = "."
+
+# KV namespace binding for Pages Functions
+[[kv_namespaces]]
+binding = "APPLICATIONS_KV"
+id = "ff342f38b08345b9a1b26d6d537bf00a"
 
 # Environment variables
 [vars]

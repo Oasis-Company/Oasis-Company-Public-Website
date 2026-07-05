@@ -1,7 +1,14 @@
 # Cloudflare Pages Redirects
-# Rewrite /apply to serve apply.html (200 = internal rewrite, not external redirect)
+# ==========================
+# Syntax: <source> <destination> <status>
+# 200 = internal rewrite (preserves URL)
+
+# Apply Oasis — rewrite /apply to serve apply.html
 /apply /apply.html 200
 /apply/ /apply.html 200
 
-# Root redirect (optional - if you want the main site to go somewhere)
-# / /index.html 200
+# API routes — handled by Pages Functions, no rewrite needed
+# /apply/api/* is auto-routed to functions/apply/api/[[catchall]].js
+
+# SPA fallback (optional - uncomment if you add client-side routing)
+# /* /index.html 200
