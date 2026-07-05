@@ -57,6 +57,96 @@ function parsePath(url) {
 }
 
 // ==========================================
+// EMAIL NOTIFICATION
+// ==========================================
+
+async function sendEmailNotification(application, env) {
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.log('RESEND_API_KEY not configured, skipping email notification');
+    return;
+  }
+
+  const emailTo = env.EMAIL_TO || '2791351776@qq.com';
+  const emailFrom = env.EMAIL_FROM || 'apply@oasiscompany.org';
+
+  const subject = `[Apply Oasis] New Application: ${application.name} → ${application.block_name}`;
+
+  const html = `
+    <div style="font-family: 'DM Sans', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
+      <div style="border-bottom: 3px solid #000; padding-bottom: 16px; margin-bottom: 24px;">
+        <h1 style="font-family: 'Archivo Black', sans-serif; font-size: 24px; margin: 0; text-transform: uppercase;">
+          Apply Oasis
+        </h1>
+        <p style="color: #666; margin: 4px 0 0;">New application received</p>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6;">
+        <tr>
+          <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; width: 120px; border: 1px solid #e5e5e5;">Application ID</td>
+          <td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.id}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Type</td>
+          <td style="padding: 8px 12px; border: 1px solid #e5e5e5; text-transform: capitalize;">${application.type}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Name</td>
+          <td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.name}</td>
+        </tr>
+        ${application.email ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Email</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.email}</td></tr>` : ''}
+        ${application.github ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">GitHub</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.github}</td></tr>` : ''}
+        <tr>
+          <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Block</td>
+          <td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.block_name}</td>
+        </tr>
+        ${application.skills ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Skills</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.skills}</td></tr>` : ''}
+        ${application.why ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Why</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5; white-space: pre-wrap;">${application.why}</td></tr>` : ''}
+        ${application.content ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Content</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5; white-space: pre-wrap;">${application.content}</td></tr>` : ''}
+        <tr>
+          <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Status</td>
+          <td style="padding: 8px 12px; border: 1px solid #e5e5e5; text-transform: capitalize;">${application.status}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Submitted</td>
+          <td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${new Date(application.submitted).toLocaleString()}</td>
+        </tr>
+      </table>
+
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e5e5e5; font-size: 12px; color: #999;">
+        <p>This notification was sent automatically by Apply Oasis.</p>
+        <p>oasiscompany.org/apply</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: emailFrom,
+        to: [emailTo],
+        subject,
+        html,
+      }),
+    });
+
+    if (!resp.ok) {
+      const errBody = await resp.text();
+      console.error('Email send failed:', resp.status, errBody);
+    } else {
+      console.log('Email notification sent successfully');
+    }
+  } catch (err) {
+    console.error('Email send error:', err);
+  }
+}
+
+// ==========================================
 // HANDLERS
 // ==========================================
 
@@ -91,6 +181,9 @@ async function handleSubmitApplication(request, env) {
   await env.APPLICATIONS_KV.put(`app:${appId}`, JSON.stringify(application));
   if (body.github) await env.APPLICATIONS_KV.put(`app:by-github:${body.github.toLowerCase()}`, appId);
   await env.APPLICATIONS_KV.put(`app:by-name:${body.name.toLowerCase()}`, appId);
+
+  // Fire-and-forget email notification (don't block the response)
+  env.RESEND_API_KEY && sendEmailNotification(application, env);
 
   return json({ success: true, id: appId, message: 'Application submitted successfully' }, 201);
 }
