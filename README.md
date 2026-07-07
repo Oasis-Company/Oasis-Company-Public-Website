@@ -12,6 +12,8 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/apply` | `apply.html` — Apply Oasis page | `functions/apply.js` (Pages Function) |
 | `oasiscompany.org/apply/` | `apply.html` | `functions/apply.js` (Pages Function) |
 | `oasiscompany.org/apply/api/*` | Pages Functions API | Auto-routed to `functions/apply/api/` |
+| `oasiscompany.org/list` | `list.html` — Oasis Directory | `functions/list.js` (Pages Function) |
+| `oasiscompany.org/list/` | `list.html` | `functions/list.js` (Pages Function) |
 
 ## Sub-projects
 
@@ -19,6 +21,7 @@ Let's build the Oasisverse from here.
   - [Deployment & API docs](APPLY-OASIS.md)
   - Cloudflare Pages: `oasis-apply` (KV + Functions)
   - Custom domain: `oasiscompany.org`
+- **Oasis Directory** — [`/list`](/list) — Complete map of the Oasisverse
 
 ---
 
