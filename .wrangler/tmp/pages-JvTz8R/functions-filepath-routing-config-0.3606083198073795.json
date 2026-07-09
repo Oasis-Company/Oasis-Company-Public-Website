@@ -1,0 +1,37 @@
+{
+  "routes": [
+    {
+      "routePath": "/apply/api/:catchall*",
+      "mountPath": "/apply/api",
+      "method": "",
+      "module": [
+        "apply/api/[[catchall]].js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/apply/api",
+      "mountPath": "/apply/api",
+      "method": "",
+      "middleware": [
+        "apply/api/_middleware.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/apply",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "apply.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/list",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "list.js:onRequest"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}
