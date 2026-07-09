@@ -5,6 +5,7 @@
 #
 # /apply is handled by functions/apply.js Pages Function
 # /list  is handled by functions/list.js Pages Function
+# /rally is handled by functions/rally.js Pages Function
 # /apply/api/* is handled by functions/apply/api/[[catchall]].js
 #
 # No redirect rules needed — Pages Functions handle all routing.

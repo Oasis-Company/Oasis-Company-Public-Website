@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gathering — Oasis</title>
+<meta name="description" content="The Gathering — 53 beacons across 9 zones. We do not divide by borders. We gather around beacons.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+/* ============================================
+   SWISS DESIGN SYSTEM — The Gathering
+   ============================================ */
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #cccccc;
+  --gray-400: #999999;
+  --gray-500: #666666;
+  --gray-600: #333333;
+  --gray-700: #1a1a1a;
+  --red: #e60000;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  --zone-1: #e60000;
+  --zone-2: #d40045;
+  --zone-3: #c2006a;
+  --zone-4: #a0008a;
+  --zone-5: #7000a0;
+  --zone-6: #4000a0;
+  --zone-7: #0050a0;
+  --zone-8: #008070;
+  --zone-9: #008840;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--white);
+  color: var(--black);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(3rem, 12vw, 10rem);
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(2rem, 6vw, 5rem);
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+/* Navigation */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black);
+  letter-spacing: 0.02em;
+}
+
+.nav-logo:hover {
+  color: var(--red);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 0.8125rem;
+  text-decoration: none;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--black);
+}
+
+/* Hero */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(230,0,0,0.03) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero h1 {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hero h1 .zh {
+  display: block;
+  font-size: 0.35em;
+  letter-spacing: 0.3em;
+  color: var(--gray-400);
+  margin-bottom: 0.5rem;
+}
+
+.hero .tagline {
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  color: var(--gray-500);
+  max-width: 640px;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.hero .tagline-em {
+  font-family: var(--font-display);
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.hero-meta {
+  margin-top: 2.5rem;
+  font-size: 0.8125rem;
+  color: var(--gray-400);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.hero-meta span {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--gray-200);
+  margin: 0 0.25rem;
+}
+
+.hero-meta .num {
+  font-family: var(--font-display);
+  color: var(--black);
+  font-size: 1.125rem;
+}
+
+/* Manifesto */
+.manifesto {
+  background: var(--black);
+  color: var(--white);
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.manifesto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+}
+
+.manifesto::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+}
+
+.manifesto-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.manifesto-symbol {
+  font-size: 3rem;
+  color: var(--red);
+  margin-bottom: 2rem;
+  font-family: var(--font-display);
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.manifesto-text {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 2;
+  color: var(--gray-300);
+  letter-spacing: 0.02em;
+}
+
+.manifesto-text em {
+  font-style: normal;
+  color: var(--white);
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85em;
+}
+
+.manifesto-text .highlight {
+  color: var(--red);
+}
+
+.manifesto-verse {
+  margin-top: 2.5rem;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+}
+
+/* Map Section */
+.map-section {
+  padding: 4rem 0 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.map-header {
+  padding: 0 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.map-header h2 {
+  margin-bottom: 0.5rem;
+}
+
+.map-header p {
+  color: var(--gray-500);
+  font-size: 0.9375rem;
+  max-width: 560px;
+}
+
+#gatheringMap {
+  width: 100%;
+  height: 600px;
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+  z-index: 1;
+}
+
+/* Map Legend */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--gray-200);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-display);
+  user-select: none;
+}
+
+.legend-item:hover {
+  border-color: var(--gray-400);
+}
+
+.legend-item.active {
+  border-color: var(--black);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Cards Section */
+.cards-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Zone Block */
+.zone-block {
+  margin-bottom: 3rem;
+  scroll-margin-top: 80px;
+}
+
+.zone-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--black);
+}
+
+.zone-number {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  margin-right: 0.5rem;
+}
+
+.zone-name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.zone-tag {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.125rem 0.5rem;
+  font-family: var(--font-display);
+  color: var(--gray-500);
+  border: 1px solid var(--gray-200);
+}
+
+/* City Cards Grid */
+.city-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--gray-200);
+  border: 1px solid var(--gray-200);
+}
+
+@media (min-width: 640px) {
+  .city-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .city-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.city-card {
+  background: var(--white);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  position: relative;
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.city-card.revealed {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.city-card:hover {
+  background: var(--gray-100);
+}
+
+.city-card.highlight {
+  background: var(--gray-100);
+  box-shadow: inset 0 0 0 2px var(--black);
+}
+
+.city-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.city-number {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: var(--gray-400);
+  padding: 0.125rem 0.375rem;
+  border: 1px solid var(--gray-200);
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.city-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.city-name-zh {
+  font-size: 0.875rem;
+  color: var(--gray-400);
+  font-weight: 300;
+}
+
+.city-beacon {
+  display: inline-block;
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.125rem 0.375rem;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-display);
+  line-height: 1.4;
+  margin-left: auto;
+}
+
+.city-range {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+.city-zone-tag {
+  display: inline-block;
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--gray-200);
+  font-family: var(--font-display);
+  color: var(--gray-400);
+  align-self: flex-start;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search Bar */
+.search-section {
+  padding: 0 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  display: flex;
+  gap: 0;
+  border: 2px solid var(--black);
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  background: var(--white);
+  color: var(--black);
+}
+
+.search-input::placeholder {
+  color: var(--gray-300);
+}
+
+.search-btn {
+  border: none;
+  border-left: 2px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+  padding: 0 1.5rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-btn:hover {
+  background: var(--gray-600);
+}
+
+.search-clear {
+  display: none;
+  border: none;
+  border-left: 2px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  padding: 0 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.2s;
+}
+
+.search-clear:hover {
+  background: var(--gray-100);
+}
+
+.search-clear.visible {
+  display: block;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--black);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Zone Filter */
+.zone-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.zone-filter-btn {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  cursor: pointer;
+  font-family: var(--font-display);
+  transition: all 0.2s;
+  color: var(--gray-500);
+}
+
+.zone-filter-btn:hover {
+  border-color: var(--gray-400);
+  color: var(--black);
+}
+
+.zone-filter-btn.active {
+  border-color: var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+
+/* No Results */
+.no-results {
+  display: none;
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px solid var(--gray-200);
+}
+
+.no-results.visible {
+  display: block;
+}
+
+.no-results p {
+  font-size: 1.125rem;
+  color: var(--gray-400);
+  margin-bottom: 0.5rem;
+}
+
+.no-results .hint {
+  font-size: 0.8125rem;
+  color: var(--gray-300);
+}
+
+/* CTA */
+.cta-section {
+  background: var(--black);
+  color: var(--white);
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.cta-section h2 {
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  color: var(--gray-400);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--white);
+  color: var(--black);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.cta-btn:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--gray-200);
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  letter-spacing: 0.05em;
+}
+
+.footer-link {
+  color: var(--gray-500);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--red);
+}
+
+/* Leaflet overrides */
+.beacon-marker {
+  background: none;
+  border: none;
+}
+
+.beacon-pulse {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid var(--black);
+  background: var(--white);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.beacon-pulse::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--black);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s;
+}
+
+.beacon-pulse.beacon-primary {
+  width: 32px;
+  height: 32px;
+  border-color: var(--red);
+}
+
+.beacon-pulse.beacon-primary::after {
+  width: 12px;
+  height: 12px;
+  background: var(--red);
+}
+
+.beacon-pulse.beacon-secondary {
+  width: 28px;
+  height: 28px;
+}
+
+.beacon-pulse.beacon-secondary::after {
+  width: 10px;
+  height: 10px;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+  font-family: var(--font-body);
+  box-shadow: none;
+  border: 2px solid var(--black);
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.leaflet-popup-content strong {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.leaflet-popup-tip {
+  border: 2px solid var(--black) !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .nav {
+    padding: 0 1rem;
+  }
+  .hero, .cards-section, .search-section, .map-header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .hero {
+    min-height: 60vh;
+    padding-top: 6rem;
+  }
+  #gatheringMap {
+    height: 400px;
+  }
+  .stats {
+    gap: 1rem;
+  }
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  .map-legend {
+    padding: 0.75rem 1rem;
+    gap: 0.375rem;
+  }
+  .legend-item {
+    font-size: 0.5625rem;
+    padding: 0.125rem 0.375rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="/" class="nav-logo">Oasis</a>
+  <ul class="nav-links">
+    <li><a href="/apply" class="nav-link">Apply</a></li>
+    <li><a href="/list" class="nav-link">Directory</a></li>
+    <li><a href="/rally" class="nav-link active">Gathering</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <h1>The Gathering</h1>
+  <p class="tagline">
+    We do not divide by <span class="tagline-em">borders</span>.<br>
+    We gather around <span class="tagline-em">beacons</span>.
+  </p>
+  <div class="hero-meta">
+    <span><span class="num" id="heroTotal">53</span> Beacons</span>
+    <span><span class="num">9</span> Zones</span>
+    <span><span class="num">6</span> Continents</span>
+  </div>
+</section>
+
+<!-- Manifesto -->
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <div class="manifesto-symbol">&#9670;</div>
+    <div class="manifesto-text">
+      <p>
+        The world is not divided by the lines drawn on maps.<br>
+        It is illuminated by the <em>light</em> of its cities.
+      </p>
+      <p style="margin-top:1.5rem;">
+        Every <em>beacon</em> is a center of gravity —<br>
+        pulling talent, ideas, and purpose toward it.
+      </p>
+      <p style="margin-top:1.5rem;">
+        We recognize <span class="highlight">53</span> beacons across <span class="highlight">9</span> zones.<br>
+        Not nations. Not flags. <em>Beacons</em>.
+      </p>
+      <p style="margin-top:1.5rem;">
+        Wherever you stand, you are within reach of one.<br>
+        Find your beacon. <em>Join the gathering.</em>
+      </p>
+    </div>
+    <div class="manifesto-verse">
+      &#8212; Oasis Company · 2026
+    </div>
+  </div>
+</section>
+
+<!-- Search -->
+<div class="search-section">
+  <div class="search-bar">
+    <input type="text" class="search-input" id="searchInput" placeholder="Search by city name, zone, or region..." autocomplete="off">
+    <button class="search-clear" id="searchClear">&times;</button>
+    <button class="search-btn" id="searchBtn">Search</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-number" id="statTotal">53</span>
+      <span class="stat-label">Total Beacons</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="statZones">9</span>
+      <span class="stat-label">Zones</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="statVisible">53</span>
+      <span class="stat-label">Visible</span>
+    </div>
+  </div>
+
+  <div class="zone-filters" id="zoneFilters"></div>
+</div>
+
+<!-- Interactive Map -->
+<section class="map-section">
+  <div class="map-header">
+    <h2>World Map</h2>
+    <p>Each beacon marks a city that radiates influence across its zone. Explore the map to find your gathering point.</p>
+  </div>
+  <div id="gatheringMap"></div>
+  <div class="map-legend" id="mapLegend"></div>
+</section>
+
+<!-- City Cards -->
+<section class="cards-section" id="cards">
+  <div id="cardsContent"></div>
+  <div class="no-results" id="noResults">
+    <p>No beacons found</p>
+    <p class="hint">Try a different search term</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Join the Gathering</h2>
+  <p>Find your beacon. Become part of something larger than borders.</p>
+  <a href="/apply" class="cta-btn">Apply Now →</a>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p class="footer-text">
+    Part of the <a href="https://oasiscompany.org" class="footer-link">Oasis Company</a> ecosystem.
+    Made by <a href="https://ceaserzhao.com" class="footer-link">CeaserZhao</a> ·
+    <a href="https://ceo.oasiscompany.org" class="footer-link">ceo.oasiscompany.org</a>
+  </p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ==========================================
+// DATA: 53 Beacons · 9 Zones
+// ==========================================
+const ZONES = [
+  { id: 1, name: 'East Asia', color: '#e60000' },
+  { id: 2, name: 'South Asia', color: '#d40045' },
+  { id: 3, name: 'Southeast Asia', color: '#c2006a' },
+  { id: 4, name: 'Central Asia & Middle East', color: '#a0008a' },
+  { id: 5, name: 'Europe', color: '#7000a0' },
+  { id: 6, name: 'Africa', color: '#4000a0' },
+  { id: 7, name: 'North America', color: '#0050a0' },
+  { id: 8, name: 'Latin America', color: '#008070' },
+  { id: 9, name: 'Oceania', color: '#008840' },
+];
+
+const BEACONS = [
+  // Zone 1: East Asia
+  { id: 1, name: 'Chengdu', coords: [30.5728, 104.0668], zone: 1, range: 'Southwest China · Tibet · Sichuan Basin', beacon: true },
+  { id: 2, name: 'Shanghai', coords: [31.2304, 121.4737], zone: 1, range: 'East China · Yangtze River Delta', beacon: false },
+  { id: 3, name: 'Beijing', coords: [39.9042, 116.4074], zone: 1, range: 'North China · Manchuria · Mongolia', beacon: false },
+  { id: 4, name: 'Tokyo', coords: [35.6762, 139.6503], zone: 1, range: 'Japanese Archipelago', beacon: false },
+  { id: 5, name: 'Seoul', coords: [37.5665, 126.9780], zone: 1, range: 'Korean Peninsula', beacon: false },
+  { id: 6, name: 'Hong Kong', coords: [22.3193, 114.1694], zone: 1, range: 'South China · Greater Bay Area', beacon: false },
+  { id: 7, name: 'Taipei', coords: [25.0330, 121.5654], zone: 1, range: 'Taiwan · Pacific Islands', beacon: false },
+  // Zone 2: South Asia
+  { id: 8, name: 'Hyderabad', coords: [17.3850, 78.4867], zone: 2, range: 'South India · Deccan Plateau', beacon: true },
+  { id: 9, name: 'Dhaka', coords: [23.8103, 90.4125], zone: 2, range: 'Bangladesh · Northeast India · Myanmar', beacon: true },
+  { id: 10, name: 'Mumbai', coords: [19.0760, 72.8777], zone: 2, range: 'West India · Arabian Sea Coast', beacon: false },
+  { id: 11, name: 'New Delhi', coords: [28.6139, 77.2090], zone: 2, range: 'North India · Ganges Plain', beacon: false },
+  { id: 12, name: 'Kolkata', coords: [22.5726, 88.3639], zone: 2, range: 'East India · Ganges Delta', beacon: false },
+  { id: 13, name: 'Karachi', coords: [24.8607, 67.0011], zone: 2, range: 'Pakistan · Balochistan', beacon: false },
+  { id: 14, name: 'Colombo', coords: [6.9271, 79.8612], zone: 2, range: 'Sri Lanka · Indian Ocean', beacon: false },
+  // Zone 3: Southeast Asia
+  { id: 15, name: 'Singapore', coords: [1.3521, 103.8198], zone: 3, range: 'Malacca Strait · Malay Peninsula', beacon: false },
+  { id: 16, name: 'Jakarta', coords: [-6.2088, 106.8456], zone: 3, range: 'Indonesian Archipelago', beacon: false },
+  { id: 17, name: 'Bangkok', coords: [13.7563, 100.5018], zone: 3, range: 'Thailand · Mekong Region', beacon: false },
+  { id: 18, name: 'Manila', coords: [14.5995, 120.9842], zone: 3, range: 'Philippine Archipelago', beacon: false },
+  { id: 19, name: 'Ho Chi Minh City', coords: [10.8231, 106.6297], zone: 3, range: 'Vietnam · Cambodia', beacon: false },
+  { id: 20, name: 'Kuala Lumpur', coords: [3.1390, 101.6869], zone: 3, range: 'Malaysia · Borneo', beacon: false },
+  { id: 21, name: 'Yangon', coords: [16.8661, 96.1951], zone: 3, range: 'Myanmar · Andaman Coast', beacon: false },
+  // Zone 4: Central Asia & Middle East
+  { id: 22, name: 'Almaty', coords: [43.2220, 76.8512], zone: 4, range: 'Kazakhstan · Central Asian Steppe', beacon: true },
+  { id: 23, name: 'Dubai', coords: [25.2048, 55.2708], zone: 4, range: 'Gulf States · Arabian Peninsula', beacon: false },
+  { id: 24, name: 'Istanbul', coords: [41.0082, 28.9784], zone: 4, range: 'Eurasia · Balkans · Anatolia', beacon: false },
+  { id: 25, name: 'Tashkent', coords: [41.2995, 69.2401], zone: 4, range: 'Central Asia · Silk Road', beacon: false },
+  { id: 26, name: 'Riyadh', coords: [24.7136, 46.6753], zone: 4, range: 'Arabian Peninsula · Red Sea', beacon: false },
+  { id: 27, name: 'Tehran', coords: [35.6892, 51.3890], zone: 4, range: 'Iran · Persia', beacon: false },
+  { id: 28, name: 'Tel Aviv', coords: [32.0853, 34.7818], zone: 4, range: 'Levant · Eastern Mediterranean', beacon: false },
+  // Zone 5: Europe
+  { id: 29, name: 'London', coords: [51.5074, -0.1278], zone: 5, range: 'Western Europe · British Isles', beacon: false },
+  { id: 30, name: 'Berlin', coords: [52.5200, 13.4050], zone: 5, range: 'Central Europe · Germanosphere', beacon: false },
+  { id: 31, name: 'Paris', coords: [48.8566, 2.3522], zone: 5, range: 'Western Europe · Francosphere', beacon: false },
+  { id: 32, name: 'Moscow', coords: [55.7558, 37.6173], zone: 5, range: 'Eastern Europe · Russia', beacon: false },
+  { id: 33, name: 'Rome', coords: [41.9028, 12.4964], zone: 5, range: 'Southern Europe · Mediterranean', beacon: false },
+  { id: 34, name: 'Stockholm', coords: [59.3293, 18.0686], zone: 5, range: 'Nordic · Baltic Sea', beacon: false },
+  { id: 35, name: 'Warsaw', coords: [52.2297, 21.0122], zone: 5, range: 'East-Central Europe · Visegrad', beacon: false },
+  { id: 36, name: 'Bratislava', coords: [48.1486, 17.1077], zone: 5, range: 'Central Europe · Danube Basin', beacon: true },
+  // Zone 6: Africa
+  { id: 37, name: 'Lagos', coords: [6.5244, 3.3792], zone: 6, range: 'West Africa · Gulf of Guinea', beacon: false },
+  { id: 38, name: 'Nairobi', coords: [-1.2921, 36.8219], zone: 6, range: 'East Africa · Great Lakes', beacon: false },
+  { id: 39, name: 'Johannesburg', coords: [-26.2041, 28.0473], zone: 6, range: 'Southern Africa', beacon: false },
+  { id: 40, name: 'Cairo', coords: [30.0444, 31.2357], zone: 6, range: 'North Africa · Nile Valley', beacon: false },
+  { id: 41, name: 'Casablanca', coords: [33.5731, -7.5898], zone: 6, range: 'Northwest Africa · Maghreb', beacon: false },
+  { id: 42, name: 'Addis Ababa', coords: [9.0320, 38.7469], zone: 6, range: 'East Africa · Ethiopian Highlands', beacon: false },
+  { id: 43, name: 'Kinshasa', coords: [-4.4419, 15.2663], zone: 6, range: 'Central Africa · Congo Basin', beacon: false },
+  // Zone 7: North America
+  { id: 44, name: 'New York', coords: [40.7128, -74.0060], zone: 7, range: 'US East Coast · North America', beacon: false },
+  { id: 45, name: 'Boston', coords: [42.3601, -71.0589], zone: 7, range: 'US Northeast · New England', beacon: true },
+  { id: 46, name: 'San Francisco', coords: [37.7749, -122.4194], zone: 7, range: 'US West Coast · Technology Frontier', beacon: false },
+  { id: 47, name: 'Mexico City', coords: [19.4326, -99.1332], zone: 7, range: 'Mexico · Central America', beacon: false },
+  { id: 48, name: 'Toronto', coords: [43.6532, -79.3832], zone: 7, range: 'Canada · Great Lakes', beacon: false },
+  // Zone 8: Latin America
+  { id: 49, name: 'São Paulo', coords: [-23.5505, -46.6333], zone: 8, range: 'Brazil · Eastern South America', beacon: false },
+  { id: 50, name: 'Buenos Aires', coords: [-34.6037, -58.3816], zone: 8, range: 'Southern Cone · Argentina', beacon: false },
+  { id: 51, name: 'Bogotá', coords: [4.7110, -74.0721], zone: 8, range: 'Andes · Colombia', beacon: false },
+  { id: 52, name: 'Lima', coords: [-12.0464, -77.0428], zone: 8, range: 'Peru · Pacific Coast', beacon: false },
+  // Zone 9: Oceania
+  { id: 53, name: 'Sydney', coords: [-33.8688, 151.2093], zone: 9, range: 'Australia · Oceania', beacon: false },
+];
+
+// Zone polygon coordinates (approximate bounding regions)
+const ZONE_POLYGONS = {
+  1: [[55,75],[55,145],[18,145],[18,100],[20,75]],
+  2: [[37,65],[37,92],[5,92],[5,65]],
+  3: [[25,92],[25,130],[-12,130],[-12,92]],
+  4: [[52,22],[52,82],[10,82],[10,22]],
+  5: [[72,-12],[72,42],[34,42],[34,-12]],
+  6: [[37,-20],[37,52],[-36,52],[-36,-20]],
+  7: [[52,-130],[52,-55],[14,-55],[14,-130]],
+  8: [[14,-85],[14,-30],[-56,-30],[-56,-85]],
+  9: [[-8,108],[-8,-155],[-45,-155],[-45,108]],
+};
+
+// ==========================================
+// MAP
+// ==========================================
+let map, markers = [], zonePolygons = [];
+let activePopup = null;
+let activeMarkerId = null;
+
+function initMap() {
+  map = L.map('gatheringMap', {
+    center: [20, 30],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 6,
+    worldCopyJump: true,
+    zoomControl: true,
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 18,
+  }).addTo(map);
+
+  // Draw zone polygons
+  ZONES.forEach(zone => {
+    const coords = ZONE_POLYGONS[zone.id];
+    if (!coords) return;
+    const latlngs = coords.map(c => [c[0], c[1]]);
+    const polygon = L.polygon(latlngs, {
+      color: zone.color,
+      weight: 2,
+      opacity: 0.6,
+      fillColor: zone.color,
+      fillOpacity: 0.08,
+    }).addTo(map);
+
+    polygon.on('mouseover', () => {
+      polygon.setStyle({ fillOpacity: 0.15, weight: 3, opacity: 0.8 });
+    });
+    polygon.on('mouseout', () => {
+      polygon.setStyle({ fillOpacity: 0.08, weight: 2, opacity: 0.6 });
+    });
+    polygon.on('click', () => {
+      scrollToZone(zone.id);
+    });
+
+    zonePolygons.push(polygon);
+  });
+
+  // Add city markers
+  BEACONS.forEach(city => {
+    const zone = ZONES.find(z => z.id === city.zone);
+    const isPrimary = city.beacon;
+    const isSecondary = [1,2,4].includes(city.id) || city.id === 8 || city.id === 11 || city.id === 15 || city.id === 16 || city.id === 23 || city.id === 24 || city.id === 29 || city.id === 30 || city.id === 31 || city.id === 32 || city.id === 37 || city.id === 38 || city.id === 40 || city.id === 44 || city.id === 46 || city.id === 49;
+
+    let size = isPrimary ? 32 : isSecondary ? 28 : 24;
+    let borderColor = isPrimary ? '#e60000' : zone.color;
+    let dotColor = isPrimary ? '#e60000' : zone.color;
+    let bgColor = isPrimary ? '#fff' : '#fff';
+    let cssClass = isPrimary ? 'beacon-pulse beacon-primary' : isSecondary ? 'beacon-pulse beacon-secondary' : 'beacon-pulse';
+
+    const icon = L.divIcon({
+      className: 'beacon-marker',
+      html: `<div class="${cssClass}" style="width:${size}px;height:${size}px;border-color:${borderColor};"><div style="width:${size*0.35}px;height:${size*0.35}px;background:${dotColor};"></div></div>`,
+      iconSize: [size + 8, size + 8],
+      iconAnchor: [(size + 8) / 2, (size + 8) / 2],
+    });
+
+    const marker = L.marker(city.coords, { icon }).addTo(map);
+
+    marker.on('click', () => {
+      highlightCard(city.id);
+    });
+
+    marker.on('mouseover', () => {
+      if (activeMarkerId !== city.id) {
+        marker.setZIndexOffset(1000);
+      }
+    });
+    marker.on('mouseout', () => {
+      if (activeMarkerId !== city.id) {
+        marker.setZIndexOffset(0);
+      }
+    });
+
+    marker._cityId = city.id;
+    markers.push(marker);
+  });
+}
+
+function flyToCity(cityId) {
+  const city = BEACONS.find(c => c.id === cityId);
+  if (!city || !map) return;
+  map.flyTo(city.coords, 5, { duration: 1.2 });
+  highlightMarker(cityId);
+}
+
+function highlightMarker(cityId) {
+  markers.forEach(m => {
+    const el = m.getElement();
+    if (el) {
+      const pulse = el.querySelector('.beacon-pulse');
+      if (pulse) {
+        if (m._cityId === cityId) {
+          pulse.style.boxShadow = '0 0 0 4px rgba(0,0,0,0.15)';
+          m.setZIndexOffset(1000);
+          activeMarkerId = cityId;
+        } else {
+          pulse.style.boxShadow = '';
+          m.setZIndexOffset(0);
+        }
+      }
+    }
+  });
+}
+
+function resetMarkerHighlights() {
+  markers.forEach(m => {
+    const el = m.getElement();
+    if (el) {
+      const pulse = el.querySelector('.beacon-pulse');
+      if (pulse) pulse.style.boxShadow = '';
+      m.setZIndexOffset(0);
+    }
+  });
+  activeMarkerId = null;
+}
+
+// ==========================================
+// RENDER CARDS
+// ==========================================
+function renderCards(filter = '', zoneFilter = null) {
+  const container = document.getElementById('cardsContent');
+  const noResults = document.getElementById('noResults');
+  const q = filter.trim().toLowerCase();
+
+  let totalVisible = 0;
+  let html = '';
+
+  ZONES.forEach(zone => {
+    const cities = BEACONS.filter(c => c.zone === zone.id);
+
+    const filtered = q || zoneFilter
+      ? cities.filter(c => {
+          const matchSearch = !q ||
+            c.name.toLowerCase().includes(q) ||
+            c.range.toLowerCase().includes(q) ||
+            zone.name.toLowerCase().includes(q) ||
+            `zone ${zone.id}`.includes(q);
+
+          const matchZone = !zoneFilter || zone.id === zoneFilter;
+          return matchSearch && matchZone;
+        })
+      : cities;
+
+    if (filtered.length === 0) return;
+
+    totalVisible += filtered.length;
+
+    html += `
+      <div class="zone-block" data-zone="${zone.id}" id="zone-${zone.id}">
+        <div class="zone-header">
+          <span class="zone-number">Zone ${zone.id}</span>
+          <span class="zone-name" style="color:${zone.color}">${zone.name}</span>
+          <span class="zone-tag">${filtered.length} beacon${filtered.length !== 1 ? 's' : ''}</span>
+        </div>
+        <div class="city-grid">
+          ${filtered.map((c, i) => `
+            <div class="city-card" data-city-id="${c.id}" data-zone="${c.zone}" style="transition-delay:${i * 0.04}s" onclick="flyToCity(${c.id})">
+              <div class="city-card-header">
+                <span class="city-number">${String(c.id).padStart(2, '0')}</span>
+                <span class="city-name">${c.name}</span>
+                ${c.beacon ? '<span class="city-beacon">★ Beacon</span>' : ''}
+              </div>
+              <p class="city-range">${c.range}</p>
+              <span class="city-zone-tag" style="border-color:${zone.color};color:${zone.color}">Zone ${c.zone}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+
+  document.getElementById('statTotal').textContent = BEACONS.length;
+  document.getElementById('statZones').textContent = ZONES.length;
+  document.getElementById('statVisible').textContent = totalVisible;
+
+  if (totalVisible === 0 && (q || zoneFilter)) {
+    noResults.classList.add('visible');
+  } else {
+    noResults.classList.remove('visible');
+  }
+
+  // Animate cards
+  setTimeout(() => {
+    document.querySelectorAll('.city-card').forEach((el, i) => {
+      setTimeout(() => el.classList.add('revealed'), i * 30);
+    });
+  }, 150);
+}
+
+function highlightCard(cityId) {
+  document.querySelectorAll('.city-card').forEach(el => {
+    el.classList.remove('highlight');
+    if (parseInt(el.dataset.cityId) === cityId) {
+      el.classList.add('highlight');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+}
+
+function scrollToZone(zoneId) {
+  const el = document.getElementById(`zone-${zoneId}`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ==========================================
+// ZONE FILTERS
+// ==========================================
+function renderZoneFilters() {
+  const container = document.getElementById('zoneFilters');
+  let html = '<button class="zone-filter-btn active" data-zone="all">All Zones</button>';
+  ZONES.forEach(zone => {
+    html += `<button class="zone-filter-btn" data-zone="${zone.id}" style="border-color:${zone.color};color:${zone.color}">Zone ${zone.id}: ${zone.name}</button>`;
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.zone-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const zone = btn.dataset.zone === 'all' ? null : parseInt(btn.dataset.zone);
+      renderCards(document.getElementById('searchInput').value, zone);
+    });
+  });
+}
+
+// ==========================================
+// MAP LEGEND
+// ==========================================
+function renderLegend() {
+  const container = document.getElementById('mapLegend');
+  let html = '';
+  ZONES.forEach(zone => {
+    html += `
+      <div class="legend-item active" data-zone="${zone.id}">
+        <span class="legend-dot" style="background:${zone.color}"></span>
+        Zone ${zone.id}
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.legend-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const zoneId = parseInt(item.dataset.zone);
+      const isActive = item.classList.toggle('active');
+      zonePolygons.forEach((p, i) => {
+        if (i + 1 === zoneId) {
+          if (isActive) {
+            map.addLayer(p);
+          } else {
+            map.removeLayer(p);
+          }
+        }
+      });
+    });
+  });
+}
+
+// ==========================================
+// SEARCH
+// ==========================================
+function doSearch() {
+  const input = document.getElementById('searchInput');
+  const clear = document.getElementById('searchClear');
+  const val = input.value;
+
+  if (val.trim()) {
+    clear.classList.add('visible');
+  } else {
+    clear.classList.remove('visible');
+  }
+
+  // Reset zone filter
+  document.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-zone="all"]').classList.add('active');
+
+  renderCards(val, null);
+}
+
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  document.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-zone="all"]').classList.add('active');
+  renderCards('', null);
+}
+
+// ==========================================
+// INIT
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+  renderCards();
+  renderZoneFilters();
+  renderLegend();
+
+  // Search events
+  document.getElementById('searchBtn').addEventListener('click', doSearch);
+  document.getElementById('searchClear').addEventListener('click', clearSearch);
+  document.getElementById('searchInput').addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') doSearch();
+  });
+  document.getElementById('searchInput').addEventListener('input', doSearch);
+});
+</script>
+</body>
+</html>

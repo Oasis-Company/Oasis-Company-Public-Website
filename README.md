@@ -14,6 +14,8 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/apply/api/*` | Pages Functions API | Auto-routed to `functions/apply/api/` |
 | `oasiscompany.org/list` | `list.html` — Oasis Directory | `functions/list.js` (Pages Function) |
 | `oasiscompany.org/list/` | `list.html` | `functions/list.js` (Pages Function) |
+| `oasiscompany.org/rally` | `rally.html` — The Gathering | `functions/rally.js` (Pages Function) |
+| `oasiscompany.org/rally/` | `rally.html` | `functions/rally.js` (Pages Function) |
 
 ## Sub-projects
 
@@ -22,6 +24,7 @@ Let's build the Oasisverse from here.
   - Cloudflare Pages: `oasis-apply` (KV + Functions)
   - Custom domain: `oasiscompany.org`
 - **Oasis Directory** — [`/list`](/list) — Complete map of the Oasisverse
+- **The Gathering** — [`/rally`](/rally) — 53 beacons across 9 zones
 
 ---
 
