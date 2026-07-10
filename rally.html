@@ -3,41 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Gathering — Oasis</title>
-<meta name="description" content="The Gathering — 53 beacons across 9 zones. We do not divide by borders. We gather around beacons.">
+<title>The Gathering — Oasis Company</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
-/* ============================================
-   SWISS DESIGN SYSTEM — The Gathering
-   ============================================ */
+/* ============================
+   SWISS DESIGN VARIABLES
+   ============================ */
 :root {
   --black: #000000;
   --white: #ffffff;
   --gray-100: #f5f5f5;
-  --gray-200: #e5e5e5;
+  --gray-200: #e8e8e8;
   --gray-300: #cccccc;
   --gray-400: #999999;
   --gray-500: #666666;
-  --gray-600: #333333;
-  --gray-700: #1a1a1a;
+  --gray-600: #444444;
+  --gray-700: #333333;
+  --gray-800: #222222;
+  --gray-900: #111111;
   --red: #e60000;
+  --red-hover: #cc0000;
   --font-display: 'Archivo Black', sans-serif;
   --font-body: 'DM Sans', sans-serif;
-
-  --zone-1: #e60000;
-  --zone-2: #d40045;
-  --zone-3: #c2006a;
-  --zone-4: #a0008a;
-  --zone-5: #7000a0;
-  --zone-6: #4000a0;
-  --zone-7: #0050a0;
-  --zone-8: #008070;
-  --zone-9: #008840;
+  --nav-height: 56px;
+  --max-width: 1200px;
+  --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* ============================
+   RESET & BASE
+   ============================ */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -45,473 +43,867 @@
 }
 
 html {
-  font-size: 16px;
   scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font-body);
-  background: var(--white);
-  color: var(--black);
-  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, .display {
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--black);
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ============================
+   TYPOGRAPHY
+   ============================ */
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
   font-family: var(--font-display);
   font-weight: 400;
   line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  font-size: clamp(3rem, 12vw, 10rem);
-  letter-spacing: -0.03em;
-}
-
-h2 {
-  font-size: clamp(2rem, 6vw, 5rem);
-  letter-spacing: -0.02em;
-}
-
-h3 {
-  font-size: clamp(1.25rem, 3vw, 2rem);
-}
-
-/* Navigation */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: var(--white);
-  border-bottom: 1px solid var(--gray-200);
-  padding: 0 2rem;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-logo {
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--black);
   letter-spacing: 0.02em;
 }
 
-.nav-logo:hover {
+h1, .h1 { font-size: clamp(2.5rem, 8vw, 6rem); }
+h2, .h2 { font-size: clamp(1.8rem, 5vw, 3.5rem); }
+h3, .h3 { font-size: clamp(1.3rem, 3vw, 2rem); }
+h4, .h4 { font-size: clamp(1rem, 2vw, 1.4rem); }
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 0.75rem;
+}
+
+/* ============================
+   NAV BAR
+   ============================ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 1000;
+  transition: box-shadow var(--transition);
+}
+
+nav.scrolled {
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.nav-brand span {
   color: var(--red);
 }
 
 .nav-links {
   display: flex;
-  gap: 1.5rem;
-  list-style: none;
+  align-items: center;
+  gap: 24px;
 }
 
-.nav-link {
-  font-size: 0.8125rem;
-  text-decoration: none;
-  color: var(--gray-500);
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  transition: color 0.2s;
+  letter-spacing: 0.12em;
+  color: var(--gray-500);
+  transition: color var(--transition);
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-links a:hover {
   color: var(--black);
 }
 
-/* Hero */
+/* ============================
+   HERO SECTION
+   ============================ */
 .hero {
   min-height: 80vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 8rem 2rem 4rem;
+  padding: calc(var(--nav-height) + 48px) 24px 48px;
   position: relative;
-  overflow: hidden;
+  background: var(--white);
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(230,0,0,0.03) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+.hero-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s ease-out both;
 }
 
 .hero h1 {
   margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s ease-out 0.15s both;
+}
+
+.hero h1 .line {
+  display: block;
+}
+
+.hero h1 .highlight {
+  color: var(--red);
   position: relative;
 }
 
-.hero h1 .zh {
-  display: block;
-  font-size: 0.35em;
-  letter-spacing: 0.3em;
-  color: var(--gray-400);
-  margin-bottom: 0.5rem;
+.hero h1 .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--red);
+  opacity: 0.3;
 }
 
-.hero .tagline {
-  font-size: clamp(1rem, 2vw, 1.375rem);
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.3rem);
   color: var(--gray-500);
   max-width: 640px;
-  line-height: 1.6;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInUp 0.8s ease-out 0.45s both;
+}
+
+/* ============================
+   BUTTONS
+   ============================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
   position: relative;
 }
 
-.hero .tagline-em {
-  font-family: var(--font-display);
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--red);
+}
+
+.btn-outline {
+  background: transparent;
   color: var(--black);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  border: 2px solid var(--black);
 }
 
-.hero-meta {
-  margin-top: 2.5rem;
-  font-size: 0.8125rem;
-  color: var(--gray-400);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  position: relative;
+.btn-outline:hover {
+  background: var(--black);
+  color: var(--white);
 }
 
-.hero-meta span {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border: 1px solid var(--gray-200);
-  margin: 0 0.25rem;
+.btn-red {
+  background: var(--red);
+  color: var(--white);
 }
 
-.hero-meta .num {
-  font-family: var(--font-display);
-  color: var(--black);
-  font-size: 1.125rem;
+.btn-red:hover {
+  background: var(--red-hover);
 }
 
-/* Manifesto */
+.btn-small {
+  padding: 8px 18px;
+  font-size: 0.65rem;
+}
+
+/* ============================
+   MANIFESTO
+   ============================ */
 .manifesto {
   background: var(--black);
   color: var(--white);
-  padding: 6rem 2rem;
+  padding: 96px 24px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.manifesto::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--red), transparent);
-}
-
-.manifesto::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--red), transparent);
 }
 
 .manifesto-inner {
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.manifesto-symbol {
-  font-size: 3rem;
-  color: var(--red);
+.manifesto h2 {
   margin-bottom: 2rem;
-  font-family: var(--font-display);
-  line-height: 1;
-  opacity: 0.6;
 }
 
-.manifesto-text {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  line-height: 2;
-  color: var(--gray-300);
-  letter-spacing: 0.02em;
-}
-
-.manifesto-text em {
-  font-style: normal;
-  color: var(--white);
-  font-family: var(--font-display);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.85em;
-}
-
-.manifesto-text .highlight {
+.manifesto h2 .highlight {
   color: var(--red);
 }
 
-.manifesto-verse {
-  margin-top: 2.5rem;
-  font-size: 0.8125rem;
-  color: var(--gray-500);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  font-family: var(--font-display);
+.manifesto p {
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  color: var(--gray-400);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
 }
 
-/* Map Section */
-.map-section {
-  padding: 4rem 0 0;
-  max-width: 1400px;
-  margin: 0 auto;
+.manifesto p:last-child {
+  margin-bottom: 0;
 }
 
-.map-header {
-  padding: 0 2rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.manifesto .emphasis {
+  color: var(--white);
+  font-weight: 600;
 }
 
-.map-header h2 {
-  margin-bottom: 0.5rem;
-}
-
-.map-header p {
-  color: var(--gray-500);
-  font-size: 0.9375rem;
-  max-width: 560px;
-}
-
-#gatheringMap {
-  width: 100%;
-  height: 600px;
-  background: var(--gray-100);
-  border-top: 1px solid var(--gray-200);
-  border-bottom: 1px solid var(--gray-200);
-  z-index: 1;
-}
-
-/* Map Legend */
-.map-legend {
+/* ============================
+   STATS BAR
+   ============================ */
+.stats-bar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
   justify-content: center;
+  gap: 48px;
+  padding: 48px 24px;
+  background: var(--gray-100);
+  flex-wrap: wrap;
 }
 
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.625rem;
-  border: 1px solid var(--gray-200);
-  cursor: pointer;
-  transition: all 0.2s;
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
   font-family: var(--font-display);
-  user-select: none;
+  font-size: 2.5rem;
+  color: var(--black);
+  line-height: 1;
 }
 
-.legend-item:hover {
-  border-color: var(--gray-400);
+.stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gray-400);
+  margin-top: 6px;
 }
 
-.legend-item.active {
+/* ============================
+   SEARCH BAR
+   ============================ */
+.search-section {
+  padding: 32px 24px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.search-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  min-width: 220px;
+  position: relative;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: 2px solid var(--gray-200);
+  outline: none;
+  transition: border-color var(--transition);
+  background: var(--white);
+}
+
+.search-input-wrapper input:focus {
   border-color: var(--black);
 }
 
-.legend-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.search-input-wrapper input::placeholder {
+  color: var(--gray-400);
 }
 
-/* Cards Section */
+/* ============================
+   ZONE FILTERS
+   ============================ */
+.zone-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.zone-filter-btn {
+  padding: 5px 12px;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--gray-300);
+  background: var(--white);
+  cursor: pointer;
+  transition: all var(--transition);
+  color: var(--gray-500);
+}
+
+.zone-filter-btn:hover {
+  border-color: var(--black);
+  color: var(--black);
+}
+
+.zone-filter-btn.active {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+
+/* ============================
+   MAP SECTION
+   ============================ */
+.map-section {
+  width: 100%;
+  position: relative;
+}
+
+#map {
+  width: 100%;
+  height: 600px;
+  background: var(--gray-100);
+}
+
+.map-overlay-label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 500;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.9);
+  padding: 8px 16px;
+  pointer-events: none;
+}
+
+/* ============================
+   CITY CARDS GRID
+   ============================ */
 .cards-section {
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  padding: 64px 24px;
+  background: var(--white);
+}
+
+.cards-header {
+  max-width: var(--max-width);
+  margin: 0 auto 2rem;
+}
+
+.cards-header h2 {
+  margin-bottom: 0.5rem;
+}
+
+.cards-header p {
+  color: var(--gray-500);
+  font-size: 0.95rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
-/* Zone Block */
-.zone-block {
-  margin-bottom: 3rem;
-  scroll-margin-top: 80px;
-}
-
-.zone-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--black);
-}
-
-.zone-number {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  color: var(--gray-400);
-  text-transform: uppercase;
-  margin-right: 0.5rem;
-}
-
-.zone-name {
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.zone-tag {
-  margin-left: auto;
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.125rem 0.5rem;
-  font-family: var(--font-display);
-  color: var(--gray-500);
-  border: 1px solid var(--gray-200);
-}
-
-/* City Cards Grid */
-.city-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--gray-200);
-  border: 1px solid var(--gray-200);
-}
-
 @media (min-width: 640px) {
-  .city-grid {
-    grid-template-columns: 1fr 1fr;
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .city-grid {
-    grid-template-columns: 1fr 1fr 1fr;
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 .city-card {
-  background: var(--white);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  border: 1px solid var(--gray-200);
+  padding: 20px;
+  transition: all var(--transition);
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
   position: relative;
-  opacity: 0;
-  transform: translateY(12px);
-}
-
-.city-card.revealed {
-  animation: fadeInUp 0.4s ease forwards;
+  background: var(--white);
 }
 
 .city-card:hover {
-  background: var(--gray-100);
+  border-color: var(--black);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 
-.city-card.highlight {
-  background: var(--gray-100);
-  box-shadow: inset 0 0 0 2px var(--black);
+.city-card.hidden {
+  display: none;
 }
 
-.city-card-header {
+.city-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.city-card .city-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.city-card .city-zone {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gray-400);
+  white-space: nowrap;
+}
+
+.city-card .city-subzone {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gray-400);
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.city-card .card-mid {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.city-card .population-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: var(--gray-100);
+  padding: 2px 10px;
+  letter-spacing: 0.05em;
+}
+
+.city-card .card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ============================
+   SUBZONE SECTION HEADER
+   ============================ */
+.subzone-header {
+  grid-column: 1 / -1;
+  padding: 24px 0 8px;
+  border-bottom: 2px solid var(--black);
+  margin-bottom: 4px;
+}
+
+.subzone-header h3 {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.subzone-header .subzone-count {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 12px;
+}
+
+/* ============================
+   PREACH MODAL
+   ============================ */
+.preach-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 1999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+.preach-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.preach-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 90%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--white);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition);
+  padding: 40px;
+}
+
+.preach-overlay.active + .preach-modal,
+.preach-modal.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.preach-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--gray-100);
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--gray-500);
+  transition: all var(--transition);
 }
 
-.city-number {
-  font-family: var(--font-display);
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-  color: var(--gray-400);
-  padding: 0.125rem 0.375rem;
-  border: 1px solid var(--gray-200);
-  line-height: 1.4;
-  flex-shrink: 0;
-}
-
-.city-name {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-
-.city-name-zh {
-  font-size: 0.875rem;
-  color: var(--gray-400);
-  font-weight: 300;
-}
-
-.city-beacon {
-  display: inline-block;
-  font-size: 0.5625rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.125rem 0.375rem;
+.preach-modal-close:hover {
   background: var(--black);
   color: var(--white);
-  font-family: var(--font-display);
-  line-height: 1.4;
-  margin-left: auto;
 }
 
-.city-range {
-  font-size: 0.8125rem;
+.preach-modal h3 {
+  margin-bottom: 0.5rem;
+}
+
+.preach-modal .modal-sub {
+  font-size: 0.85rem;
   color: var(--gray-500);
-  line-height: 1.5;
+  margin-bottom: 1.5rem;
 }
 
-.city-zone-tag {
-  display: inline-block;
-  font-size: 0.5625rem;
-  letter-spacing: 0.1em;
+.preach-modal .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.preach-modal .form-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
   text-transform: uppercase;
-  padding: 0.125rem 0.5rem;
-  border: 1px solid var(--gray-200);
-  font-family: var(--font-display);
-  color: var(--gray-400);
-  align-self: flex-start;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+  color: var(--gray-600);
 }
 
+.preach-modal .form-group input,
+.preach-modal .form-group select,
+.preach-modal .form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: 2px solid var(--gray-200);
+  outline: none;
+  transition: border-color var(--transition);
+  background: var(--white);
+}
+
+.preach-modal .form-group input:focus,
+.preach-modal .form-group select:focus,
+.preach-modal .form-group textarea:focus {
+  border-color: var(--black);
+}
+
+.preach-modal .form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.preach-modal .form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.preach-modal .form-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+/* ============================
+   FOOTER
+   ============================ */
+footer {
+  background: var(--black);
+  color: var(--gray-400);
+  padding: 48px 24px;
+  text-align: center;
+}
+
+footer .footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  margin-bottom: 0.75rem;
+}
+
+footer .footer-brand span {
+  color: var(--red);
+}
+
+footer p {
+  font-size: 0.8rem;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* ============================
+   LEAFLET OVERRIDES
+   ============================ */
+.leaflet-container {
+  font-family: var(--font-body);
+  background: var(--gray-100);
+}
+
+.voronoi-polygon {
+  fill-opacity: 0.12;
+  stroke: var(--white);
+  stroke-width: 1.5;
+  transition: fill-opacity 0.3s, stroke 0.3s;
+}
+
+.voronoi-polygon:hover {
+  fill-opacity: 0.25;
+  stroke: var(--black);
+  stroke-width: 2.5;
+}
+
+.voronoi-tooltip {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-body);
+  font-size: 0.7rem !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 12px !important;
+}
+
+.voronoi-tooltip::before {
+  border-top-color: var(--black) !important;
+}
+
+/* ============================
+   HEATMAP CANVAS
+   ============================ */
+#heatmap-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 400;
+}
+
+/* ============================
+   CITY MARKERS
+   ============================ */
+.city-marker {
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.city-marker:hover {
+  opacity: 0.9;
+}
+
+/* ============================
+   LEGEND
+   ============================ */
+.map-legend {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  background: rgba(255,255,255,0.95);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--gray-200);
+  pointer-events: none;
+}
+
+.map-legend-label {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.map-legend-bar {
+  width: 160px;
+  height: 8px;
+  position: relative;
+}
+
+.map-legend-bar-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #fafafa, #e0e0e0, #b0b0b0, #707070, #2a2a2a);
+}
+
+.map-legend-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 160px;
+  font-size: 0.55rem;
+  color: var(--gray-500);
+  letter-spacing: 0.05em;
+}
+
+/* ============================
+   LEAFLET POPUP
+   ============================ */
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+  font-family: var(--font-body);
+  box-shadow: none;
+  border: 1px solid var(--black);
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+  font-size: 0.85rem;
+}
+
+.leaflet-popup-content strong {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.popup-preach-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.popup-preach-btn:hover {
+  background: var(--red);
+}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -519,857 +911,959 @@ h3 {
   }
 }
 
-/* Search Bar */
-.search-section {
-  padding: 0 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-.search-bar {
-  display: flex;
-  gap: 0;
-  border: 2px solid var(--black);
-  margin-bottom: 2rem;
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  padding: 1rem 1.25rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  outline: none;
-  background: var(--white);
-  color: var(--black);
-}
-
-.search-input::placeholder {
-  color: var(--gray-300);
-}
-
-.search-btn {
-  border: none;
-  border-left: 2px solid var(--black);
-  background: var(--black);
-  color: var(--white);
-  padding: 0 1.5rem;
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.search-btn:hover {
-  background: var(--gray-600);
-}
-
-.search-clear {
-  display: none;
-  border: none;
-  border-left: 2px solid var(--black);
-  background: var(--white);
-  color: var(--black);
-  padding: 0 1rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: background 0.2s;
-}
-
-.search-clear:hover {
-  background: var(--gray-100);
-}
-
-.search-clear.visible {
-  display: block;
-}
-
-/* Stats */
-.stats {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.stat-number {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  line-height: 1;
-  color: var(--black);
-}
-
-.stat-label {
-  font-size: 0.75rem;
-  color: var(--gray-400);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* Zone Filter */
-.zone-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-.zone-filter-btn {
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.375rem 0.75rem;
-  border: 1px solid var(--gray-200);
-  background: var(--white);
-  cursor: pointer;
-  font-family: var(--font-display);
-  transition: all 0.2s;
-  color: var(--gray-500);
-}
-
-.zone-filter-btn:hover {
-  border-color: var(--gray-400);
-  color: var(--black);
-}
-
-.zone-filter-btn.active {
-  border-color: var(--black);
-  background: var(--black);
-  color: var(--white);
-}
-
-/* No Results */
-.no-results {
-  display: none;
-  text-align: center;
-  padding: 4rem 2rem;
-  border: 1px solid var(--gray-200);
-}
-
-.no-results.visible {
-  display: block;
-}
-
-.no-results p {
-  font-size: 1.125rem;
-  color: var(--gray-400);
-  margin-bottom: 0.5rem;
-}
-
-.no-results .hint {
-  font-size: 0.8125rem;
-  color: var(--gray-300);
-}
-
-/* CTA */
-.cta-section {
-  background: var(--black);
-  color: var(--white);
-  padding: 5rem 2rem;
-  text-align: center;
-}
-
-.cta-section h2 {
-  margin-bottom: 1rem;
-}
-
-.cta-section p {
-  color: var(--gray-400);
-  font-size: 1.125rem;
-  margin-bottom: 2rem;
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.cta-btn {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: var(--white);
-  color: var(--black);
-  text-decoration: none;
-  font-family: var(--font-display);
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: all 0.2s;
-}
-
-.cta-btn:hover {
-  background: var(--red);
-  color: var(--white);
-}
-
-/* Footer */
-.footer {
-  border-top: 1px solid var(--gray-200);
-  padding: 2rem;
-  text-align: center;
-}
-
-.footer-text {
-  font-size: 0.75rem;
-  color: var(--gray-400);
-  letter-spacing: 0.05em;
-}
-
-.footer-link {
-  color: var(--gray-500);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.footer-link:hover {
-  color: var(--red);
-}
-
-/* Leaflet overrides */
-.beacon-marker {
-  background: none;
-  border: none;
-}
-
-.beacon-pulse {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 3px solid var(--black);
-  background: var(--white);
-  position: relative;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.beacon-pulse::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  background: var(--black);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.2s;
-}
-
-.beacon-pulse.beacon-primary {
-  width: 32px;
-  height: 32px;
-  border-color: var(--red);
-}
-
-.beacon-pulse.beacon-primary::after {
-  width: 12px;
-  height: 12px;
-  background: var(--red);
-}
-
-.beacon-pulse.beacon-secondary {
-  width: 28px;
-  height: 28px;
-}
-
-.beacon-pulse.beacon-secondary::after {
-  width: 10px;
-  height: 10px;
-}
-
-.leaflet-popup-content-wrapper {
-  border-radius: 0;
-  font-family: var(--font-body);
-  box-shadow: none;
-  border: 2px solid var(--black);
-}
-
-.leaflet-popup-content {
-  margin: 12px 16px;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.leaflet-popup-content strong {
-  font-family: var(--font-display);
-  text-transform: uppercase;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}
-
-.leaflet-popup-tip {
-  border: 2px solid var(--black) !important;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .nav {
-    padding: 0 1rem;
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 768px) {
+  .nav-links a {
+    font-size: 0.65rem;
   }
-  .hero, .cards-section, .search-section, .map-header {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  .hero {
-    min-height: 60vh;
-    padding-top: 6rem;
-  }
-  #gatheringMap {
-    height: 400px;
-  }
-  .stats {
-    gap: 1rem;
+  .stats-bar {
+    gap: 24px;
+    padding: 32px 16px;
   }
   .stat-number {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
-  .map-legend {
-    padding: 0.75rem 1rem;
-    gap: 0.375rem;
+  .preach-modal {
+    padding: 28px 20px;
+    width: 95%;
   }
-  .legend-item {
-    font-size: 0.5625rem;
-    padding: 0.125rem 0.375rem;
+  .hero {
+    min-height: 70vh;
+    padding-top: calc(var(--nav-height) + 32px);
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  .map-section #map {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 12px;
+  }
+  .nav-links a {
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+  }
+  .stats-bar {
+    gap: 16px;
+  }
+  .stat-number {
+    font-size: 1.4rem;
+  }
+  .city-card .card-top {
+    flex-wrap: wrap;
+    gap: 4px;
   }
 }
 </style>
 </head>
 <body>
 
-<!-- Navigation -->
-<nav class="nav">
-  <a href="/" class="nav-logo">Oasis</a>
-  <ul class="nav-links">
-    <li><a href="/apply" class="nav-link">Apply</a></li>
-    <li><a href="/list" class="nav-link">Directory</a></li>
-    <li><a href="/rally" class="nav-link active">Gathering</a></li>
-  </ul>
+<!-- ============================
+     NAV BAR
+     ============================ -->
+<nav id="navbar">
+  <div class="nav-brand">Oasis<span>Company</span></div>
+  <div class="nav-links">
+    <a href="#manifesto">Manifesto</a>
+    <a href="#map-section">Map</a>
+    <a href="#cities">Cities</a>
+    <a href="#" id="nav-preach">Preach</a>
+  </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero" id="top">
-  <h1>The Gathering</h1>
-  <p class="tagline">
-    We do not divide by <span class="tagline-em">borders</span>.<br>
-    We gather around <span class="tagline-em">beacons</span>.
+<!-- ============================
+     HERO
+     ============================ -->
+<section class="hero" id="hero">
+  <div class="hero-label">Gathering of the 119</div>
+  <h1>
+    <span class="line">The World Is</span>
+    <span class="line"><span class="highlight">Our Congregation</span></span>
+  </h1>
+  <p>
+    119 cities. 9 zones. One movement. From the densest megacities to the
+    farthest frontiers — the call has gone out. Will you answer?
   </p>
-  <div class="hero-meta">
-    <span><span class="num" id="heroTotal">53</span> Beacons</span>
-    <span><span class="num">9</span> Zones</span>
-    <span><span class="num">6</span> Continents</span>
+  <div class="hero-actions">
+    <button class="btn btn-primary" onclick="document.getElementById('map-section').scrollIntoView({behavior:'smooth'})">
+      See the Map
+    </button>
+    <button class="btn btn-outline" onclick="openPreachModal()">
+      I Want to Preach
+    </button>
   </div>
 </section>
 
-<!-- Manifesto -->
-<section class="manifesto">
+<!-- ============================
+     MANIFESTO
+     ============================ -->
+<section class="manifesto" id="manifesto">
   <div class="manifesto-inner">
-    <div class="manifesto-symbol">&#9670;</div>
-    <div class="manifesto-text">
-      <p>
-        The world is not divided by the lines drawn on maps.<br>
-        It is illuminated by the <em>light</em> of its cities.
-      </p>
-      <p style="margin-top:1.5rem;">
-        Every <em>beacon</em> is a center of gravity —<br>
-        pulling talent, ideas, and purpose toward it.
-      </p>
-      <p style="margin-top:1.5rem;">
-        We recognize <span class="highlight">53</span> beacons across <span class="highlight">9</span> zones.<br>
-        Not nations. Not flags. <em>Beacons</em>.
-      </p>
-      <p style="margin-top:1.5rem;">
-        Wherever you stand, you are within reach of one.<br>
-        Find your beacon. <em>Join the gathering.</em>
-      </p>
-    </div>
-    <div class="manifesto-verse">
-      &#8212; Oasis Company · 2026
-    </div>
+    <div class="section-label">Manifesto</div>
+    <h2>
+      A City Is Not a<br>
+      <span class="highlight">Building</span>
+    </h2>
+    <p>
+      A city is a gathering of souls. Every street, every district, every
+      neighborhood is a pulpit waiting for a voice. The Gathering is not an
+      event on a calendar — it is a permanent state of readiness.
+    </p>
+    <p>
+      We have mapped <span class="emphasis">119 cities</span> across
+      <span class="emphasis">9 zones</span>, each one a node in a global
+      network of conviction. Wherever there are people, there is a reason
+      to speak. Wherever there is a voice, there is a congregation.
+    </p>
+    <p>
+      The question is not whether the world is ready. The question is
+      whether <span class="emphasis">you</span> will step forward.
+    </p>
   </div>
 </section>
 
-<!-- Search -->
-<div class="search-section">
-  <div class="search-bar">
-    <input type="text" class="search-input" id="searchInput" placeholder="Search by city name, zone, or region..." autocomplete="off">
-    <button class="search-clear" id="searchClear">&times;</button>
-    <button class="search-btn" id="searchBtn">Search</button>
+<!-- ============================
+     STATS BAR
+     ============================ -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number" id="stat-cities">119</div>
+    <div class="stat-label">Cities</div>
   </div>
-
-  <div class="stats">
-    <div class="stat-item">
-      <span class="stat-number" id="statTotal">53</span>
-      <span class="stat-label">Total Beacons</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number" id="statZones">9</span>
-      <span class="stat-label">Zones</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number" id="statVisible">53</span>
-      <span class="stat-label">Visible</span>
-    </div>
+  <div class="stat-item">
+    <div class="stat-number" id="stat-zones">9</div>
+    <div class="stat-label">Zones</div>
   </div>
-
-  <div class="zone-filters" id="zoneFilters"></div>
+  <div class="stat-item">
+    <div class="stat-number" id="stat-population">1.07B</div>
+    <div class="stat-label">Population Reached</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" id="stat-preachers">0</div>
+    <div class="stat-label">Preachers</div>
+  </div>
 </div>
 
-<!-- Interactive Map -->
-<section class="map-section">
-  <div class="map-header">
-    <h2>World Map</h2>
-    <p>Each beacon marks a city that radiates influence across its zone. Explore the map to find your gathering point.</p>
-  </div>
-  <div id="gatheringMap"></div>
-  <div class="map-legend" id="mapLegend"></div>
-</section>
-
-<!-- City Cards -->
-<section class="cards-section" id="cards">
-  <div id="cardsContent"></div>
-  <div class="no-results" id="noResults">
-    <p>No beacons found</p>
-    <p class="hint">Try a different search term</p>
+<!-- ============================
+     SEARCH + FILTERS
+     ============================ -->
+<section class="search-section" id="search-section">
+  <div class="search-inner">
+    <div class="search-row">
+      <div class="search-input-wrapper">
+        <input type="text" id="search-input" placeholder="Search city..." oninput="doSearch()">
+      </div>
+      <button class="btn btn-small btn-outline" onclick="clearSearch()">Clear</button>
+    </div>
+    <div class="zone-filters" id="subzone-filters"></div>
   </div>
 </section>
-
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Join the Gathering</h2>
-  <p>Find your beacon. Become part of something larger than borders.</p>
-  <a href="/apply" class="cta-btn">Apply Now →</a>
+<!-- ============================
+     MAP SECTION
+     ============================ -->
+<section class="map-section" id="map-section">
+  <div id="map"></div>
+  <div class="map-overlay-label">119 Cities — 9 Zones</div>
 </section>
 
-<!-- Footer -->
-<footer class="footer">
-  <p class="footer-text">
-    Part of the <a href="https://oasiscompany.org" class="footer-link">Oasis Company</a> ecosystem.
-    Made by <a href="https://ceaserzhao.com" class="footer-link">CeaserZhao</a> ·
-    <a href="https://ceo.oasiscompany.org" class="footer-link">ceo.oasiscompany.org</a>
-  </p>
+<!-- ============================
+     CITY CARDS
+     ============================ -->
+<section class="cards-section" id="cities">
+  <div class="cards-header">
+    <div class="section-label">The Cities</div>
+    <h2>Every Node <span style="color:var(--red)">Matters</span></h2>
+    <p>Click any city to locate it on the map, or use the search to find your congregation.</p>
+  </div>
+  <div class="cards-grid" id="cards-grid"></div>
+</section>
+
+<!-- ============================
+     PREACH MODAL
+     ============================ -->
+<div class="preach-overlay" id="preach-overlay" onclick="closePreachModal()"></div>
+<div class="preach-modal" id="preach-modal">
+  <button class="preach-modal-close" onclick="closePreachModal()">&times;</button>
+  <h3>I Want to Preach</h3>
+  <p class="modal-sub">Register your commitment to preach in one of the 119 cities.</p>
+  <form id="preach-form" onsubmit="submitPreachForm(event)">
+    <div class="form-group">
+      <label for="preach-name">Your Name</label>
+      <input type="text" id="preach-name" required placeholder="Enter your name">
+    </div>
+    <div class="form-group">
+      <label for="preach-email">Email</label>
+      <input type="email" id="preach-email" required placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label for="preach-zone">Zone</label>
+      <select id="preach-zone" onchange="updatePreachCities()">
+        <option value="">Select a zone</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="preach-city">City</label>
+      <select id="preach-city" required>
+        <option value="">Select a city</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="preach-message">Message (optional)</label>
+      <textarea id="preach-message" placeholder="Share your vision for this city..."></textarea>
+    </div>
+    <div class="form-footer">
+      <button type="submit" class="btn btn-red">Send Commitment</button>
+      <button type="button" class="btn btn-outline" onclick="closePreachModal()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<!-- ============================
+     FOOTER
+     ============================ -->
+<footer>
+  <div class="footer-brand">Oasis<span>Company</span></div>
+  <p>The Gathering is a global initiative. Every city, every voice, every congregation. No borders. No boundaries. Only the call.</p>
 </footer>
 
+<!-- ============================
+     SCRIPTS
+     ============================ -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/d3-delaunay@6"></script>
 <script>
-// ==========================================
-// DATA: 53 Beacons · 9 Zones
-// ==========================================
+/* ============================
+   ZONES
+   ============================ */
 const ZONES = [
   { id: 1, name: 'East Asia', color: '#e60000' },
-  { id: 2, name: 'South Asia', color: '#d40045' },
-  { id: 3, name: 'Southeast Asia', color: '#c2006a' },
-  { id: 4, name: 'Central Asia & Middle East', color: '#a0008a' },
-  { id: 5, name: 'Europe', color: '#7000a0' },
-  { id: 6, name: 'Africa', color: '#4000a0' },
-  { id: 7, name: 'North America', color: '#0050a0' },
-  { id: 8, name: 'Latin America', color: '#008070' },
-  { id: 9, name: 'Oceania', color: '#008840' },
+  { id: 2, name: 'South Asia', color: '#e64500' },
+  { id: 3, name: 'Southeast Asia', color: '#e69100' },
+  { id: 4, name: 'Middle East & Central Asia', color: '#d4b800' },
+  { id: 5, name: 'Europe', color: '#4a8c00' },
+  { id: 6, name: 'Africa', color: '#008c8c' },
+  { id: 7, name: 'North America', color: '#0055cc' },
+  { id: 8, name: 'Latin America', color: '#6600cc' },
+  { id: 9, name: 'Oceania & Global', color: '#666666' }
 ];
 
+/* ============================
+   SUBZONES
+   ============================ */
+const SUBZONES = [
+  { id: '1a', zoneId: 1, name: 'China East' },
+  { id: '1b', zoneId: 1, name: 'China West' },
+  { id: '1c', zoneId: 1, name: 'Northeast Asia' },
+  { id: '2a', zoneId: 2, name: 'India North' },
+  { id: '2b', zoneId: 2, name: 'Pakistan & Bangladesh' },
+  { id: '2c', zoneId: 2, name: 'South Asia Rim' },
+  { id: '3a', zoneId: 3, name: 'Mainland SE Asia' },
+  { id: '3b', zoneId: 3, name: 'Maritime SE Asia' },
+  { id: '3c', zoneId: 3, name: 'Oceania' },
+  { id: '4a', zoneId: 4, name: 'Middle East' },
+  { id: '4b', zoneId: 4, name: 'Levant & Anatolia' },
+  { id: '4c', zoneId: 4, name: 'Central Asia' },
+  { id: '5a', zoneId: 5, name: 'Western Europe' },
+  { id: '5b', zoneId: 5, name: 'Central Europe' },
+  { id: '5c', zoneId: 5, name: 'Southern & Eastern Europe' },
+  { id: '6a', zoneId: 6, name: 'West Africa' },
+  { id: '6b', zoneId: 6, name: 'East Africa' },
+  { id: '6c', zoneId: 6, name: 'Central & Southern Africa' },
+  { id: '7a', zoneId: 7, name: 'US East Coast' },
+  { id: '7b', zoneId: 7, name: 'US Central' },
+  { id: '7c', zoneId: 7, name: 'US West & Canada' },
+  { id: '8a', zoneId: 8, name: 'South America Northwest' },
+  { id: '8b', zoneId: 8, name: 'South America South' },
+  { id: '8c', zoneId: 8, name: 'Mexico & Central America' },
+  { id: '9a', zoneId: 9, name: 'Pacific Rim' },
+  { id: '9b', zoneId: 9, name: 'Global Connectors' },
+  { id: '9c', zoneId: 9, name: 'Frontier Cities' }
+];
+
+/* ============================
+   BEACONS — 119 Cities
+   ============================ */
 const BEACONS = [
-  // Zone 1: East Asia
-  { id: 1, name: 'Chengdu', coords: [30.5728, 104.0668], zone: 1, range: 'Southwest China · Tibet · Sichuan Basin', beacon: true },
-  { id: 2, name: 'Shanghai', coords: [31.2304, 121.4737], zone: 1, range: 'East China · Yangtze River Delta', beacon: false },
-  { id: 3, name: 'Beijing', coords: [39.9042, 116.4074], zone: 1, range: 'North China · Manchuria · Mongolia', beacon: false },
-  { id: 4, name: 'Tokyo', coords: [35.6762, 139.6503], zone: 1, range: 'Japanese Archipelago', beacon: false },
-  { id: 5, name: 'Seoul', coords: [37.5665, 126.9780], zone: 1, range: 'Korean Peninsula', beacon: false },
-  { id: 6, name: 'Hong Kong', coords: [22.3193, 114.1694], zone: 1, range: 'South China · Greater Bay Area', beacon: false },
-  { id: 7, name: 'Taipei', coords: [25.0330, 121.5654], zone: 1, range: 'Taiwan · Pacific Islands', beacon: false },
-  // Zone 2: South Asia
-  { id: 8, name: 'Hyderabad', coords: [17.3850, 78.4867], zone: 2, range: 'South India · Deccan Plateau', beacon: true },
-  { id: 9, name: 'Dhaka', coords: [23.8103, 90.4125], zone: 2, range: 'Bangladesh · Northeast India · Myanmar', beacon: true },
-  { id: 10, name: 'Mumbai', coords: [19.0760, 72.8777], zone: 2, range: 'West India · Arabian Sea Coast', beacon: false },
-  { id: 11, name: 'New Delhi', coords: [28.6139, 77.2090], zone: 2, range: 'North India · Ganges Plain', beacon: false },
-  { id: 12, name: 'Kolkata', coords: [22.5726, 88.3639], zone: 2, range: 'East India · Ganges Delta', beacon: false },
-  { id: 13, name: 'Karachi', coords: [24.8607, 67.0011], zone: 2, range: 'Pakistan · Balochistan', beacon: false },
-  { id: 14, name: 'Colombo', coords: [6.9271, 79.8612], zone: 2, range: 'Sri Lanka · Indian Ocean', beacon: false },
-  // Zone 3: Southeast Asia
-  { id: 15, name: 'Singapore', coords: [1.3521, 103.8198], zone: 3, range: 'Malacca Strait · Malay Peninsula', beacon: false },
-  { id: 16, name: 'Jakarta', coords: [-6.2088, 106.8456], zone: 3, range: 'Indonesian Archipelago', beacon: false },
-  { id: 17, name: 'Bangkok', coords: [13.7563, 100.5018], zone: 3, range: 'Thailand · Mekong Region', beacon: false },
-  { id: 18, name: 'Manila', coords: [14.5995, 120.9842], zone: 3, range: 'Philippine Archipelago', beacon: false },
-  { id: 19, name: 'Ho Chi Minh City', coords: [10.8231, 106.6297], zone: 3, range: 'Vietnam · Cambodia', beacon: false },
-  { id: 20, name: 'Kuala Lumpur', coords: [3.1390, 101.6869], zone: 3, range: 'Malaysia · Borneo', beacon: false },
-  { id: 21, name: 'Yangon', coords: [16.8661, 96.1951], zone: 3, range: 'Myanmar · Andaman Coast', beacon: false },
-  // Zone 4: Central Asia & Middle East
-  { id: 22, name: 'Almaty', coords: [43.2220, 76.8512], zone: 4, range: 'Kazakhstan · Central Asian Steppe', beacon: true },
-  { id: 23, name: 'Dubai', coords: [25.2048, 55.2708], zone: 4, range: 'Gulf States · Arabian Peninsula', beacon: false },
-  { id: 24, name: 'Istanbul', coords: [41.0082, 28.9784], zone: 4, range: 'Eurasia · Balkans · Anatolia', beacon: false },
-  { id: 25, name: 'Tashkent', coords: [41.2995, 69.2401], zone: 4, range: 'Central Asia · Silk Road', beacon: false },
-  { id: 26, name: 'Riyadh', coords: [24.7136, 46.6753], zone: 4, range: 'Arabian Peninsula · Red Sea', beacon: false },
-  { id: 27, name: 'Tehran', coords: [35.6892, 51.3890], zone: 4, range: 'Iran · Persia', beacon: false },
-  { id: 28, name: 'Tel Aviv', coords: [32.0853, 34.7818], zone: 4, range: 'Levant · Eastern Mediterranean', beacon: false },
-  // Zone 5: Europe
-  { id: 29, name: 'London', coords: [51.5074, -0.1278], zone: 5, range: 'Western Europe · British Isles', beacon: false },
-  { id: 30, name: 'Berlin', coords: [52.5200, 13.4050], zone: 5, range: 'Central Europe · Germanosphere', beacon: false },
-  { id: 31, name: 'Paris', coords: [48.8566, 2.3522], zone: 5, range: 'Western Europe · Francosphere', beacon: false },
-  { id: 32, name: 'Moscow', coords: [55.7558, 37.6173], zone: 5, range: 'Eastern Europe · Russia', beacon: false },
-  { id: 33, name: 'Rome', coords: [41.9028, 12.4964], zone: 5, range: 'Southern Europe · Mediterranean', beacon: false },
-  { id: 34, name: 'Stockholm', coords: [59.3293, 18.0686], zone: 5, range: 'Nordic · Baltic Sea', beacon: false },
-  { id: 35, name: 'Warsaw', coords: [52.2297, 21.0122], zone: 5, range: 'East-Central Europe · Visegrad', beacon: false },
-  { id: 36, name: 'Bratislava', coords: [48.1486, 17.1077], zone: 5, range: 'Central Europe · Danube Basin', beacon: true },
-  // Zone 6: Africa
-  { id: 37, name: 'Lagos', coords: [6.5244, 3.3792], zone: 6, range: 'West Africa · Gulf of Guinea', beacon: false },
-  { id: 38, name: 'Nairobi', coords: [-1.2921, 36.8219], zone: 6, range: 'East Africa · Great Lakes', beacon: false },
-  { id: 39, name: 'Johannesburg', coords: [-26.2041, 28.0473], zone: 6, range: 'Southern Africa', beacon: false },
-  { id: 40, name: 'Cairo', coords: [30.0444, 31.2357], zone: 6, range: 'North Africa · Nile Valley', beacon: false },
-  { id: 41, name: 'Casablanca', coords: [33.5731, -7.5898], zone: 6, range: 'Northwest Africa · Maghreb', beacon: false },
-  { id: 42, name: 'Addis Ababa', coords: [9.0320, 38.7469], zone: 6, range: 'East Africa · Ethiopian Highlands', beacon: false },
-  { id: 43, name: 'Kinshasa', coords: [-4.4419, 15.2663], zone: 6, range: 'Central Africa · Congo Basin', beacon: false },
-  // Zone 7: North America
-  { id: 44, name: 'New York', coords: [40.7128, -74.0060], zone: 7, range: 'US East Coast · North America', beacon: false },
-  { id: 45, name: 'Boston', coords: [42.3601, -71.0589], zone: 7, range: 'US Northeast · New England', beacon: true },
-  { id: 46, name: 'San Francisco', coords: [37.7749, -122.4194], zone: 7, range: 'US West Coast · Technology Frontier', beacon: false },
-  { id: 47, name: 'Mexico City', coords: [19.4326, -99.1332], zone: 7, range: 'Mexico · Central America', beacon: false },
-  { id: 48, name: 'Toronto', coords: [43.6532, -79.3832], zone: 7, range: 'Canada · Great Lakes', beacon: false },
-  // Zone 8: Latin America
-  { id: 49, name: 'São Paulo', coords: [-23.5505, -46.6333], zone: 8, range: 'Brazil · Eastern South America', beacon: false },
-  { id: 50, name: 'Buenos Aires', coords: [-34.6037, -58.3816], zone: 8, range: 'Southern Cone · Argentina', beacon: false },
-  { id: 51, name: 'Bogotá', coords: [4.7110, -74.0721], zone: 8, range: 'Andes · Colombia', beacon: false },
-  { id: 52, name: 'Lima', coords: [-12.0464, -77.0428], zone: 8, range: 'Peru · Pacific Coast', beacon: false },
-  // Zone 9: Oceania
-  { id: 53, name: 'Sydney', coords: [-33.8688, 151.2093], zone: 9, range: 'Australia · Oceania', beacon: false },
+  // ZONE 1: East Asia
+  // 1a: China East
+  { id: 1, name: 'Shanghai', lat: 31.23, lng: 121.47, zone: 1, subzone: '1a', population: 29600000, range: 'East China' },
+  { id: 2, name: 'Beijing', lat: 39.91, lng: 116.40, zone: 1, subzone: '1a', population: 21000000, range: 'North China' },
+  { id: 3, name: 'Tianjin', lat: 39.34, lng: 117.36, zone: 1, subzone: '1a', population: 14000000, range: 'North China' },
+  { id: 4, name: 'Nanjing', lat: 32.06, lng: 118.80, zone: 1, subzone: '1a', population: 10000000, range: 'East China' },
+  { id: 5, name: 'Hangzhou', lat: 30.27, lng: 120.15, zone: 1, subzone: '1a', population: 10000000, range: 'East China' },
+  { id: 6, name: 'Hong Kong', lat: 22.32, lng: 114.17, zone: 1, subzone: '1a', population: 10000000, range: 'South China' },
+  // 1b: China West
+  { id: 7, name: 'Chengdu', lat: 30.57, lng: 104.07, zone: 1, subzone: '1b', population: 20000000, range: 'Southwest China' },
+  { id: 8, name: 'Chongqing', lat: 29.43, lng: 106.91, zone: 1, subzone: '1b', population: 32000000, range: 'Southwest China' },
+  { id: 9, name: "Xi'an", lat: 34.34, lng: 108.94, zone: 1, subzone: '1b', population: 12000000, range: 'Northwest China' },
+  { id: 10, name: 'Wuhan', lat: 30.59, lng: 114.31, zone: 1, subzone: '1b', population: 10000000, range: 'Central China' },
+  { id: 11, name: 'Urumqi', lat: 43.83, lng: 87.62, zone: 1, subzone: '1b', population: 3000000, range: 'Northwest China' },
+  { id: 12, name: 'Kunming', lat: 25.04, lng: 102.68, zone: 1, subzone: '1b', population: 4000000, range: 'Southwest China' },
+  // 1c: Northeast Asia
+  { id: 13, name: 'Tokyo', lat: 35.68, lng: 139.69, zone: 1, subzone: '1c', population: 33400000, range: 'Japan' },
+  { id: 14, name: 'Osaka', lat: 34.69, lng: 135.50, zone: 1, subzone: '1c', population: 14000000, range: 'Japan' },
+  { id: 15, name: 'Seoul', lat: 37.57, lng: 126.98, zone: 1, subzone: '1c', population: 22500000, range: 'Korea' },
+  { id: 16, name: 'Taipei', lat: 25.03, lng: 121.56, zone: 1, subzone: '1c', population: 4000000, range: 'Taiwan' },
+  { id: 17, name: 'Guangzhou', lat: 23.13, lng: 113.26, zone: 1, subzone: '1c', population: 27600000, range: 'South China' },
+  { id: 18, name: 'Shenzhen', lat: 22.54, lng: 114.06, zone: 1, subzone: '1c', population: 28000000, range: 'South China' },
+
+  // ZONE 2: South Asia
+  // 2a: India North
+  { id: 19, name: 'New Delhi', lat: 28.61, lng: 77.23, zone: 2, subzone: '2a', population: 30200000, range: 'North India' },
+  { id: 20, name: 'Mumbai', lat: 19.08, lng: 72.88, zone: 2, subzone: '2a', population: 22000000, range: 'West India' },
+  { id: 21, name: 'Kolkata', lat: 22.57, lng: 88.36, zone: 2, subzone: '2a', population: 22500000, range: 'East India' },
+  { id: 22, name: 'Chennai', lat: 13.08, lng: 80.27, zone: 2, subzone: '2a', population: 10000000, range: 'South India' },
+  { id: 23, name: 'Bengaluru', lat: 12.97, lng: 77.59, zone: 2, subzone: '2a', population: 10000000, range: 'South India' },
+  { id: 24, name: 'Hyderabad', lat: 17.39, lng: 78.49, zone: 2, subzone: '2a', population: 15000000, range: 'South India' },
+  // 2b: Pakistan & Bangladesh
+  { id: 25, name: 'Dhaka', lat: 23.81, lng: 90.41, zone: 2, subzone: '2b', population: 36600000, range: 'Bangladesh' },
+  { id: 26, name: 'Karachi', lat: 24.86, lng: 67.01, zone: 2, subzone: '2b', population: 14000000, range: 'Pakistan' },
+  { id: 27, name: 'Lahore', lat: 31.55, lng: 74.36, zone: 2, subzone: '2b', population: 7000000, range: 'Pakistan' },
+  // 2c: South Asia Rim
+  { id: 28, name: 'Yangon', lat: 16.84, lng: 96.13, zone: 2, subzone: '2c', population: 5000000, range: 'Myanmar' },
+  { id: 29, name: 'Kathmandu', lat: 27.72, lng: 85.32, zone: 2, subzone: '2c', population: 2000000, range: 'Nepal' },
+  { id: 30, name: 'Colombo', lat: 6.93, lng: 79.84, zone: 2, subzone: '2c', population: 2500000, range: 'Sri Lanka' },
+
+  // ZONE 3: Southeast Asia
+  // 3a: Mainland SE Asia
+  { id: 31, name: 'Bangkok', lat: 13.76, lng: 100.50, zone: 3, subzone: '3a', population: 11000000, range: 'Thailand' },
+  { id: 32, name: 'Hanoi', lat: 21.03, lng: 105.85, zone: 3, subzone: '3a', population: 5000000, range: 'Vietnam' },
+  { id: 33, name: 'Ho Chi Minh City', lat: 10.82, lng: 106.63, zone: 3, subzone: '3a', population: 8000000, range: 'Vietnam' },
+  { id: 34, name: 'Phnom Penh', lat: 11.56, lng: 104.92, zone: 3, subzone: '3a', population: 2000000, range: 'Cambodia' },
+  { id: 35, name: 'Kuala Lumpur', lat: 3.14, lng: 101.69, zone: 3, subzone: '3a', population: 7000000, range: 'Malaysia' },
+  { id: 36, name: 'Singapore', lat: 1.35, lng: 103.82, zone: 3, subzone: '3a', population: 6000000, range: 'Singapore' },
+  // 3b: Maritime SE Asia
+  { id: 37, name: 'Jakarta', lat: -6.21, lng: 106.85, zone: 3, subzone: '3b', population: 41900000, range: 'Indonesia' },
+  { id: 38, name: 'Manila', lat: 14.60, lng: 120.98, zone: 3, subzone: '3b', population: 24700000, range: 'Philippines' },
+  { id: 39, name: 'Bandung', lat: -6.91, lng: 107.61, zone: 3, subzone: '3b', population: 3000000, range: 'Indonesia' },
+  // 3c: Oceania
+  { id: 40, name: 'Sydney', lat: -33.87, lng: 151.21, zone: 3, subzone: '3c', population: 5500000, range: 'Australia' },
+  { id: 41, name: 'Melbourne', lat: -37.81, lng: 144.96, zone: 3, subzone: '3c', population: 5000000, range: 'Australia' },
+  { id: 42, name: 'Brisbane', lat: -27.47, lng: 153.03, zone: 3, subzone: '3c', population: 2500000, range: 'Australia' },
+  { id: 43, name: 'Perth', lat: -31.95, lng: 115.86, zone: 3, subzone: '3c', population: 2000000, range: 'Australia' },
+  { id: 44, name: 'Auckland', lat: -36.85, lng: 174.76, zone: 3, subzone: '3c', population: 1700000, range: 'New Zealand' },
+  { id: 45, name: 'Honolulu', lat: 21.31, lng: -157.86, zone: 3, subzone: '3c', population: 1000000, range: 'Hawaii' },
+
+  // ZONE 4: Middle East & Central Asia
+  // 4a: Middle East
+  { id: 46, name: 'Istanbul', lat: 41.01, lng: 28.98, zone: 4, subzone: '4a', population: 14000000, range: 'Turkey' },
+  { id: 47, name: 'Riyadh', lat: 24.71, lng: 46.67, zone: 4, subzone: '4a', population: 7000000, range: 'Saudi Arabia' },
+  { id: 48, name: 'Dubai', lat: 25.20, lng: 55.27, zone: 4, subzone: '4a', population: 3000000, range: 'UAE' },
+  { id: 49, name: 'Doha', lat: 25.29, lng: 51.53, zone: 4, subzone: '4a', population: 1500000, range: 'Qatar' },
+  { id: 50, name: 'Abu Dhabi', lat: 24.45, lng: 54.38, zone: 4, subzone: '4a', population: 1500000, range: 'UAE' },
+  { id: 51, name: 'Tehran', lat: 35.69, lng: 51.39, zone: 4, subzone: '4a', population: 8000000, range: 'Iran' },
+  { id: 52, name: 'Baghdad', lat: 33.32, lng: 44.36, zone: 4, subzone: '4a', population: 6000000, range: 'Iraq' },
+  // 4b: Levant & Anatolia
+  { id: 53, name: 'Tel Aviv', lat: 32.09, lng: 34.78, zone: 4, subzone: '4b', population: 4000000, range: 'Israel' },
+  { id: 54, name: 'Beirut', lat: 33.89, lng: 35.50, zone: 4, subzone: '4b', population: 2000000, range: 'Lebanon' },
+  { id: 55, name: 'Amman', lat: 31.95, lng: 35.93, zone: 4, subzone: '4b', population: 2000000, range: 'Jordan' },
+  { id: 56, name: 'Ankara', lat: 39.93, lng: 32.86, zone: 4, subzone: '4b', population: 5000000, range: 'Turkey' },
+  // 4c: Central Asia
+  { id: 57, name: 'Almaty', lat: 43.22, lng: 76.85, zone: 4, subzone: '4c', population: 2000000, range: 'Kazakhstan' },
+  { id: 58, name: 'Tashkent', lat: 41.38, lng: 69.27, zone: 4, subzone: '4c', population: 3000000, range: 'Uzbekistan' },
+
+  // ZONE 5: Europe
+  // 5a: Western Europe
+  { id: 59, name: 'London', lat: 51.51, lng: -0.13, zone: 5, subzone: '5a', population: 12000000, range: 'United Kingdom' },
+  { id: 60, name: 'Paris', lat: 48.86, lng: 2.35, zone: 5, subzone: '5a', population: 12000000, range: 'France' },
+  { id: 61, name: 'Amsterdam', lat: 52.37, lng: 4.90, zone: 5, subzone: '5a', population: 2500000, range: 'Netherlands' },
+  { id: 62, name: 'Lisbon', lat: 38.72, lng: -9.14, zone: 5, subzone: '5a', population: 3000000, range: 'Portugal' },
+  { id: 63, name: 'Madrid', lat: 40.42, lng: -3.70, zone: 5, subzone: '5a', population: 7000000, range: 'Spain' },
+  { id: 64, name: 'Barcelona', lat: 41.39, lng: 2.16, zone: 5, subzone: '5a', population: 5500000, range: 'Spain' },
+  // 5b: Central Europe
+  { id: 65, name: 'Berlin', lat: 52.52, lng: 13.40, zone: 5, subzone: '5b', population: 6000000, range: 'Germany' },
+  { id: 66, name: 'Vienna', lat: 48.21, lng: 16.37, zone: 5, subzone: '5b', population: 2500000, range: 'Austria' },
+  { id: 67, name: 'Prague', lat: 50.08, lng: 14.42, zone: 5, subzone: '5b', population: 2500000, range: 'Czech Republic' },
+  { id: 68, name: 'Budapest', lat: 47.50, lng: 19.04, zone: 5, subzone: '5b', population: 3000000, range: 'Hungary' },
+  { id: 69, name: 'Warsaw', lat: 52.23, lng: 21.01, zone: 5, subzone: '5b', population: 1800000, range: 'Poland' },
+  { id: 70, name: 'Stockholm', lat: 59.33, lng: 18.07, zone: 5, subzone: '5b', population: 2500000, range: 'Sweden' },
+  // 5c: Southern & Eastern Europe
+  { id: 71, name: 'Rome', lat: 41.90, lng: 12.50, zone: 5, subzone: '5c', population: 5000000, range: 'Italy' },
+  { id: 72, name: 'Athens', lat: 37.98, lng: 23.73, zone: 5, subzone: '5c', population: 3500000, range: 'Greece' },
+  { id: 73, name: 'Kyiv', lat: 50.45, lng: 30.52, zone: 5, subzone: '5c', population: 3000000, range: 'Ukraine' },
+  { id: 74, name: 'Moscow', lat: 55.76, lng: 37.62, zone: 5, subzone: '5c', population: 13000000, range: 'Russia' },
+
+  // ZONE 6: Africa
+  // 6a: West Africa
+  { id: 75, name: 'Lagos', lat: 6.52, lng: 3.38, zone: 6, subzone: '6a', population: 18000000, range: 'Nigeria' },
+  { id: 76, name: 'Accra', lat: 5.60, lng: -0.19, zone: 6, subzone: '6a', population: 5000000, range: 'Ghana' },
+  { id: 77, name: 'Abidjan', lat: 5.36, lng: -4.01, zone: 6, subzone: '6a', population: 5000000, range: "Cote d'Ivoire" },
+  { id: 78, name: 'Dakar', lat: 14.72, lng: -17.47, zone: 6, subzone: '6a', population: 4000000, range: 'Senegal' },
+  // 6b: East Africa
+  { id: 79, name: 'Nairobi', lat: -1.29, lng: 36.82, zone: 6, subzone: '6b', population: 10000000, range: 'Kenya' },
+  { id: 80, name: 'Dar es Salaam', lat: -6.79, lng: 39.27, zone: 6, subzone: '6b', population: 6000000, range: 'Tanzania' },
+  { id: 81, name: 'Kampala', lat: 0.35, lng: 32.58, zone: 6, subzone: '6b', population: 3000000, range: 'Uganda' },
+  { id: 82, name: 'Addis Ababa', lat: 9.03, lng: 38.75, zone: 6, subzone: '6b', population: 5000000, range: 'Ethiopia' },
+  // 6c: Central & Southern Africa
+  { id: 83, name: 'Kinshasa', lat: -4.44, lng: 15.27, zone: 6, subzone: '6c', population: 15000000, range: 'DRC' },
+  { id: 84, name: 'Johannesburg', lat: -26.20, lng: 28.05, zone: 6, subzone: '6c', population: 10000000, range: 'South Africa' },
+  { id: 85, name: 'Cape Town', lat: -33.93, lng: 18.42, zone: 6, subzone: '6c', population: 4000000, range: 'South Africa' },
+  { id: 86, name: 'Casablanca', lat: 33.57, lng: -7.59, zone: 6, subzone: '6c', population: 4000000, range: 'Morocco' },
+
+  // ZONE 7: North America
+  // 7a: US East Coast
+  { id: 87, name: 'New York', lat: 40.73, lng: -73.94, zone: 7, subzone: '7a', population: 12000000, range: 'US Northeast' },
+  { id: 88, name: 'Boston', lat: 42.36, lng: -71.06, zone: 7, subzone: '7a', population: 7000000, range: 'US Northeast' },
+  { id: 89, name: 'Washington DC', lat: 38.91, lng: -77.04, zone: 7, subzone: '7a', population: 6500000, range: 'US Mid-Atlantic' },
+  { id: 90, name: 'Philadelphia', lat: 39.95, lng: -75.17, zone: 7, subzone: '7a', population: 6000000, range: 'US Mid-Atlantic' },
+  { id: 91, name: 'Miami', lat: 25.76, lng: -80.19, zone: 7, subzone: '7a', population: 6000000, range: 'US Southeast' },
+  { id: 92, name: 'Atlanta', lat: 33.75, lng: -84.39, zone: 7, subzone: '7a', population: 5500000, range: 'US Southeast' },
+  // 7b: US Central
+  { id: 93, name: 'Chicago', lat: 41.88, lng: -87.63, zone: 7, subzone: '7b', population: 9000000, range: 'US Midwest' },
+  { id: 94, name: 'Dallas', lat: 32.78, lng: -96.80, zone: 7, subzone: '7b', population: 7000000, range: 'US South' },
+  { id: 95, name: 'Houston', lat: 29.76, lng: -95.37, zone: 7, subzone: '7b', population: 7000000, range: 'US South' },
+  { id: 96, name: 'Denver', lat: 39.74, lng: -104.99, zone: 7, subzone: '7b', population: 3000000, range: 'US Mountain' },
+  { id: 97, name: 'Detroit', lat: 42.33, lng: -83.05, zone: 7, subzone: '7b', population: 4000000, range: 'US Midwest' },
+  // 7c: US West & Canada
+  { id: 98, name: 'Los Angeles', lat: 34.05, lng: -118.24, zone: 7, subzone: '7c', population: 12000000, range: 'US West Coast' },
+  { id: 99, name: 'San Francisco', lat: 37.77, lng: -122.42, zone: 7, subzone: '7c', population: 8000000, range: 'US West Coast' },
+  { id: 100, name: 'Seattle', lat: 47.61, lng: -122.33, zone: 7, subzone: '7c', population: 4000000, range: 'US Northwest' },
+  { id: 101, name: 'Phoenix', lat: 33.45, lng: -112.07, zone: 7, subzone: '7c', population: 5000000, range: 'US Southwest' },
+  { id: 102, name: 'Vancouver', lat: 49.28, lng: -123.12, zone: 7, subzone: '7c', population: 2500000, range: 'Canada West' },
+  { id: 103, name: 'Toronto', lat: 43.65, lng: -79.38, zone: 7, subzone: '7c', population: 6000000, range: 'Canada East' },
+
+  // ZONE 8: Latin America
+  // 8a: South America Northwest
+  { id: 104, name: 'Bogota', lat: 4.71, lng: -74.07, zone: 8, subzone: '8a', population: 10000000, range: 'Colombia' },
+  { id: 105, name: 'Medellin', lat: 6.25, lng: -75.57, zone: 8, subzone: '8a', population: 2500000, range: 'Colombia' },
+  { id: 106, name: 'Quito', lat: -0.23, lng: -78.52, zone: 8, subzone: '8a', population: 3000000, range: 'Ecuador' },
+  { id: 107, name: 'Lima', lat: -12.05, lng: -77.04, zone: 8, subzone: '8a', population: 11000000, range: 'Peru' },
+  // 8b: South America South
+  { id: 108, name: 'Buenos Aires', lat: -34.60, lng: -58.38, zone: 8, subzone: '8b', population: 15000000, range: 'Argentina' },
+  { id: 109, name: 'Santiago', lat: -33.45, lng: -70.66, zone: 8, subzone: '8b', population: 7000000, range: 'Chile' },
+  { id: 110, name: 'Montevideo', lat: -34.90, lng: -56.19, zone: 8, subzone: '8b', population: 1500000, range: 'Uruguay' },
+  { id: 111, name: 'Rio de Janeiro', lat: -22.91, lng: -43.17, zone: 8, subzone: '8b', population: 13000000, range: 'Brazil' },
+  { id: 112, name: 'Sao Paulo', lat: -23.55, lng: -46.63, zone: 8, subzone: '8b', population: 22000000, range: 'Brazil' },
+  { id: 113, name: 'Brasilia', lat: -15.79, lng: -47.88, zone: 8, subzone: '8b', population: 4500000, range: 'Brazil' },
+  { id: 114, name: 'Belo Horizonte', lat: -19.92, lng: -43.93, zone: 8, subzone: '8b', population: 2500000, range: 'Brazil' },
+  { id: 115, name: 'Salvador', lat: -12.97, lng: -38.50, zone: 8, subzone: '8b', population: 4000000, range: 'Brazil' },
+  // 8c: Mexico & Central America
+  { id: 116, name: 'Mexico City', lat: 19.43, lng: -99.13, zone: 8, subzone: '8c', population: 12000000, range: 'Mexico' },
+  { id: 117, name: 'Guadalajara', lat: 20.68, lng: -103.35, zone: 8, subzone: '8c', population: 5000000, range: 'Mexico' },
+  { id: 118, name: 'Monterrey', lat: 25.69, lng: -100.32, zone: 8, subzone: '8c', population: 5000000, range: 'Mexico' },
+  { id: 119, name: 'Panama City', lat: 8.98, lng: -79.52, zone: 8, subzone: '8c', population: 2000000, range: 'Panama' }
 ];
 
-// Zone polygon coordinates (approximate bounding regions)
-const ZONE_POLYGONS = {
-  1: [[55,75],[55,145],[18,145],[18,100],[20,75]],
-  2: [[37,65],[37,92],[5,92],[5,65]],
-  3: [[25,92],[25,130],[-12,130],[-12,92]],
-  4: [[52,22],[52,82],[10,82],[10,22]],
-  5: [[72,-12],[72,42],[34,42],[34,-12]],
-  6: [[37,-20],[37,52],[-36,52],[-36,-20]],
-  7: [[52,-130],[52,-55],[14,-55],[14,-130]],
-  8: [[14,-85],[14,-30],[-56,-30],[-56,-85]],
-  9: [[-8,108],[-8,-155],[-45,-155],[-45,108]],
-};
+/* ============================
+   STATE
+   ============================ */
+let map, voronoiLayer, cityMarkers = [];
+let activeSubzone = null;
 
-// ==========================================
-// MAP
-// ==========================================
-let map, markers = [], zonePolygons = [];
-let activePopup = null;
-let activeMarkerId = null;
+/* ============================
+   POPULATION COLOR (Log Scale)
+   ============================ */
+function getPopulationColor(pop) {
+  const logPop = Math.log(pop);
+  const logMin = Math.log(400000);
+  const logMax = Math.log(41900000);
+  const t = Math.min(1, Math.max(0, (logPop - logMin) / (logMax - logMin)));
+  const gray = Math.round(250 - t * 230);
+  const hex = gray.toString(16).padStart(2, '0');
+  return '#' + hex + hex + hex;
+}
 
+/* ============================
+   FORMAT POPULATION
+   ============================ */
+function formatPopulation(pop) {
+  if (pop >= 10000000) return (pop / 1000000).toFixed(0) + 'M';
+  if (pop >= 1000000) return (pop / 1000000).toFixed(1) + 'M';
+  return (pop / 1000).toFixed(0) + 'K';
+}
+
+/* ============================
+   INIT MAP
+   ============================ */
 function initMap() {
-  map = L.map('gatheringMap', {
-    center: [20, 30],
+  map = L.map('map', {
+    center: [20, 40],
     zoom: 2,
     minZoom: 2,
     maxZoom: 6,
-    worldCopyJump: true,
-    zoomControl: true,
+    zoomControl: false,
+    worldCopyJump: true
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18,
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+    noWrap: false
   }).addTo(map);
 
-  // Draw zone polygons
-  ZONES.forEach(zone => {
-    const coords = ZONE_POLYGONS[zone.id];
-    if (!coords) return;
-    const latlngs = coords.map(c => [c[0], c[1]]);
+  // --- Subtle Voronoi layer (for interaction only) ---
+  const points = BEACONS.map(b => [b.lng, b.lat]);
+  const delaunay = d3.Delaunay.from(points);
+  voronoiLayer = L.layerGroup().addTo(map);
+
+  BEACONS.forEach((beacon, i) => {
+    const cell = delaunay.cellPolygon(i);
+    if (!cell) return;
+
+    const latlngs = cell[0].map(p => [p[1], p[0]]);
+    const color = getPopulationColor(beacon.population);
+
     const polygon = L.polygon(latlngs, {
-      color: zone.color,
+      className: 'voronoi-polygon',
+      color: '#ffffff',
+      weight: 1.5,
+      fillColor: color,
+      fillOpacity: 0.12
+    }).addTo(voronoiLayer);
+
+    polygon.on('click', function() {
+      flyToCity(beacon);
+    });
+
+    polygon.bindTooltip(beacon.name, {
+      direction: 'center',
+      className: 'voronoi-tooltip'
+    });
+  });
+
+  // --- Heatmap canvas overlay ---
+  initHeatmap();
+
+  // --- City markers (white circles with black stroke) ---
+  BEACONS.forEach(beacon => {
+    const radius = Math.max(3, Math.pow(beacon.population / 1000000, 0.35) * 5);
+
+    const marker = L.circleMarker([beacon.lat, beacon.lng], {
+      radius: radius,
+      color: '#000000',
       weight: 2,
-      opacity: 0.6,
-      fillColor: zone.color,
-      fillOpacity: 0.08,
+      fillColor: '#ffffff',
+      fillOpacity: 0.95,
+      className: 'city-marker'
     }).addTo(map);
 
-    polygon.on('mouseover', () => {
-      polygon.setStyle({ fillOpacity: 0.15, weight: 3, opacity: 0.8 });
-    });
-    polygon.on('mouseout', () => {
-      polygon.setStyle({ fillOpacity: 0.08, weight: 2, opacity: 0.6 });
-    });
-    polygon.on('click', () => {
-      scrollToZone(zone.id);
-    });
+    marker.beacon = beacon;
 
-    zonePolygons.push(polygon);
-  });
+    marker.on('click', function() {
+      const b = this.beacon;
+      const zone = ZONES.find(z => z.id === b.zone);
+      const popFormatted = formatPopulation(b.population);
 
-  // Add city markers
-  BEACONS.forEach(city => {
-    const zone = ZONES.find(z => z.id === city.zone);
-    const isPrimary = city.beacon;
-    const isSecondary = [1,2,4].includes(city.id) || city.id === 8 || city.id === 11 || city.id === 15 || city.id === 16 || city.id === 23 || city.id === 24 || city.id === 29 || city.id === 30 || city.id === 31 || city.id === 32 || city.id === 37 || city.id === 38 || city.id === 40 || city.id === 44 || city.id === 46 || city.id === 49;
-
-    let size = isPrimary ? 32 : isSecondary ? 28 : 24;
-    let borderColor = isPrimary ? '#e60000' : zone.color;
-    let dotColor = isPrimary ? '#e60000' : zone.color;
-    let bgColor = isPrimary ? '#fff' : '#fff';
-    let cssClass = isPrimary ? 'beacon-pulse beacon-primary' : isSecondary ? 'beacon-pulse beacon-secondary' : 'beacon-pulse';
-
-    const icon = L.divIcon({
-      className: 'beacon-marker',
-      html: `<div class="${cssClass}" style="width:${size}px;height:${size}px;border-color:${borderColor};"><div style="width:${size*0.35}px;height:${size*0.35}px;background:${dotColor};"></div></div>`,
-      iconSize: [size + 8, size + 8],
-      iconAnchor: [(size + 8) / 2, (size + 8) / 2],
-    });
-
-    const marker = L.marker(city.coords, { icon }).addTo(map);
-
-    marker.on('click', () => {
-      highlightCard(city.id);
-    });
-
-    marker.on('mouseover', () => {
-      if (activeMarkerId !== city.id) {
-        marker.setZIndexOffset(1000);
-      }
-    });
-    marker.on('mouseout', () => {
-      if (activeMarkerId !== city.id) {
-        marker.setZIndexOffset(0);
-      }
-    });
-
-    marker._cityId = city.id;
-    markers.push(marker);
-  });
-}
-
-function flyToCity(cityId) {
-  const city = BEACONS.find(c => c.id === cityId);
-  if (!city || !map) return;
-  map.flyTo(city.coords, 5, { duration: 1.2 });
-  highlightMarker(cityId);
-}
-
-function highlightMarker(cityId) {
-  markers.forEach(m => {
-    const el = m.getElement();
-    if (el) {
-      const pulse = el.querySelector('.beacon-pulse');
-      if (pulse) {
-        if (m._cityId === cityId) {
-          pulse.style.boxShadow = '0 0 0 4px rgba(0,0,0,0.15)';
-          m.setZIndexOffset(1000);
-          activeMarkerId = cityId;
-        } else {
-          pulse.style.boxShadow = '';
-          m.setZIndexOffset(0);
-        }
-      }
-    }
-  });
-}
-
-function resetMarkerHighlights() {
-  markers.forEach(m => {
-    const el = m.getElement();
-    if (el) {
-      const pulse = el.querySelector('.beacon-pulse');
-      if (pulse) pulse.style.boxShadow = '';
-      m.setZIndexOffset(0);
-    }
-  });
-  activeMarkerId = null;
-}
-
-// ==========================================
-// RENDER CARDS
-// ==========================================
-function renderCards(filter = '', zoneFilter = null) {
-  const container = document.getElementById('cardsContent');
-  const noResults = document.getElementById('noResults');
-  const q = filter.trim().toLowerCase();
-
-  let totalVisible = 0;
-  let html = '';
-
-  ZONES.forEach(zone => {
-    const cities = BEACONS.filter(c => c.zone === zone.id);
-
-    const filtered = q || zoneFilter
-      ? cities.filter(c => {
-          const matchSearch = !q ||
-            c.name.toLowerCase().includes(q) ||
-            c.range.toLowerCase().includes(q) ||
-            zone.name.toLowerCase().includes(q) ||
-            `zone ${zone.id}`.includes(q);
-
-          const matchZone = !zoneFilter || zone.id === zoneFilter;
-          return matchSearch && matchZone;
-        })
-      : cities;
-
-    if (filtered.length === 0) return;
-
-    totalVisible += filtered.length;
-
-    html += `
-      <div class="zone-block" data-zone="${zone.id}" id="zone-${zone.id}">
-        <div class="zone-header">
-          <span class="zone-number">Zone ${zone.id}</span>
-          <span class="zone-name" style="color:${zone.color}">${zone.name}</span>
-          <span class="zone-tag">${filtered.length} beacon${filtered.length !== 1 ? 's' : ''}</span>
+      const popupContent = `
+        <div style="min-width:160px;">
+          <strong style="font-size:1rem;">${b.name}</strong><br>
+          <span style="font-size:0.7rem;color:#999;text-transform:uppercase;letter-spacing:0.1em;">${zone ? zone.name : ''}</span><br>
+          <span style="font-size:0.8rem;">Population: ${popFormatted}</span><br>
+          <button class="popup-preach-btn" onclick="openPreachModalForCity(${b.id})">Become Preacher</button>
         </div>
-        <div class="city-grid">
-          ${filtered.map((c, i) => `
-            <div class="city-card" data-city-id="${c.id}" data-zone="${c.zone}" style="transition-delay:${i * 0.04}s" onclick="flyToCity(${c.id})">
-              <div class="city-card-header">
-                <span class="city-number">${String(c.id).padStart(2, '0')}</span>
-                <span class="city-name">${c.name}</span>
-                ${c.beacon ? '<span class="city-beacon">★ Beacon</span>' : ''}
-              </div>
-              <p class="city-range">${c.range}</p>
-              <span class="city-zone-tag" style="border-color:${zone.color};color:${zone.color}">Zone ${c.zone}</span>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
+      `;
+
+      marker.bindPopup(popupContent).openPopup();
+    });
+
+    cityMarkers.push(marker);
   });
 
-  container.innerHTML = html;
+  // --- Legend ---
+  initLegend();
+}
 
-  document.getElementById('statTotal').textContent = BEACONS.length;
-  document.getElementById('statZones').textContent = ZONES.length;
-  document.getElementById('statVisible').textContent = totalVisible;
+/* ============================
+   HEATMAP CANVAS (Radial Gradient)
+   ============================ */
+function initHeatmap() {
+  const mapContainer = document.getElementById('map');
+  const canvas = document.createElement('canvas');
+  canvas.id = 'heatmap-canvas';
+  mapContainer.appendChild(canvas);
 
-  if (totalVisible === 0 && (q || zoneFilter)) {
-    noResults.classList.add('visible');
-  } else {
-    noResults.classList.remove('visible');
+  function renderHeatmap() {
+    const rect = mapContainer.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    // Sort by population descending so largest cities draw first
+    const sorted = [...BEACONS].sort((a, b) => b.population - a.population);
+
+    sorted.forEach(b => {
+      const point = map.latLngToContainerPoint([b.lat, b.lng]);
+      const radius = Math.pow(b.population / 1000000, 0.4) * 35;
+
+      const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
+
+      const intensity = Math.log(b.population) / Math.log(41900000);
+      const alpha = 0.15 + intensity * 0.4;
+
+      gradient.addColorStop(0, `rgba(0, 0, 0, ${alpha})`);
+      gradient.addColorStop(0.2, `rgba(0, 0, 0, ${alpha * 0.6})`);
+      gradient.addColorStop(0.5, `rgba(0, 0, 0, ${alpha * 0.25})`);
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    });
+
+    // Draw faint city name labels for largest cities
+    sorted.filter(b => b.population >= 20000000).forEach(b => {
+      const point = map.latLngToContainerPoint([b.lat, b.lng]);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+      ctx.font = '10px DM Sans, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.name, point.x, point.y - 12);
+    });
   }
 
-  // Animate cards
+  renderHeatmap();
+  map.on('moveend', renderHeatmap);
+  map.on('zoomend', renderHeatmap);
+  map.on('resize', renderHeatmap);
+  // Also render on move for smooth feel
+  map.on('move', function() {
+    requestAnimationFrame(renderHeatmap);
+  });
+}
+
+/* ============================
+   LEGEND
+   ============================ */
+function initLegend() {
+  const mapContainer = document.getElementById('map');
+  const legend = document.createElement('div');
+  legend.className = 'map-legend';
+  legend.innerHTML = `
+    <span class="map-legend-label">Population</span>
+    <div>
+      <div class="map-legend-bar">
+        <div class="map-legend-bar-inner"></div>
+      </div>
+      <div class="map-legend-labels">
+        <span>400K</span>
+        <span>5M</span>
+        <span>20M</span>
+        <span>42M</span>
+      </div>
+    </div>
+  `;
+  mapContainer.appendChild(legend);
+}
+
+/* ============================
+   FLY TO CITY
+   ============================ */
+function flyToCity(beacon) {
+  map.flyTo([beacon.lat, beacon.lng], 5, {
+    duration: 1.2
+  });
+
   setTimeout(() => {
-    document.querySelectorAll('.city-card').forEach((el, i) => {
-      setTimeout(() => el.classList.add('revealed'), i * 30);
-    });
-  }, 150);
+    const marker = cityMarkers.find(m => m.beacon.id === beacon.id);
+    if (marker) {
+      marker.setStyle({
+        color: '#e60000',
+        weight: 3,
+        fillColor: '#e60000',
+        fillOpacity: 1
+      });
+      setTimeout(() => {
+        marker.setStyle({
+          color: '#000000',
+          weight: 2,
+          fillColor: '#ffffff',
+          fillOpacity: 0.95
+        });
+      }, 2000);
+    }
+  }, 1400);
 }
 
-function highlightCard(cityId) {
-  document.querySelectorAll('.city-card').forEach(el => {
-    el.classList.remove('highlight');
-    if (parseInt(el.dataset.cityId) === cityId) {
-      el.classList.add('highlight');
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+/* ============================
+   RENDER SUBZONE FILTERS
+   ============================ */
+function renderSubzoneFilters() {
+  const container = document.getElementById('subzone-filters');
+  container.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'zone-filter-btn active';
+  allBtn.textContent = 'All';
+  allBtn.onclick = function() {
+    document.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    activeSubzone = null;
+    filterCards();
+  };
+  container.appendChild(allBtn);
+
+  SUBZONES.forEach(sz => {
+    const zone = ZONES.find(z => z.id === sz.zoneId);
+    const btn = document.createElement('button');
+    btn.className = 'zone-filter-btn';
+    btn.textContent = sz.id + ' ' + sz.name;
+    btn.style.borderColor = zone ? zone.color : '#ccc';
+    btn.onclick = function() {
+      document.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      activeSubzone = sz.id;
+      filterCards();
+    };
+    container.appendChild(btn);
+  });
+}
+
+/* ============================
+   RENDER CARDS
+   ============================ */
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+
+  const grouped = {};
+  SUBZONES.forEach(sz => {
+    grouped[sz.id] = [];
+  });
+
+  BEACONS.forEach(b => {
+    if (grouped[b.subzone]) {
+      grouped[b.subzone].push(b);
     }
   });
-}
 
-function scrollToZone(zoneId) {
-  const el = document.getElementById(`zone-${zoneId}`);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
+  SUBZONES.forEach(sz => {
+    const cities = grouped[sz.id] || [];
+    if (cities.length === 0) return;
 
-// ==========================================
-// ZONE FILTERS
-// ==========================================
-function renderZoneFilters() {
-  const container = document.getElementById('zoneFilters');
-  let html = '<button class="zone-filter-btn active" data-zone="all">All Zones</button>';
-  ZONES.forEach(zone => {
-    html += `<button class="zone-filter-btn" data-zone="${zone.id}" style="border-color:${zone.color};color:${zone.color}">Zone ${zone.id}: ${zone.name}</button>`;
-  });
-  container.innerHTML = html;
+    const zone = ZONES.find(z => z.id === sz.zoneId);
 
-  container.querySelectorAll('.zone-filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const zone = btn.dataset.zone === 'all' ? null : parseInt(btn.dataset.zone);
-      renderCards(document.getElementById('searchInput').value, zone);
-    });
-  });
-}
-
-// ==========================================
-// MAP LEGEND
-// ==========================================
-function renderLegend() {
-  const container = document.getElementById('mapLegend');
-  let html = '';
-  ZONES.forEach(zone => {
-    html += `
-      <div class="legend-item active" data-zone="${zone.id}">
-        <span class="legend-dot" style="background:${zone.color}"></span>
-        Zone ${zone.id}
-      </div>
+    // Subzone header
+    const header = document.createElement('div');
+    header.className = 'subzone-header';
+    header.dataset.subzone = sz.id;
+    header.innerHTML = `
+      <h3>
+        ${sz.id.toUpperCase()}: ${sz.name}
+        <span class="subzone-count">${cities.length} cities</span>
+      </h3>
     `;
-  });
-  container.innerHTML = html;
+    grid.appendChild(header);
 
-  container.querySelectorAll('.legend-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const zoneId = parseInt(item.dataset.zone);
-      const isActive = item.classList.toggle('active');
-      zonePolygons.forEach((p, i) => {
-        if (i + 1 === zoneId) {
-          if (isActive) {
-            map.addLayer(p);
-          } else {
-            map.removeLayer(p);
-          }
-        }
-      });
+    // Sort by population descending
+    cities.sort((a, b) => b.population - a.population);
+
+    cities.forEach(b => {
+      const card = document.createElement('div');
+      card.className = 'city-card';
+      card.dataset.subzone = b.subzone;
+      card.dataset.name = b.name.toLowerCase();
+      card.dataset.id = b.id;
+
+      const popFormatted = formatPopulation(b.population);
+
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="city-name">${b.name}</span>
+          <span>
+            <span class="city-zone">${sz.id.toUpperCase()}</span>
+            <span class="city-subzone">${zone ? zone.name : ''}</span>
+          </span>
+        </div>
+        <div class="card-mid">
+          <span class="population-tag">${popFormatted}</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-small btn-outline" onclick="flyToCity(BEACONS.find(x=>x.id===${b.id}))">Locate</button>
+          <button class="btn btn-small btn-primary" onclick="openPreachModalForCity(${b.id})">Preach</button>
+        </div>
+      `;
+      grid.appendChild(card);
     });
   });
 }
 
-// ==========================================
-// SEARCH
-// ==========================================
+/* ============================
+   SEARCH
+   ============================ */
 function doSearch() {
-  const input = document.getElementById('searchInput');
-  const clear = document.getElementById('searchClear');
-  const val = input.value;
-
-  if (val.trim()) {
-    clear.classList.add('visible');
-  } else {
-    clear.classList.remove('visible');
-  }
-
-  // Reset zone filter
-  document.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-zone="all"]').classList.add('active');
-
-  renderCards(val, null);
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  filterCards(query);
 }
 
 function clearSearch() {
-  const input = document.getElementById('searchInput');
-  input.value = '';
-  document.getElementById('searchClear').classList.remove('visible');
+  document.getElementById('search-input').value = '';
+  activeSubzone = null;
   document.querySelectorAll('.zone-filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-zone="all"]').classList.add('active');
-  renderCards('', null);
+  const allBtn = document.querySelector('.zone-filter-btn:first-child');
+  if (allBtn) allBtn.classList.add('active');
+  filterCards();
 }
 
-// ==========================================
-// INIT
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-  initMap();
-  renderCards();
-  renderZoneFilters();
-  renderLegend();
+function filterCards(query) {
+  const searchQuery = (query !== undefined) ? query : document.getElementById('search-input').value.toLowerCase().trim();
 
-  // Search events
-  document.getElementById('searchBtn').addEventListener('click', doSearch);
-  document.getElementById('searchClear').addEventListener('click', clearSearch);
-  document.getElementById('searchInput').addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') doSearch();
+  document.querySelectorAll('.city-card').forEach(card => {
+    const name = card.dataset.name;
+    const subzone = card.dataset.subzone;
+    let show = true;
+
+    if (searchQuery && !name.includes(searchQuery)) {
+      show = false;
+    }
+
+    if (show && activeSubzone && subzone !== activeSubzone) {
+      show = false;
+    }
+
+    card.classList.toggle('hidden', !show);
   });
-  document.getElementById('searchInput').addEventListener('input', doSearch);
+
+  document.querySelectorAll('.subzone-header').forEach(header => {
+    const sz = header.dataset.subzone;
+    if (activeSubzone && sz !== activeSubzone) {
+      header.classList.add('hidden');
+      return;
+    }
+    const visibleCards = header.nextElementSibling ?
+      header.parentElement.querySelectorAll(`.city-card[data-subzone="${sz}"]:not(.hidden)`) :
+      [];
+    const hasVisible = Array.from(visibleCards).some(c => !c.classList.contains('hidden'));
+    // Check if any cards under this subzone are visible
+    let anyVisible = false;
+    let sibling = header.nextElementSibling;
+    while (sibling && sibling.classList.contains('city-card')) {
+      if (!sibling.classList.contains('hidden')) {
+        anyVisible = true;
+        break;
+      }
+      sibling = sibling.nextElementSibling;
+    }
+    header.classList.toggle('hidden', !anyVisible && !searchQuery);
+  });
+}
+
+/* ============================
+   PREACH MODAL
+   ============================ */
+function openPreachModal() {
+  document.getElementById('preach-overlay').classList.add('active');
+  document.getElementById('preach-modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  populateZoneSelect();
+}
+
+function openPreachModalForCity(cityId) {
+  openPreachModal();
+  const beacon = BEACONS.find(b => b.id === cityId);
+  if (beacon) {
+    document.getElementById('preach-zone').value = beacon.zone;
+    updatePreachCities();
+    document.getElementById('preach-city').value = cityId;
+  }
+}
+
+function closePreachModal() {
+  document.getElementById('preach-overlay').classList.remove('active');
+  document.getElementById('preach-modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function populateZoneSelect() {
+  const select = document.getElementById('preach-zone');
+  select.innerHTML = '<option value="">Select a zone</option>';
+  ZONES.forEach(z => {
+    const opt = document.createElement('option');
+    opt.value = z.id;
+    opt.textContent = z.name;
+    select.appendChild(opt);
+  });
+}
+
+function updatePreachCities() {
+  const zoneId = parseInt(document.getElementById('preach-zone').value);
+  const citySelect = document.getElementById('preach-city');
+  citySelect.innerHTML = '<option value="">Select a city</option>';
+
+  if (!zoneId) return;
+
+  BEACONS.filter(b => b.zone === zoneId).forEach(b => {
+    const opt = document.createElement('option');
+    opt.value = b.id;
+    opt.textContent = b.name + ' (' + formatPopulation(b.population) + ')';
+    citySelect.appendChild(opt);
+  });
+}
+
+function submitPreachForm(event) {
+  event.preventDefault();
+  const name = document.getElementById('preach-name').value.trim();
+  const email = document.getElementById('preach-email').value.trim();
+  const cityId = parseInt(document.getElementById('preach-city').value);
+  const message = document.getElementById('preach-message').value.trim();
+  const beacon = BEACONS.find(b => b.id === cityId);
+
+  if (!beacon) {
+    alert('Please select a city.');
+    return;
+  }
+
+  const preacherCount = document.getElementById('stat-preachers');
+  const current = parseInt(preacherCount.textContent) || 0;
+  preacherCount.textContent = current + 1;
+
+  alert('Thank you, ' + name + '! Your commitment to preach in ' + beacon.name + ' has been registered.');
+
+  document.getElementById('preach-form').reset();
+  closePreachModal();
+}
+
+/* ============================
+   NAV SCROLL
+   ============================ */
+function initNavScroll() {
+  window.addEventListener('scroll', function() {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 10) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+}
+
+/* ============================
+   KEYBOARD SHORTCUTS
+   ============================ */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePreachModal();
+  }
+});
+
+/* ============================
+   INIT
+   ============================ */
+document.addEventListener('DOMContentLoaded', function() {
+  initNavScroll();
+  renderSubzoneFilters();
+  renderCards();
+  initMap();
 });
 </script>
 </body>

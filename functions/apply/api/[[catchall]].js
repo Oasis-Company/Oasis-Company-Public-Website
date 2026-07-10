@@ -152,14 +152,21 @@ async function sendEmailNotification(application, env) {
 
 async function handleSubmitApplication(request, env) {
   const body = await request.json();
-  if (!body.name || !body.block) return jsonError('Name and block are required');
-  if (!BLOCK_NAMES[body.block]) return jsonError('Invalid block ID');
+  if (!body.name) return jsonError('Name is required');
+
+  // Preacher applications don't need a block
+  const isPreacher = body.type === 'preacher';
+  if (!isPreacher) {
+    if (!body.block) return jsonError('Block is required');
+    if (!BLOCK_NAMES[body.block]) return jsonError('Invalid block ID');
+  }
 
   const countRaw = await env.APPLICATIONS_KV.get('counter:apps');
   const nextNum = ((parseInt(countRaw) || 0) + 1).toString();
   await env.APPLICATIONS_KV.put('counter:apps', nextNum);
 
-  const appId = `OASIS-${Date.now().toString(36).toUpperCase()}-${nextNum.padStart(4, '0')}`;
+  const prefix = isPreacher ? 'PRC' : 'OASIS';
+  const appId = `${prefix}-${Date.now().toString(36).toUpperCase()}-${nextNum.padStart(4, '0')}`;
 
   const application = {
     id: appId,
@@ -168,10 +175,14 @@ async function handleSubmitApplication(request, env) {
     email: body.email || '',
     github: body.github || '',
     contact: body.contact || '',
-    block: body.block,
-    block_name: BLOCK_NAMES[body.block],
+    block: isPreacher ? 'preacher' : body.block,
+    block_name: isPreacher ? 'Preacher' : (BLOCK_NAMES[body.block] || ''),
+    zone: body.zone || null,
+    beacon_city: body.beacon_city || '',
     skills: body.skills || '',
     why: body.why || '',
+    vision: body.vision || '',
+    experience: body.experience || '',
     content: body.content || '',
     status: 'pending',
     submitted: new Date().toISOString(),
