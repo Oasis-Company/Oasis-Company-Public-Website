@@ -8,7 +8,7 @@ Let's build the Oasisverse from here.
 
 | Path | Destination | Mechanism |
 |------|-------------|-----------|
-| `oasiscompany.org/` | Root (coming soon) | — |
+| `oasiscompany.org/` | `index.html` — Home page | `functions/index.js` (Pages Function) |
 | `oasiscompany.org/apply` | `apply.html` — Apply Oasis page | `functions/apply.js` (Pages Function) |
 | `oasiscompany.org/apply/` | `apply.html` | `functions/apply.js` (Pages Function) |
 | `oasiscompany.org/apply/api/*` | Pages Functions API | Auto-routed to `functions/apply/api/` |
