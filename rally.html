@@ -786,6 +786,19 @@ footer p {
 }
 
 /* ============================
+   HEATMAP CANVAS
+   ============================ */
+#heatmap-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 400;
+}
+
+/* ============================
    CITY MARKERS
    ============================ */
 .city-marker {
@@ -795,6 +808,69 @@ footer p {
 
 .city-marker:hover {
   opacity: 0.9;
+}
+
+/* ============================
+   HEATMAP CANVAS (Radial Gradient)
+   ============================ */
+function initHeatmap() {
+  const mapContainer = document.getElementById('map');
+  const canvas = document.createElement('canvas');
+  canvas.id = 'heatmap-canvas';
+  mapContainer.appendChild(canvas);
+
+  function renderHeatmap() {
+    const rect = mapContainer.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    // Sort by population descending so largest cities draw first
+    const sorted = [...BEACONS].sort((a, b) => b.population - a.population);
+
+    sorted.forEach(b => {
+      const point = map.latLngToContainerPoint([b.lat, b.lng]);
+      const radius = Math.pow(b.population / 1000000, 0.4) * 35;
+
+      const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
+
+      const intensity = Math.log(b.population) / Math.log(41900000);
+      const alpha = 0.15 + intensity * 0.4;
+
+      gradient.addColorStop(0, `rgba(0, 0, 0, ${alpha})`);
+      gradient.addColorStop(0.2, `rgba(0, 0, 0, ${alpha * 0.6})`);
+      gradient.addColorStop(0.5, `rgba(0, 0, 0, ${alpha * 0.25})`);
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    });
+
+    // Draw faint city name labels for largest cities
+    sorted.filter(b => b.population >= 20000000).forEach(b => {
+      const point = map.latLngToContainerPoint([b.lat, b.lng]);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+      ctx.font = '10px DM Sans, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.name, point.x, point.y - 12);
+    });
+  }
+
+  renderHeatmap();
+  map.on('moveend', renderHeatmap);
+  map.on('zoomend', renderHeatmap);
+  map.on('resize', renderHeatmap);
+  map.on('move', function() {
+    requestAnimationFrame(renderHeatmap);
+  });
 }
 
 /* ============================
@@ -1427,7 +1503,7 @@ function initMap() {
       color: '#ffffff',
       weight: 1.5,
       fillColor: color,
-      fillOpacity: 0.12
+      fillOpacity: 0.55
     }).addTo(voronoiLayer);
 
     polygon.on('click', function() {
@@ -1439,6 +1515,9 @@ function initMap() {
       className: 'voronoi-tooltip'
     });
   });
+
+  // --- Heatmap canvas overlay ---
+  initHeatmap();
 
   // --- City markers ---
   BEACONS.forEach(beacon => {
