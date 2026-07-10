@@ -755,14 +755,14 @@ footer p {
 }
 
 .voronoi-polygon {
-  fill-opacity: 0.12;
+  fill-opacity: 0.55;
   stroke: var(--white);
   stroke-width: 1.5;
   transition: fill-opacity 0.3s, stroke 0.3s;
 }
 
 .voronoi-polygon:hover {
-  fill-opacity: 0.25;
+  fill-opacity: 0.75;
   stroke: var(--black);
   stroke-width: 2.5;
 }
@@ -783,19 +783,6 @@ footer p {
 
 .voronoi-tooltip::before {
   border-top-color: var(--black) !important;
-}
-
-/* ============================
-   HEATMAP CANVAS
-   ============================ */
-#heatmap-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 400;
 }
 
 /* ============================
@@ -987,13 +974,13 @@ footer p {
      HERO
      ============================ -->
 <section class="hero" id="hero">
-  <div class="hero-label">Gathering of the 119</div>
+  <div class="hero-label">Gathering of the 127</div>
   <h1>
     <span class="line">The World Is</span>
     <span class="line"><span class="highlight">Our Congregation</span></span>
   </h1>
   <p>
-    119 cities. 9 zones. One movement. From the densest megacities to the
+    127 cities. 10 zones. One movement. From the densest megacities to the
     farthest frontiers — the call has gone out. Will you answer?
   </p>
   <div class="hero-actions">
@@ -1022,8 +1009,8 @@ footer p {
       event on a calendar — it is a permanent state of readiness.
     </p>
     <p>
-      We have mapped <span class="emphasis">119 cities</span> across
-      <span class="emphasis">9 zones</span>, each one a node in a global
+      We have mapped <span class="emphasis">127 cities</span> across
+      <span class="emphasis">10 zones</span>, each one a node in a global
       network of conviction. Wherever there are people, there is a reason
       to speak. Wherever there is a voice, there is a congregation.
     </p>
@@ -1039,11 +1026,11 @@ footer p {
      ============================ -->
 <div class="stats-bar" id="stats-bar">
   <div class="stat-item">
-    <div class="stat-number" id="stat-cities">119</div>
+    <div class="stat-number" id="stat-cities">127</div>
     <div class="stat-label">Cities</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number" id="stat-zones">9</div>
+    <div class="stat-number" id="stat-zones">10</div>
     <div class="stat-label">Zones</div>
   </div>
   <div class="stat-item">
@@ -1075,7 +1062,7 @@ footer p {
      ============================ -->
 <section class="map-section" id="map-section">
   <div id="map"></div>
-  <div class="map-overlay-label">119 Cities — 9 Zones</div>
+  <div class="map-overlay-label">127 Cities — 10 Zones</div>
 </section>
 
 <!-- ============================
@@ -1097,7 +1084,7 @@ footer p {
 <div class="preach-modal" id="preach-modal">
   <button class="preach-modal-close" onclick="closePreachModal()">&times;</button>
   <h3>I Want to Preach</h3>
-  <p class="modal-sub">Register your commitment to preach in one of the 119 cities.</p>
+  <p class="modal-sub">Register your commitment to preach in one of the 127 cities.</p>
   <form id="preach-form" onsubmit="submitPreachForm(event)">
     <div class="form-group">
       <label for="preach-name">Your Name</label>
@@ -1156,7 +1143,8 @@ const ZONES = [
   { id: 6, name: 'Africa', color: '#008c8c' },
   { id: 7, name: 'North America', color: '#0055cc' },
   { id: 8, name: 'Latin America', color: '#6600cc' },
-  { id: 9, name: 'Oceania & Global', color: '#666666' }
+  { id: 9, name: 'Oceania & Global', color: '#666666' },
+  { id: 10, name: 'Oasis Development Council', color: '#2a3a4a' }
 ];
 
 /* ============================
@@ -1189,11 +1177,14 @@ const SUBZONES = [
   { id: '8c', zoneId: 8, name: 'Mexico & Central America' },
   { id: '9a', zoneId: 9, name: 'Pacific Rim' },
   { id: '9b', zoneId: 9, name: 'Global Connectors' },
-  { id: '9c', zoneId: 9, name: 'Frontier Cities' }
+  { id: '9c', zoneId: 9, name: 'Frontier Cities' },
+  { id: '10a', zoneId: 10, name: 'Arctic' },
+  { id: '10b', zoneId: 10, name: 'Antarctica' },
+  { id: '10c', zoneId: 10, name: 'Siberia & Tibetan Plateau' }
 ];
 
 /* ============================
-   BEACONS — 119 Cities
+   BEACONS — 127 Cities
    ============================ */
 const BEACONS = [
   // ZONE 1: East Asia
@@ -1353,7 +1344,20 @@ const BEACONS = [
   { id: 116, name: 'Mexico City', lat: 19.43, lng: -99.13, zone: 8, subzone: '8c', population: 12000000, range: 'Mexico' },
   { id: 117, name: 'Guadalajara', lat: 20.68, lng: -103.35, zone: 8, subzone: '8c', population: 5000000, range: 'Mexico' },
   { id: 118, name: 'Monterrey', lat: 25.69, lng: -100.32, zone: 8, subzone: '8c', population: 5000000, range: 'Mexico' },
-  { id: 119, name: 'Panama City', lat: 8.98, lng: -79.52, zone: 8, subzone: '8c', population: 2000000, range: 'Panama' }
+  { id: 119, name: 'Panama City', lat: 8.98, lng: -79.52, zone: 8, subzone: '8c', population: 2000000, range: 'Panama' },
+
+  // ZONE 10: Oasis Development Council
+  // 10a: Arctic
+  { id: 120, name: 'Murmansk', lat: 68.96, lng: 33.08, zone: 10, subzone: '10a', population: 300000, range: 'Arctic Russia' },
+  { id: 121, name: 'Tromsø', lat: 69.65, lng: 18.96, zone: 10, subzone: '10a', population: 75000, range: 'Norway Arctic' },
+  { id: 122, name: 'Reykjavik', lat: 64.15, lng: -21.82, zone: 10, subzone: '10a', population: 400000, range: 'Iceland' },
+  { id: 123, name: 'Nuuk', lat: 64.18, lng: -51.72, zone: 10, subzone: '10a', population: 18000, range: 'Greenland' },
+  { id: 124, name: 'Anchorage', lat: 61.22, lng: -149.90, zone: 10, subzone: '10a', population: 300000, range: 'Alaska' },
+  // 10b: Antarctica
+  { id: 125, name: 'McMurdo Station', lat: -77.85, lng: 166.67, zone: 10, subzone: '10b', population: 1000, range: 'Antarctica' },
+  // 10c: Siberia & Tibetan Plateau
+  { id: 126, name: 'Novosibirsk', lat: 55.01, lng: 82.92, zone: 10, subzone: '10c', population: 1600000, range: 'Siberia' },
+  { id: 127, name: 'Lhasa', lat: 29.65, lng: 91.17, zone: 1, subzone: '1b', population: 500000, range: 'Tibetan Plateau' }
 ];
 
 /* ============================
@@ -1436,10 +1440,7 @@ function initMap() {
     });
   });
 
-  // --- Heatmap canvas overlay ---
-  initHeatmap();
-
-  // --- City markers (white circles with black stroke) ---
+  // --- City markers ---
   BEACONS.forEach(beacon => {
     const radius = Math.max(3, Math.pow(beacon.population / 1000000, 0.35) * 5);
 
@@ -1476,70 +1477,6 @@ function initMap() {
 
   // --- Legend ---
   initLegend();
-}
-
-/* ============================
-   HEATMAP CANVAS (Radial Gradient)
-   ============================ */
-function initHeatmap() {
-  const mapContainer = document.getElementById('map');
-  const canvas = document.createElement('canvas');
-  canvas.id = 'heatmap-canvas';
-  mapContainer.appendChild(canvas);
-
-  function renderHeatmap() {
-    const rect = mapContainer.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = rect.height + 'px';
-
-    const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    ctx.clearRect(0, 0, rect.width, rect.height);
-
-    // Sort by population descending so largest cities draw first
-    const sorted = [...BEACONS].sort((a, b) => b.population - a.population);
-
-    sorted.forEach(b => {
-      const point = map.latLngToContainerPoint([b.lat, b.lng]);
-      const radius = Math.pow(b.population / 1000000, 0.4) * 35;
-
-      const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
-
-      const intensity = Math.log(b.population) / Math.log(41900000);
-      const alpha = 0.15 + intensity * 0.4;
-
-      gradient.addColorStop(0, `rgba(0, 0, 0, ${alpha})`);
-      gradient.addColorStop(0.2, `rgba(0, 0, 0, ${alpha * 0.6})`);
-      gradient.addColorStop(0.5, `rgba(0, 0, 0, ${alpha * 0.25})`);
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-      ctx.beginPath();
-      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-    });
-
-    // Draw faint city name labels for largest cities
-    sorted.filter(b => b.population >= 20000000).forEach(b => {
-      const point = map.latLngToContainerPoint([b.lat, b.lng]);
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-      ctx.font = '10px DM Sans, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(b.name, point.x, point.y - 12);
-    });
-  }
-
-  renderHeatmap();
-  map.on('moveend', renderHeatmap);
-  map.on('zoomend', renderHeatmap);
-  map.on('resize', renderHeatmap);
-  // Also render on move for smooth feel
-  map.on('move', function() {
-    requestAnimationFrame(renderHeatmap);
-  });
 }
 
 /* ============================

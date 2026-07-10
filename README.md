@@ -24,7 +24,7 @@ Let's build the Oasisverse from here.
   - Cloudflare Pages: `oasis-apply` (KV + Functions)
   - Custom domain: `oasiscompany.org`
 - **Oasis Directory** — [`/list`](/list) — Complete map of the Oasisverse
-- **The Gathering** — [`/rally`](/rally) — 53 beacons across 9 zones
+- **The Gathering** — [`/rally`](/rally) — 127 beacons across 10 zones, including Oasis Development Council territories
 
 ---
 
