@@ -150,7 +150,7 @@ async function sendEmailNotification(application, env) {
 // HANDLERS
 // ==========================================
 
-async function handleSubmitApplication(request, env) {
+async function handleSubmitApplication(request, env, context) {
   const body = await request.json();
   if (!body.name) return jsonError('Name is required');
 
@@ -193,8 +193,10 @@ async function handleSubmitApplication(request, env) {
   if (body.github) await env.APPLICATIONS_KV.put(`app:by-github:${body.github.toLowerCase()}`, appId);
   await env.APPLICATIONS_KV.put(`app:by-name:${body.name.toLowerCase()}`, appId);
 
-  // Fire-and-forget email notification (don't block the response)
-  env.RESEND_API_KEY && sendEmailNotification(application, env);
+  // Fire-and-forget email notification (use waitUntil to keep runtime alive)
+  if (env.RESEND_API_KEY) {
+    context.waitUntil(sendEmailNotification(application, env));
+  }
 
   return json({ success: true, id: appId, message: 'Application submitted successfully' }, 201);
 }
@@ -349,6 +351,35 @@ export async function onRequest(context) {
     return json({ status: 'ok', timestamp: new Date().toISOString() });
   }
 
+  // GET /apply/api/test-email — test email sending
+  if (segments.length === 1 && segments[0] === 'test-email' && method === 'GET') {
+    const apiKey = env.RESEND_API_KEY;
+    if (!apiKey) {
+      return json({ error: 'RESEND_API_KEY not set' }, 500);
+    }
+    const emailTo = env.EMAIL_TO;
+    const emailFrom = env.EMAIL_FROM;
+    try {
+      const resp = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: emailFrom,
+          to: [emailTo],
+          subject: '[Apply Oasis] Test Email from Cloudflare',
+          html: '<p>This is a test email from Cloudflare Pages Functions.</p>',
+        }),
+      });
+      const body = await resp.text();
+      return json({ status: resp.status, ok: resp.ok, body });
+    } catch (err) {
+      return json({ error: err.message, stack: err.stack }, 500);
+    }
+  }
+
   // GET /apply/api/blocks
   if (segments.length === 1 && segments[0] === 'blocks' && method === 'GET') {
     return handleListBlocks();
@@ -356,7 +387,7 @@ export async function onRequest(context) {
 
   // POST /apply/api/applications
   if (segments.length === 1 && segments[0] === 'applications' && method === 'POST') {
-    return handleSubmitApplication(request, env);
+    return handleSubmitApplication(request, env, context);
   }
 
   // POST /apply/api/proposals
