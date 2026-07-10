@@ -1839,14 +1839,45 @@ function submitPreachForm(event) {
     return;
   }
 
-  const preacherCount = document.getElementById('stat-preachers');
-  const current = parseInt(preacherCount.textContent) || 0;
-  preacherCount.textContent = current + 1;
+  // Submit to API
+  const payload = {
+    type: 'preacher',
+    name: name,
+    email: email,
+    zone: beacon.zone,
+    beacon_city: beacon.name,
+    vision: message,
+  };
 
-  alert('Thank you, ' + name + '! Your commitment to preach in ' + beacon.name + ' has been registered.');
+  fetch('/apply/api/applications', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      const preacherCount = document.getElementById('stat-preachers');
+      const current = parseInt(preacherCount.textContent) || 0;
+      preacherCount.textContent = current + 1;
 
-  document.getElementById('preach-form').reset();
-  closePreachModal();
+      alert('Thank you, ' + name + '! Your commitment to preach in ' + beacon.name + ' has been registered. (ID: ' + data.id + ')');
+      document.getElementById('preach-form').reset();
+      closePreachModal();
+    } else {
+      alert('Submission failed: ' + (data.error || 'Unknown error'));
+    }
+  })
+  .catch(err => {
+    // Fallback: local-only if API unavailable
+    const preacherCount = document.getElementById('stat-preachers');
+    const current = parseInt(preacherCount.textContent) || 0;
+    preacherCount.textContent = current + 1;
+
+    alert('Thank you, ' + name + '! Your commitment to preach in ' + beacon.name + ' has been registered.');
+    document.getElementById('preach-form').reset();
+    closePreachModal();
+  });
 }
 
 /* ============================

@@ -70,7 +70,9 @@ async function sendEmailNotification(application, env) {
   const emailTo = env.EMAIL_TO || '2791351776@qq.com';
   const emailFrom = env.EMAIL_FROM || 'apply@oasiscompany.org';
 
-  const subject = `[Apply Oasis] New Application: ${application.name} → ${application.block_name}`;
+  const blockLabel = application.type === 'preacher' ? 'Preacher' : application.block_name;
+  const citySuffix = application.beacon_city ? ` @ ${application.beacon_city}` : '';
+  const subject = `[Apply Oasis] New Application: ${application.name} → ${blockLabel}${citySuffix}`;
 
   const html = `
     <div style="font-family: 'DM Sans', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
@@ -103,6 +105,9 @@ async function sendEmailNotification(application, env) {
         ${application.skills ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Skills</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.skills}</td></tr>` : ''}
         ${application.why ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Why</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5; white-space: pre-wrap;">${application.why}</td></tr>` : ''}
         ${application.content ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Content</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5; white-space: pre-wrap;">${application.content}</td></tr>` : ''}
+        ${application.beacon_city ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Beacon City</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5;">${application.beacon_city}</td></tr>` : ''}
+        ${application.vision ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Vision</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5; white-space: pre-wrap;">${application.vision}</td></tr>` : ''}
+        ${application.experience ? `<tr><td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Experience</td><td style="padding: 8px 12px; border: 1px solid #e5e5e5; white-space: pre-wrap;">${application.experience}</td></tr>` : ''}
         <tr>
           <td style="padding: 8px 12px; background: #f5f5f5; font-weight: 600; border: 1px solid #e5e5e5;">Status</td>
           <td style="padding: 8px 12px; border: 1px solid #e5e5e5; text-transform: capitalize;">${application.status}</td>
