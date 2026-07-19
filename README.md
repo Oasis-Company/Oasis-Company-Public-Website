@@ -16,6 +16,8 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/list/` | `list.html` | `functions/list.js` (Pages Function) |
 | `oasiscompany.org/rally` | `rally.html` — The Gathering | `functions/rally.js` (Pages Function) |
 | `oasiscompany.org/rally/` | `rally.html` | `functions/rally.js` (Pages Function) |
+| `oasiscompany.org/ailab` | `ailab.html` — Oasis AI Lab | `functions/ailab.js` (Pages Function) |
+| `oasiscompany.org/ailab/` | `ailab.html` | `functions/ailab.js` (Pages Function) |
 
 ## Sub-projects
 
@@ -25,6 +27,7 @@ Let's build the Oasisverse from here.
   - Custom domain: `oasiscompany.org`
 - **Oasis Directory** — [`/list`](/list) — Complete map of the Oasisverse
 - **The Gathering** — [`/rally`](/rally) — 127 beacons across 10 zones, including Oasis Development Council territories
+- **Oasis AI Lab** — [`/ailab`](/ailab) — Artificial intelligence, agents, and world-models built openly on [github.com/Oasis-Company](https://github.com/Oasis-Company)
 
 ---
 

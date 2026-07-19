@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oasis Company</title>
+<title>AI Lab — Oasis Company</title>
+<meta name="description" content="The Oasis AI Lab — artificial intelligence, agents, and world-models built openly by the Oasis Company community. github.com/Oasis-Company">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
@@ -71,6 +72,15 @@ h1, .h1 { font-size: clamp(2.5rem, 8vw, 6rem); }
 h2, .h2 { font-size: clamp(1.8rem, 5vw, 3.5rem); }
 h3, .h3 { font-size: clamp(1.3rem, 3vw, 2rem); }
 
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 0.75rem;
+}
+
 /* ============================
    NAV BAR
    ============================ */
@@ -119,12 +129,13 @@ nav.scrolled {
 }
 
 .nav-links a:hover { color: var(--black); }
+.nav-links a.active { color: var(--red); }
 
 /* ============================
    HERO
    ============================ */
 .hero {
-  min-height: 100vh;
+  min-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -221,7 +232,7 @@ nav.scrolled {
 }
 
 /* ============================
-   MANIFESTO
+   MANIFESTO (Core Sentence)
    ============================ */
 .manifesto {
   background: var(--black);
@@ -231,7 +242,7 @@ nav.scrolled {
 }
 
 .manifesto-inner {
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
@@ -245,95 +256,118 @@ nav.scrolled {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
   line-height: 1.9;
   color: var(--gray-400);
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .manifesto-text strong { color: var(--white); font-weight: 600; }
 
-.manifesto-text .accent { color: var(--red); font-weight: 600; }
-
-.manifesto-motto {
+.manifesto-link {
+  display: inline-block;
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--white);
-  margin-top: 1rem;
+  border-bottom: 3px solid var(--red);
+  padding-bottom: 4px;
+  transition: color var(--transition), border-color var(--transition);
 }
 
+.manifesto-link:hover { color: var(--red); border-color: var(--white); }
+
 /* ============================
-   PLATFORM GRID
+   PROJECTS
    ============================ */
-.platforms {
+.projects {
   padding: 96px 24px;
   background: var(--white);
   text-align: center;
 }
 
-.platforms-inner {
+.projects-inner {
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
-.platforms h2 {
+.projects h2 {
   margin-bottom: 0.75rem;
 }
 
-.platforms .subtitle {
+.projects .subtitle {
   color: var(--gray-500);
   font-size: 1rem;
   margin-bottom: 3rem;
-  max-width: 600px;
+  max-width: 640px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.platform-grid {
+.ai-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-  max-width: 900px;
+  max-width: var(--max-width);
   margin: 0 auto;
+  text-align: left;
 }
 
 @media (min-width: 640px) {
-  .platform-grid { grid-template-columns: repeat(3, 1fr); }
+  .ai-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-.platform-card {
+@media (min-width: 1024px) {
+  .ai-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.ai-card {
   border: 1px solid var(--gray-200);
-  padding: 32px 24px;
-  text-align: center;
+  padding: 28px 24px;
   transition: all var(--transition);
-  cursor: pointer;
   background: var(--white);
+  display: flex;
+  flex-direction: column;
 }
 
-.platform-card:hover {
+.ai-card:hover {
   border-color: var(--black);
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 
-.platform-card .icon {
-  font-size: 1.5rem;
-  margin-bottom: 12px;
-  color: var(--black);
+.ai-card .lang {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 10px;
 }
 
-.platform-card h3 {
-  font-size: 1rem;
+.ai-card h3 {
+  font-size: 1.05rem;
   margin-bottom: 8px;
 }
 
-.platform-card p {
-  font-size: 0.8rem;
-  color: var(--gray-400);
-  line-height: 1.5;
+.ai-card p {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  line-height: 1.55;
+  flex: 1;
+  margin-bottom: 16px;
 }
 
+.ai-card .repo {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  transition: color var(--transition);
+  word-break: break-all;
+}
+
+.ai-card:hover .repo { color: var(--black); }
+
 /* ============================
-   STATS
+   STATS BAR
    ============================ */
 .stats-bar {
   display: flex;
@@ -421,9 +455,6 @@ footer a:hover { color: var(--red); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================
-   SCROLL ANIMATIONS
-   ============================ */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -434,6 +465,17 @@ footer a:hover { color: var(--red); }
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 480px) {
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 0.6rem; letter-spacing: 0.08em; }
+  .stats-bar { gap: 24px; padding: 32px 16px; }
+  .stat-number { font-size: 1.8rem; }
+  .hero { min-height: 82vh; }
+}
 </style>
 </head>
 <body>
@@ -442,7 +484,7 @@ footer a:hover { color: var(--red); }
 <nav id="nav">
   <a href="/" class="nav-brand">Oasis<span>Company</span></a>
   <div class="nav-links">
-    <a href="/ailab">AI Lab</a>
+    <a href="/ailab" class="active">AI Lab</a>
     <a href="/apply">Apply</a>
     <a href="/list">Directory</a>
     <a href="/rally">Gathering</a>
@@ -451,93 +493,118 @@ footer a:hover { color: var(--red); }
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-label">Oasis Company</div>
+  <div class="hero-label">Oasis Company · AI Lab</div>
   <h1>
-    <span class="line">The Future Is</span>
-    <span class="line"><span class="highlight">Virtual</span></span>
+    <span class="line">We Build</span>
+    <span class="line"><span class="highlight">The Mind</span></span>
   </h1>
   <p>
-    We are building the organization that will lead humanity toward a
-    virtualized future — across every domain, every corner of the world.
+    Artificial intelligence, autonomous agents, and world-models — engineered
+    openly by the Oasis community. Every experiment lives in the open, on GitHub.
   </p>
   <div class="hero-actions">
-    <a href="/apply" class="btn btn-primary">Apply Now</a>
-    <a href="/rally" class="btn btn-outline">The Gathering</a>
+    <a href="#projects" class="btn btn-primary">Explore Projects</a>
+    <a href="https://github.com/Oasis-Company" target="_blank" rel="noopener" class="btn btn-outline">GitHub Org</a>
   </div>
 </section>
 
-<!-- Manifesto -->
-<section class="manifesto" id="manifesto">
+<!-- Core Sentence (Manifesto) -->
+<section class="manifesto" id="choose">
   <div class="manifesto-inner">
-    <h2>Our <span class="highlight">Manifesto</span></h2>
-    <div class="manifesto-text">
-      Here is <strong>Oasis Company</strong>. We are committed to leading all of humanity toward a <strong>virtualized future</strong>.<br><br>
-      We do not despise this era — we simply believe <strong>humanity deserves a better one</strong>.<br><br>
-      Our footprints will span <strong>every domain</strong>, <strong>every corner of the world</strong>. We are not mere technology evangelists —<br>
-      we are <span class="accent">omnipotent artists</span>.<br><br>
-      We must entrust the future of humanity to <strong>all of humanity</strong>. Our goal is not profit — it is <strong>choice</strong>.<br><br>
-      Here is your opportunity. You can join <strong>Oasis</strong>.<br><br>
-      We are the true <span class="accent">dream builders</span>.
+    <div class="section-label">The Central Premise</div>
+    <h2>We Must <span class="highlight">Choose Together</span></h2>
+    <p class="manifesto-text">
+      The direction of intelligence must not be decided by a few. It is decided by
+      <strong>all of us</strong> — together. We build AI in the open, so that everyone
+      can see it, question it, and shape it.
+    </p>
+    <a href="https://github.com/Oasis-Company" target="_blank" rel="noopener" class="manifesto-link">github.com/Oasis-Company →</a>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="projects reveal" id="projects">
+  <div class="projects-inner">
+    <h2>AI Projects</h2>
+    <p class="subtitle">Repositories from the Oasis-Company org where artificial intelligence, agents, and world-models do the work.</p>
+    <div class="ai-grid">
+
+      <a class="ai-card" href="https://github.com/Oasis-Company/Biosurf" target="_blank" rel="noopener">
+        <div class="lang">Rust</div>
+        <h3>Biosurf</h3>
+        <p>A dedicated browser for APIs, crawlers, and AI agents — built so autonomous agents can navigate the web on their own terms.</p>
+        <span class="repo">github.com/Oasis-Company/Biosurf</span>
+      </a>
+
+      <a class="ai-card" href="https://github.com/Oasis-Company/OasisBio" target="_blank" rel="noopener">
+        <div class="lang">TypeScript</div>
+        <h3>OasisBio</h3>
+        <p>A Trans-Era Identity Agreement. Agent-based digital identity and character frameworks for persistent, cross-world beings.</p>
+        <span class="repo">github.com/Oasis-Company/OasisBio</span>
+      </a>
+
+      <a class="ai-card" href="https://github.com/Oasis-Company/Thoth" target="_blank" rel="noopener">
+        <div class="lang">AI</div>
+        <h3>Thoth</h3>
+        <p>Your subconscious recorder. AI automatically analyzes dream imagery and emotions, building a traceable map of every dream.</p>
+        <span class="repo">github.com/Oasis-Company/Thoth</span>
+      </a>
+
+      <a class="ai-card" href="https://github.com/Oasis-Company/AME-Scanner" target="_blank" rel="noopener">
+        <div class="lang">C++</div>
+        <h3>AME-Scanner</h3>
+        <p>The kinetic sensory organ of AMAR Engine — a high-density field-probing agent that deconstructs radiance fields into structured primitives.</p>
+        <span class="repo">github.com/Oasis-Company/AME-Scanner</span>
+      </a>
+
+      <a class="ai-card" href="https://github.com/Oasis-Company/Metaclass" target="_blank" rel="noopener">
+        <div class="lang">Python</div>
+        <h3>Metaclass</h3>
+        <p>Invert the universe. An ontology and world-models engine for defining the structure of virtual worlds at their foundation.</p>
+        <span class="repo">github.com/Oasis-Company/Metaclass</span>
+      </a>
+
+      <a class="ai-card" href="https://github.com/Oasis-Company/AMAR-GENIS" target="_blank" rel="noopener">
+        <div class="lang">Python</div>
+        <h3>AMAR-GENIS</h3>
+        <p>Built on Genesis — a physics simulation foundation for embodied intelligence, bridging synthetic worlds and physical reasoning.</p>
+        <span class="repo">github.com/Oasis-Company/AMAR-GENIS</span>
+      </a>
+
     </div>
-    <div class="manifesto-motto">Let's build the Oasisverse from here.</div>
   </div>
 </section>
 
 <!-- Stats -->
 <section class="stats-bar reveal">
   <div class="stat-item">
-    <div class="stat-number">16</div>
-    <div class="stat-label">Blocks</div>
+    <div class="stat-number">6</div>
+    <div class="stat-label">AI Projects</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">127</div>
-    <div class="stat-label">Beacon Cities</div>
+    <div class="stat-number">4</div>
+    <div class="stat-label">Languages</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">10</div>
-    <div class="stat-label">Zones</div>
+    <div class="stat-number">1</div>
+    <div class="stat-label">Open Org</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">14</div>
-    <div class="stat-label">Websites</div>
-  </div>
-</section>
-
-<!-- Platforms -->
-<section class="platforms reveal">
-  <div class="platforms-inner">
-    <h2>Explore the Oasisverse</h2>
-    <p class="subtitle">From the application portal to the global gathering — every entry point into the Oasis ecosystem.</p>
-    <div class="platform-grid">
-      <a href="/apply" class="platform-card">
-        <div class="icon">&#8594;</div>
-        <h3>Apply Oasis</h3>
-        <p>Join the organization. Submit your application to any of the 16 blocks.</p>
-      </a>
-      <a href="/list" class="platform-card">
-        <div class="icon">&#8594;</div>
-        <h3>Directory</h3>
-        <p>Explore the complete map of every Oasis website and project.</p>
-      </a>
-      <a href="/rally" class="platform-card">
-        <div class="icon">&#8594;</div>
-        <h3>The Gathering</h3>
-        <p>127 beacon cities across 10 zones. The global congregation.</p>
-      </a>
-    </div>
+    <div class="stat-number">∞</div>
+    <div class="stat-label">Choices</div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-section reveal">
-  <h2>Ready to Join?</h2>
-  <p>The future is not waiting. Neither should you. Submit your application and become part of something greater.</p>
-  <a href="/apply" class="btn">Apply Now</a>
+  <h2>Build the Mind With Us</h2>
+  <p>Intelligence is a collective choice. Explore the repositories, fork one, and help decide what we build next.</p>
+  <a href="https://github.com/Oasis-Company" target="_blank" rel="noopener" class="btn">Visit GitHub Org</a>
 </section>
 
 <!-- Footer -->
 <footer>
-  <p>Made by <a href="https://ceaserzhao.com" target="_blank">CeaserZhao</a> &middot; <a href="https://ceo.oasiscompany.org" target="_blank">ceo.oasiscompany.org</a></p>
+  <p>Made by <a href="https://ceaserzhao.com" target="_blank">CeaserZhao</a> &middot; <a href="https://ceo.oasiscompany.org" target="_blank">ceo.oasiscompany.org</a> &middot; <a href="https://github.com/Oasis-Company" target="_blank">github.com/Oasis-Company</a></p>
 </footer>
 
 <script>
