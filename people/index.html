@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>People — Oasis Company</title>
+<meta name="description" content="Members of the Oasis Company GitHub organization." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray-100: #f5f5f5;
+  --gray-200: #e8e8e8;
+  --gray-300: #cccccc;
+  --gray-400: #999999;
+  --gray-500: #666666;
+  --gray-600: #444444;
+  --red: #e60000;
+  --red-hover: #cc0000;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --nav-height: 56px;
+  --max-width: 1200px;
+  --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--black);
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; width: 100%;
+  height: var(--nav-height);
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; z-index: 1000;
+  transition: box-shadow var(--transition);
+}
+nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+.nav-brand { font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.15em; }
+.nav-brand span { color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a {
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--gray-500); transition: color var(--transition);
+}
+.nav-links a:hover { color: var(--black); }
+
+/* ===== LAYOUT ===== */
+.wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+.hero {
+  padding: calc(var(--nav-height) + 7rem) 0 3rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+.hero .eyebrow {
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--red); margin-bottom: 1.2rem;
+}
+.hero h1 { font-size: clamp(3rem, 10vw, 7rem); }
+.hero p {
+  margin-top: 1.4rem; max-width: 38rem;
+  font-size: 1.05rem; color: var(--gray-600); line-height: 1.7;
+}
+.hero .stats {
+  margin-top: 2.2rem; display: flex; gap: 2.5rem; flex-wrap: wrap;
+}
+.hero .stats div { display: flex; flex-direction: column; }
+.hero .stats .num { font-family: var(--font-display); font-size: 2.2rem; line-height: 1; }
+.hero .stats .lbl {
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--gray-500); margin-top: 0.5rem;
+}
+
+/* ===== PEOPLE LIST ===== */
+.people { padding: 1rem 0 5rem; }
+.person {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; padding: 1.8rem 0;
+  border-top: 1px solid var(--gray-200);
+}
+.person:last-child { border-bottom: 1px solid var(--gray-200); }
+
+.person-main { min-width: 0; }
+.person-name {
+  font-family: var(--font-display); font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.05;
+  display: inline-block; transition: color var(--transition);
+}
+a.person-name:hover { color: var(--red); }
+.person-handle {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.85rem; color: var(--gray-500); margin-top: 0.35rem;
+}
+.person-handle a { transition: color var(--transition); }
+.person-handle a:hover { color: var(--black); }
+.person-ext { font-size: 0.7rem; }
+.person-alts {
+  margin-top: 0.5rem; font-size: 0.78rem; color: var(--gray-500);
+}
+.person-alts b { font-weight: 600; color: var(--gray-600); }
+
+.person-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+.tag {
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; padding: 0.35rem 0.6rem; border: 1px solid var(--gray-300);
+  color: var(--gray-600); white-space: nowrap;
+}
+.tag-owner { background: var(--red); border-color: var(--red); color: var(--white); }
+.tag-member { border-color: var(--black); color: var(--black); }
+.tag-2fa { color: var(--gray-500); }
+.tag-teams { color: var(--gray-500); }
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid var(--gray-200); padding: 2.5rem 0;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+footer .f-brand { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.95rem; }
+footer .f-brand span { color: var(--red); }
+footer .f-links { display: flex; gap: 1.5rem; }
+footer .f-links a { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gray-500); transition: color var(--transition); }
+footer .f-links a:hover { color: var(--black); }
+
+@media (max-width: 640px) {
+  .person { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .person-meta { justify-content: flex-start; }
+  .hero .stats { gap: 1.8rem; }
+}
+</style>
+</head>
+<body>
+  <nav id="nav">
+    <a class="nav-brand" href="/">OASIS<span>.</span></a>
+    <div class="nav-links">
+      <a href="/ailab">AI Lab</a>
+      <a href="/list">Directory</a>
+      <a href="/rally">Gathering</a>
+      <a href="/people" style="color:var(--black);">People</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Oasis Company · GitHub Org</div>
+      <h1>People</h1>
+      <p>The builders behind the Oasisverse — owners and members of the Oasis Company organization on GitHub.</p>
+      <div class="stats">
+        <div><span class="num">7</span><span class="lbl">People</span></div>
+        <div><span class="num">9</span><span class="lbl">Accounts</span></div>
+        <div><span class="num">3</span><span class="lbl">Owners</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap people">
+    <ul>
+      <!-- CeaserZhao (main) — alts @ceaserandrew & @ceaserzhang folded in, not duplicated -->
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="/people/ceaserzhao">CeaserZhao</a>
+          <div class="person-handle">
+            <a href="https://github.com/zbbsdsb" target="_blank" rel="noopener">@zbbsdsb</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+          <div class="person-alts">also operating: <b>@ceaserandrew</b>, <b>@ceaserzhang</b></div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-owner">Owner</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">2 Teams</span>
+        </div>
+      </li>
+
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="https://github.com/QolarBearFR" target="_blank" rel="noopener">Bear Qolar</a>
+          <div class="person-handle">
+            <a href="https://github.com/QolarBearFR" target="_blank" rel="noopener">@QolarBearFR</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-owner">Owner</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">1 Team</span>
+        </div>
+      </li>
+
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="https://github.com/AmaiDonatsu" target="_blank" rel="noopener">Amai Tsurai Donatsu</a>
+          <div class="person-handle">
+            <a href="https://github.com/AmaiDonatsu" target="_blank" rel="noopener">@AmaiDonatsu</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-member">Member</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">1 Team</span>
+        </div>
+      </li>
+
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="https://github.com/captainaraf" target="_blank" rel="noopener">Shaidozzaman Araf</a>
+          <div class="person-handle">
+            <a href="https://github.com/captainaraf" target="_blank" rel="noopener">@captainaraf</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-member">Member</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">0 Teams</span>
+        </div>
+      </li>
+
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="https://github.com/comet-web" target="_blank" rel="noopener">comet-web</a>
+          <div class="person-handle">
+            <a href="https://github.com/comet-web" target="_blank" rel="noopener">@comet-web</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-member">Member</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">1 Team</span>
+        </div>
+      </li>
+
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="https://github.com/EpickyHrac" target="_blank" rel="noopener">EpickyHrac</a>
+          <div class="person-handle">
+            <a href="https://github.com/EpickyHrac" target="_blank" rel="noopener">@EpickyHrac</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-member">Member</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">1 Team</span>
+        </div>
+      </li>
+
+      <li class="person">
+        <div class="person-main">
+          <a class="person-name" href="https://github.com/tangsky123" target="_blank" rel="noopener">tangsky123</a>
+          <div class="person-handle">
+            <a href="https://github.com/tangsky123" target="_blank" rel="noopener">@tangsky123</a>
+            <span class="person-ext">&#8599;</span>
+          </div>
+        </div>
+        <div class="person-meta">
+          <span class="tag tag-member">Member</span>
+          <span class="tag tag-2fa">2FA</span>
+          <span class="tag">Private</span>
+          <span class="tag tag-teams">1 Team</span>
+        </div>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="wrap">
+    <div class="f-brand">OASIS<span>.</span></div>
+    <div class="f-links">
+      <a href="/ailab">AI Lab</a>
+      <a href="/list">Directory</a>
+      <a href="/">Home</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var nav = document.getElementById('nav');
+      var onScroll = function () {
+        if (window.scrollY > 8) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

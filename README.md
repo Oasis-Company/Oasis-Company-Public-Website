@@ -24,6 +24,8 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/people/ceaserzhao/` | `people/ceaserzhao.html` | `functions/people/ceaserzhao.js` (Pages Function) |
 | `oasiscompany.org/people/ceaserzhao/info` | `people/info.html` — CeaserZhao's info | `functions/people/ceaserzhao/info.js` (Pages Function) |
 | `oasiscompany.org/people/ceaserzhao/info/` | `people/info.html` | `functions/people/ceaserzhao/info.js` (Pages Function) |
+| `oasiscompany.org/people` | `people/index.html` — People directory | `functions/people.js` (Pages Function) |
+| `oasiscompany.org/people/` | `people/index.html` | `functions/people.js` (Pages Function) |
 
 ## Sub-projects
 
@@ -35,7 +37,7 @@ Let's build the Oasisverse from here.
 - **The Gathering** — [`/rally`](/rally) — 127 beacons across 10 zones, including Oasis Development Council territories
 - **Oasis AI Lab** — [`/ailab`](/ailab) — Artificial intelligence, agents, and world-models built openly on [github.com/Oasis-Company](https://github.com/Oasis-Company)
   - **Fundamental** — [`/ailab/fundamental`](/ailab/fundamental) — Three open AI skills (Great-Expectations, Decomposer-Skill, Tension-Mining) with copyable prompts
-- **People** — personal pages
+- **People** — [`/people`](/people) — directory of Oasis Company GitHub org members (7 people / 9 accounts)
   - **CeaserZhao** — [`/people/ceaserzhao`](/people/ceaserzhao) — stark emotional-engineering intro; [`/people/ceaserzhao/info`](/people/ceaserzhao/info) reveals the bio (founded Oasis Company at 11, building a real world-narrative framework)
 
 ---
