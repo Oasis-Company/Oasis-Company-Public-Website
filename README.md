@@ -20,6 +20,10 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/ailab/` | `ailab.html` | `functions/ailab.js` (Pages Function) |
 | `oasiscompany.org/ailab/fundamental` | `fundamental.html` — AI Lab Skills | `functions/ailab/fundamental.js` (Pages Function) |
 | `oasiscompany.org/ailab/fundamental/` | `fundamental.html` | `functions/ailab/fundamental.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao` | `people/ceaserzhao.html` — CeaserZhao | `functions/people/ceaserzhao.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/` | `people/ceaserzhao.html` | `functions/people/ceaserzhao.js` (Pages Function) |
+| `oasiscompany.org/people/info` | `people/info.html` — CeaserZhao's info | `functions/people/info.js` (Pages Function) |
+| `oasiscompany.org/people/info/` | `people/info.html` | `functions/people/info.js` (Pages Function) |
 
 ## Sub-projects
 
@@ -31,6 +35,8 @@ Let's build the Oasisverse from here.
 - **The Gathering** — [`/rally`](/rally) — 127 beacons across 10 zones, including Oasis Development Council territories
 - **Oasis AI Lab** — [`/ailab`](/ailab) — Artificial intelligence, agents, and world-models built openly on [github.com/Oasis-Company](https://github.com/Oasis-Company)
   - **Fundamental** — [`/ailab/fundamental`](/ailab/fundamental) — Three open AI skills (Great-Expectations, Decomposer-Skill, Tension-Mining) with copyable prompts
+- **People** — personal pages
+  - **CeaserZhao** — [`/people/ceaserzhao`](/people/ceaserzhao) — stark emotional-engineering intro; [`/people/info`](/people/info) reveals the bio (founded Oasis Company at 11, building a real world-narrative framework)
 
 ---
 

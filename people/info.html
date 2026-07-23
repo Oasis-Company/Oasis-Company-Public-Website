@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>ceaserzhao · info</title>
+  <meta name="description" content="ceaserzhao — building the Oasisverse from here." />
   <style>
+    :root { --red: #e60000; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
     body {
@@ -12,32 +14,91 @@
       color: #000;
       font-family: "SFMono-Regular", "SF Mono", "JetBrains Mono", "Fira Code",
                    Menlo, Consolas, "Liberation Mono", monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       min-height: 100svh;
-      gap: 1.4rem;
-      padding: 2rem;
-      text-align: center;
+      padding: clamp(3rem, 9vh, 7rem) 1.5rem 4rem;
+      display: flex;
+      justify-content: center;
     }
-    .name { font-size: 1rem; letter-spacing: 0.04em; }
-    .note { font-size: 0.8rem; color: #888; letter-spacing: 0.02em; }
+    .col {
+      width: 100%;
+      max-width: 640px;
+    }
     .back {
-      margin-top: 1rem;
-      font-size: 0.76rem;
-      letter-spacing: 0.18em;
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
       text-transform: lowercase;
       color: #000;
       text-decoration: none;
       border-bottom: 1px solid #000;
       padding-bottom: 3px;
+      margin-bottom: 3.2rem;
+      opacity: 0;
+      animation: fade 1s ease 0.1s both;
+    }
+    .back:hover { color: var(--red); border-color: var(--red); }
+    p {
+      font-size: 1.02rem;
+      line-height: 1.9;
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    p:nth-of-type(1) { animation-delay: 0.25s; }
+    p:nth-of-type(2) { animation-delay: 0.45s; }
+    p:nth-of-type(3) { animation-delay: 0.65s; }
+    p:nth-of-type(4) { animation-delay: 0.85s; }
+    p:nth-of-type(5) { animation-delay: 1.05s; }
+    p:nth-of-type(6) { animation-delay: 1.25s; }
+    .email { animation-delay: 1.45s; }
+    .email a {
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid var(--red);
+      padding-bottom: 1px;
+    }
+    .email a:hover { opacity: 0.7; }
+    .closing {
+      margin-top: 3rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+      animation-delay: 1.7s;
+    }
+    .closing .o { color: var(--red); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .back, p { animation: none; opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
-  <div class="name">ceaserzhao</div>
-  <div class="note">more soon</div>
-  <a class="back" href="/people/ceaserzhao">back</a>
+  <div class="col">
+    <a class="back" href="/people/ceaserzhao">&larr; ceaser</a>
+
+    <p>I'm devoted to building a virtual world in the truest sense of the word &mdash; not the so-called &ldquo;metaverse&rdquo; that made the rounds a few years back. That's why I started Oasis Company when I was eleven.</p>
+
+    <p>I've been through a phase of scattering my attention everywhere. But now I've found what I love.</p>
+
+    <p>If anyone ever asks, I tell them I'm the luckiest person there is &mdash; and it has nothing to do with my family or the environment I grew up in.</p>
+
+    <p>What I've been working on lately: I have a deep foundation in cognitive neuroscience and the social sciences, and I've always wanted to break out of traditional game storytelling &mdash; to build a world-narrative framework that lets players genuinely feel something real. If you'd like to join the research, or help build a real-world vessel &mdash; a Minecraft server, or some other form of embodiment &mdash; reach out to me directly.</p>
+
+    <p>I'm really looking forward to hearing from you. Resonating with someone else's thinking always makes me unusually happy.</p>
+
+    <p>About my projects &mdash; I started putting this site together way too late to list them all, so I'll skip that for now and maybe mention them another time, if I remember.</p>
+
+    <p class="email">my email: <a href="mailto:zhaoceaser@gmail.com">zhaoceaser@gmail.com</a></p>
+
+    <p class="closing">Let's build the <span class="o">Oasisverse</span> from here</p>
+  </div>
 </body>
 </html>
