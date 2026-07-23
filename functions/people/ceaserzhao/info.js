@@ -1,8 +1,9 @@
 /**
- * People — Info — Pages Function
+ * People — CeaserZhao — Info — Pages Function
  *
- * Handles /people/info and /people/info/ by serving people/info.html.
- * Placeholder page; full content to be supplied later.
+ * Handles /people/ceaserzhao/info and /people/ceaserzhao/info/ by serving
+ * people/info.html. More-specific path than functions/people/ceaserzhao.js,
+ * so it wins without affecting the parent route.
  */
 
 export async function onRequest(context) {
@@ -10,7 +11,7 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/+$/, '') || '/';
 
-  if (path !== '/people/info') {
+  if (path !== '/people/ceaserzhao/info') {
     return context.next();
   }
 
