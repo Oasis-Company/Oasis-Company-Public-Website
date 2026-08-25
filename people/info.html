@@ -37,6 +37,23 @@
       animation: fade 1s ease 0.1s both;
     }
     .back:hover { color: var(--red); border-color: var(--red); }
+    .subnav {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: lowercase;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fade 1s ease 0.18s both;
+    }
+    .subnav .label { color: #000; }
+    .subnav a {
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid var(--red);
+      padding-bottom: 2px;
+    }
+    .subnav a:hover { opacity: 0.7; }
+    .subnav .sep { color: #000; margin: 0 0.55rem; }
     p {
       font-size: 1.02rem;
       line-height: 1.9;
@@ -92,6 +109,8 @@
 <body>
   <div class="col">
     <a class="back" href="/people/ceaserzhao">&larr; ceaser</a>
+
+    <nav class="subnav"><span class="label">more:</span> <a href="/people/ceaserzhao/info/paper">paper</a><span class="sep">&middot;</span><a href="/people/ceaserzhao/info/project">project</a></nav>
 
     <p>I'm devoted to building a virtual world in the truest sense of the word &mdash; not the so-called &ldquo;metaverse&rdquo; that made the rounds a few years back. That's why I started Oasis Company when I was eleven.</p>
 

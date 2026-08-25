@@ -24,6 +24,10 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/people/ceaserzhao/` | `people/ceaserzhao.html` | `functions/people/ceaserzhao.js` (Pages Function) |
 | `oasiscompany.org/people/ceaserzhao/info` | `people/info.html` — CeaserZhao's info | `functions/people/ceaserzhao/info.js` (Pages Function) |
 | `oasiscompany.org/people/ceaserzhao/info/` | `people/info.html` | `functions/people/ceaserzhao/info.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/info/paper` | `people/paper.html` — CeaserZhao's papers | `functions/people/ceaserzhao/info/paper.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/info/paper/` | `people/paper.html` | `functions/people/ceaserzhao/info/paper.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/info/project` | `people/project.html` — CeaserZhao's projects | `functions/people/ceaserzhao/info/project.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/info/project/` | `people/project.html` | `functions/people/ceaserzhao/info/project.js` (Pages Function) |
 | `oasiscompany.org/people` | `people/index.html` — People directory | `functions/people.js` (Pages Function) |
 | `oasiscompany.org/people/` | `people/index.html` | `functions/people.js` (Pages Function) |
 
@@ -38,7 +42,7 @@ Let's build the Oasisverse from here.
 - **Oasis AI Lab** — [`/ailab`](/ailab) — Artificial intelligence, agents, and world-models built openly on [github.com/Oasis-Company](https://github.com/Oasis-Company)
   - **Fundamental** — [`/ailab/fundamental`](/ailab/fundamental) — Three open AI skills (Great-Expectations, Decomposer-Skill, Tension-Mining) with copyable prompts
 - **People** — [`/people`](/people) — directory of Oasis Company GitHub org members (7 people / 9 accounts)
-  - **CeaserZhao** — [`/people/ceaserzhao`](/people/ceaserzhao) — stark emotional-engineering intro; [`/people/ceaserzhao/info`](/people/ceaserzhao/info) reveals the bio (founded Oasis Company at 11, building a real world-narrative framework)
+  - **CeaserZhao** — [`/people/ceaserzhao`](/people/ceaserzhao) — stark emotional-engineering intro; [`/people/ceaserzhao/info`](/people/ceaserzhao/info) reveals the bio (founded Oasis Company at 11, building a real world-narrative framework); [`/people/ceaserzhao/info/paper`](/people/ceaserzhao/info/paper) lists papers; [`/people/ceaserzhao/info/project`](/people/ceaserzhao/info/project) lists projects
 
 ---
 

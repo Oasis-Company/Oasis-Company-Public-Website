@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ceaserzhao · paper</title>
+  <meta name="description" content="ceaserzhao — papers on cognitive neuroscience, the social sciences, and real-world narrative frameworks." />
+  <style>
+    :root { --red: #e60000; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #fff;
+      color: #000;
+      font-family: "SFMono-Regular", "SF Mono", "JetBrains Mono", "Fira Code",
+                   Menlo, Consolas, "Liberation Mono", monospace;
+      min-height: 100svh;
+      padding: clamp(3rem, 9vh, 7rem) 1.5rem 4rem;
+      display: flex;
+      justify-content: center;
+    }
+    .col { width: 100%; max-width: 640px; }
+    .back {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: lowercase;
+      color: #000;
+      text-decoration: none;
+      border-bottom: 1px solid #000;
+      padding-bottom: 3px;
+      margin-bottom: 3.2rem;
+      opacity: 0;
+      animation: fade 1s ease 0.1s both;
+    }
+    .back:hover { color: var(--red); border-color: var(--red); }
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      margin-bottom: 2.2rem;
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: 0.25s;
+    }
+    .intro {
+      font-size: 1.02rem;
+      line-height: 1.9;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: 0.4s;
+    }
+    .papers { list-style: none; }
+    .paper {
+      padding: 1.5rem 0;
+      border-top: 1px solid #000;
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .paper:nth-of-type(1) { animation-delay: 0.55s; }
+    .paper:nth-of-type(2) { animation-delay: 0.7s; }
+    .paper:nth-of-type(3) { animation-delay: 0.85s; }
+    .paper:last-child { border-bottom: 1px solid #000; }
+    .paper .title {
+      font-size: 1.02rem;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .paper .title a {
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid var(--red);
+      padding-bottom: 1px;
+    }
+    .paper .title a:hover { opacity: 0.7; }
+    .paper .meta {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      margin-bottom: 0.6rem;
+    }
+    .paper .desc {
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .empty {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: 0.55s;
+    }
+    .empty a { color: var(--red); text-decoration: none; border-bottom: 1px solid var(--red); padding-bottom: 1px; }
+    .empty a:hover { opacity: 0.7; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .back, h1, .intro, .paper, .empty { animation: none; opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="col">
+    <a class="back" href="/people/ceaserzhao/info">&larr; info</a>
+
+    <h1>papers</h1>
+
+    <p class="intro">Writing and research on cognitive neuroscience, the social sciences, and frameworks for real-world narrative. <span style="color:var(--red)">— to be added.</span></p>
+
+    <ul class="papers">
+      <!--
+        Add papers here. Each entry follows this template:
+
+        <li class="paper">
+          <div class="title"><a href="https://..." target="_blank" rel="noopener">Paper Title</a></div>
+          <div class="meta">venue &middot; year</div>
+          <div class="desc">One-line abstract or note.</div>
+        </li>
+      -->
+      <li class="empty">No papers listed yet &mdash; <a href="/people/ceaserzhao/info">back to info</a></li>
+    </ul>
+  </div>
+</body>
+</html>
