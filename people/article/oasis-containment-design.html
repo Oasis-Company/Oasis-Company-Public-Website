@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ceaserzhao · article · i keep building the same container</title>
+  <meta name="description" content="Two unrelated projects. The same sentence inside both. It took me a long time to admit I'd been doing one thing all along." />
+  <style>
+    :root { --red: #e60000; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #fff;
+      color: #000;
+      font-family: "SFMono-Regular", "SF Mono", "JetBrains Mono", "Fira Code",
+                   Menlo, Consolas, "Liberation Mono", monospace;
+      min-height: 100svh;
+      padding: clamp(3rem, 9vh, 7rem) 1.5rem 4rem;
+      display: flex;
+      justify-content: center;
+    }
+    .col { width: 100%; max-width: 640px; }
+
+    .back {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: lowercase;
+      color: #000;
+      text-decoration: none;
+      border-bottom: 1px solid #000;
+      padding-bottom: 3px;
+      margin-bottom: 3.2rem;
+    }
+    .back:hover { color: var(--red); border-color: var(--red); }
+
+    /* Whole-column entrance — one fade, not per-paragraph noise */
+    .piece {
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.45;
+      letter-spacing: 0.01em;
+    }
+    .kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: lowercase;
+      margin-top: 0.9rem;
+      margin-bottom: 3.2rem;
+    }
+
+    .piece p {
+      font-size: 1.02rem;
+      line-height: 1.95;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Section break — matches the site's 1px black rule language */
+    .piece hr {
+      border: 0;
+      height: 1px;
+      background: #000;
+      margin: 3.2rem 0;
+    }
+
+    /* The seven */
+    .piece h2 {
+      font-size: 1.02rem;
+      font-weight: 600;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+      margin: 2.8rem 0 1.1rem;
+    }
+    .piece h2 .n { margin-right: 0.5em; }
+
+    /* Paired lines — sponge vs lemma */
+    .quote {
+      border-left: 1px solid #000;
+      padding-left: 1.1rem;
+      margin: 1.6rem 0 1.5rem;
+    }
+    .quote p {
+      margin-bottom: 0.4rem;
+      font-size: 0.98rem;
+    }
+    .quote p:last-child { margin-bottom: 0; }
+    .quote .who { font-weight: 600; }
+
+    /* The single sentence worth keeping.
+       Top rule only — the following section <hr> closes the box, so the
+       creed never produces a double rule when a section break follows. */
+    .creed {
+      border-top: 1px solid #000;
+      padding: 1.6rem 0 1.3rem;
+      margin: 2.2rem 0 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+    }
+    .creed + hr { margin-top: 0; }
+
+    /* Six questions */
+    .lead { font-weight: 600; }
+    .questions {
+      list-style: none;
+      margin: 1.8rem 0 2.2rem;
+    }
+    .questions li {
+      font-size: 1.02rem;
+      line-height: 1.9;
+      padding: 1rem 0;
+      border-top: 1px solid #000;
+    }
+    .questions li:last-child { border-bottom: 1px solid #000; }
+
+    /* Closing beats */
+    .close {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+      margin-top: 3rem;
+      margin-bottom: 0.7rem;
+    }
+    .stamp {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: lowercase;
+      margin-top: 2.6rem;
+    }
+    .foot {
+      display: inline-block;
+      margin-top: 3.6rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: lowercase;
+      color: #000;
+      text-decoration: none;
+      border-bottom: 1px solid #000;
+      padding-bottom: 3px;
+    }
+    .foot:hover { color: var(--red); border-color: var(--red); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .piece { animation: none; opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="col">
+    <a class="back" href="/people/ceaserzhao/article">&larr; article</a>
+
+    <article class="piece">
+      <h1>I keep building the same container</h1>
+      <p class="kicker">oasis containment design</p>
+
+      <!--
+        Publishing material carried over from the source draft.
+        Deliberately NOT rendered on the page — it belongs above the article, in a feed.
+
+        Caption · primary:
+        Today I opened two of my repos side by side and looked at them for a long time.
+        One is an agent framework. One is a learning product. Apart from both being
+        written by me alone, they have nothing to do with each other.
+        Then I found a sentence sitting in each of them, and the sentences were nearly
+        the same: sponge — "add a new kind, zero changes to the base."
+        lemma — "this doesn't need a new system. One new interface, one new section."
+        So I wrote the shape down.
+
+        Caption · short:
+        Two unrelated projects. The same sentence inside both. It took me a long time
+        to admit I'd been doing one thing all along.
+      -->
+
+      <p>Today I opened the sponge and lemma directories side by side and looked at them for a long time.</p>
+
+      <p>One is an agent framework. One is a learning product. Apart from both being written by me alone, they shouldn't have anything to do with each other.</p>
+
+      <p>I was supposed to be looking at lemma's shelter drawer &mdash; a sidebar on the left of the learning space that sorts a user's notes, canvases and imported files into groups. I wanted to regroup it. I'd been putting that off for almost three weeks, treating it as a UI thing.</p>
+
+      <p>Then I realized I wasn't designing a drawer at all.</p>
+
+      <hr />
+
+      <p>sponge has a thing called a Slice. It's the parent class of everything in the system. A conversation is a Slice. A tool is a Slice. A pipeline is a Slice.</p>
+
+      <p>Each one carries a kind. And kind is just a string. No enum, no schema. Whatever you write is what it is.</p>
+
+      <p>I didn't get why at first. Then I found a line I'd written for myself earlier: the base knows nothing about the content. I wrote it as an acceptance criterion, not a slogan. What it means is &mdash; the day I want to add a new kind of thing and the base has to change its code to recognize it, the design is dead, however finished it looks.</p>
+
+      <p>lemma has a counterpart called Page. Its kind has four values &mdash; note, canvas, imported, folder &mdash; hardcoded in a tuple. I also put a constraint in the migration, so anything outside those four won't write to the database at all.</p>
+
+      <p>Both repos had a sentence sitting in them. I read them the same afternoon and then sat there for a while.</p>
+
+      <div class="quote">
+        <p><span class="who">sponge:</span> add a new kind, zero changes to the base.</p>
+        <p><span class="who">lemma:</span> this doesn't need a new system. One new interface, one new section.</p>
+      </div>
+
+      <hr />
+
+      <p>At first I thought it was a coincidence.</p>
+
+      <p>Then I remembered something I did in mid-August. I had planned to put Statuz underneath Sponge. My words at the time: &ldquo;like a compute engine inside a slice, or eventually the foundation the compute engine sits on.&rdquo;</p>
+
+      <p>Four days later I overruled myself. Statuz became a separate layer that can serve any system, not a Sponge part.</p>
+
+      <p>I thought I was fixing an architectural position. Looking back, I was separating two words: part, and container. A part is what gets put inside. A container is the thing that holds parts. That took me four days.</p>
+
+      <p>Before that, at the end of March, I built something called Heya. The idea came to me during a school sports meet. It had one goal &mdash; my words: &ldquo;to move the center of gravity.&rdquo; In Codex or Claude Code the thing your eyes land on is always the project's code. I wanted to move it off.</p>
+
+      <p>I've made this move many times. I'm not building different products. I'm doing the same thing in different places, until I couldn't recognize it anymore.</p>
+
+      <hr />
+
+      <p>I call it oasis containment design.</p>
+
+      <p>Not a framework. Not a platform. Those words answer &ldquo;what's inside.&rdquo; I care about a different question: where the edge is. What gets in, where it lives once it's in, who knows what it is, who's allowed to change its shape.</p>
+
+      <p>If I can keep one sentence:</p>
+
+      <p class="creed">One container, one language, one invariant &mdash; instead of a set of features and a set of types.</p>
+
+      <hr />
+
+      <p>Here are the seven things left after I took all of that apart.</p>
+
+      <h2><span class="n">One.</span>Complexity gets eaten by the system, not by the user.</h2>
+      <p>In sponge's editor plan there's a line I wrote for myself: easy to operate is a hard requirement &mdash; not fewer things, but complexity absorbed by the system. Then half a line more: deep philosophy, shallow operation, hard engineering, and you need all three.</p>
+      <p>This is the only counterintuitive part. Containment doesn't save work. It removes no complexity at all. It moves complexity off the user and onto me. Which means a containment design that actually works is harder to write.</p>
+
+      <h2><span class="n">Two.</span>The base doesn't know what's inside it.</h2>
+      <p>I don't know what's in there and I don't need to. To add a new kind of thing, I say its name.</p>
+      <p>There's one way to test this. Add a new thing. How many lines does the base change? Zero.</p>
+
+      <h2><span class="n">Three.</span>One base, only.</h2>
+      <p>In lemma I wrote it as: every learning artifact ends up on Page and Block. Lecture notes, generated content, observation records, imported files &mdash; same place.</p>
+      <p>The day a feature tells me it needs its own table, its own engine, its own format &mdash; that's when the design starts leaking.</p>
+
+      <h2><span class="n">Four.</span>You get exactly what you declare.</h2>
+      <p>You get in by declaring. A component can render exactly the slots it declared and nothing else; it has no reach beyond that. And registering is an action you can undo.</p>
+
+      <h2><span class="n">Five.</span>The container is stacked into existence.</h2>
+      <p>It starts empty. Then patch after patch on top, each one more specific. So configuration itself decides behavior. lemma's model routing is one JSON blob. Change the model, change that blob, zero lines of code.</p>
+      <p>That sounds like nothing. What it means is that no assembled result is hardcoded anywhere.</p>
+
+      <h2><span class="n">Six.</span>Two faces, one structure.</h2>
+      <p>Every capability is at once a surface a human clicks and a tool an agent calls, on the same thing underneath. I haven't done this one. sponge says the human editing face and the agent tool face must be symmetric. It's stage three. I haven't started stage three.</p>
+
+      <h2><span class="n">Seven.</span>How good a container is depends on what it refuses, not what it holds.</h2>
+      <p>In lemma's canvas plan I wrote a list of refusals: no marquee select, no connectors, no snapping, no nesting, no minimap, and no &ldquo;general-purpose canvas framework&rdquo; &mdash; there is one implementation and two users.</p>
+      <p>That's the line between containment and platform-building. Containment isn't &ldquo;it holds anything.&rdquo; It's &ldquo;anything can move in and the container doesn't deform because of it.&rdquo;</p>
+
+      <hr />
+
+      <p>After those seven I went out for a walk.</p>
+
+      <p>I turned back halfway along the riverside park. The whole way I was on one question: how many of those seven have I actually kept.</p>
+
+      <p>None. So I came back and rewrote the next part.</p>
+
+      <hr />
+
+      <p>There's a mastery field in lemma. It's supposed to record how well a user has mastered a given concept &mdash; the single most important signal in the whole learning engine. It has sat there for a long time and no code has ever written to it once. I built a room and forgot to let anyone move in.</p>
+
+      <p>In sponge I wrote an acceptance line: if two applications can't each grow their own shape without changing the base, the base has been contaminated by one of them. When I wrote it I thought I was setting a rule. I was recording a ditch I'd already fallen into.</p>
+
+      <p>lemma's kind &mdash; I said above that it's open. Underneath it's a hardcoded tuple with a constraint. I did half a containment and told myself it was an engineering tradeoff. It wasn't. I was lying to myself.</p>
+
+      <p>And the courses table. It has no project_id. So today, when you open a learning space, you can't see the courses that belong to it. &ldquo;Every artifact lands in one place&rdquo; covers documents and nothing else. The space-to-course link is broken. I knew it was broken. It sat in my backlog for over a month.</p>
+
+      <p>So none of the above is a method I succeeded at. It's the shape I finally saw clearly, after failing at it many times.</p>
+
+      <hr />
+
+      <p class="lead">If any of this looks familiar, here are six questions to ask your own code.</p>
+
+      <ul class="questions">
+        <li>Add a new kind of thing. How many lines does the base change?</li>
+        <li>Count everything your system produces. How many bases do they land on?</li>
+        <li>List the things you deliberately refused to build.</li>
+        <li>Whatever you can do &mdash; can your agent do it.</li>
+        <li>Without touching the container, can a second application grow on top of it.</li>
+        <li>And the hardest one last: delete application A entirely. How many lines does the base change?</li>
+      </ul>
+
+      <p>If the answer isn't zero, what you have isn't a container. It's a shell around application A.</p>
+
+      <hr />
+
+      <p>sponge's editor is still a planning document.</p>
+
+      <p>The canvas is blocked by a gate I wrote myself. The line in the plan: without a content model for slices first, the canvas would only be acting on stub data. I wrote that almost a month ago. The gate is still shut.</p>
+
+      <p class="close">I don't have a real implementation yet.<br />But it's the first time I've seen what it looks like.</p>
+
+      <p class="stamp">(GMT+8 21:47 &middot; 2026-09-14)</p>
+
+      <a class="foot" href="/people/ceaserzhao/article">&larr; article</a>
+    </article>
+  </div>
+</body>
+</html>
