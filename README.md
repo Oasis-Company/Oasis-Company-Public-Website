@@ -32,6 +32,10 @@ Let's build the Oasisverse from here.
 | `oasiscompany.org/people/ceaserzhao/article/` | `people/article.html` | `functions/people/ceaserzhao/article.js` (Pages Function) |
 | `oasiscompany.org/people/ceaserzhao/article/oasis-containment-design` | `people/article/oasis-containment-design.html` — "I keep building the same container" | `functions/people/ceaserzhao/article/oasis-containment-design.js` (Pages Function) |
 | `oasiscompany.org/people/ceaserzhao/article/oasis-containment-design/` | `people/article/oasis-containment-design.html` | `functions/people/ceaserzhao/article/oasis-containment-design.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/article/haa-is-absurd` | `people/article/haa-is-absurd.html` — "HAA IS ABSURD" | `functions/people/ceaserzhao/article/haa-is-absurd.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/article/haa-is-absurd/` | `people/article/haa-is-absurd.html` | `functions/people/ceaserzhao/article/haa-is-absurd.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/article/technology-influence-taxonomy` | `people/article/technology-influence-taxonomy.html` — "Technology Influence Taxonomy" | `functions/people/ceaserzhao/article/technology-influence-taxonomy.js` (Pages Function) |
+| `oasiscompany.org/people/ceaserzhao/article/technology-influence-taxonomy/` | `people/article/technology-influence-taxonomy.html` | `functions/people/ceaserzhao/article/technology-influence-taxonomy.js` (Pages Function) |
 | `oasiscompany.org/people` | `people/index.html` — People directory | `functions/people.js` (Pages Function) |
 | `oasiscompany.org/people/` | `people/index.html` | `functions/people.js` (Pages Function) |
 
